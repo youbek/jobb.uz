@@ -17,6 +17,10 @@ function initialize(app) {
       ack(false);
     });
 
+    socket.on("newJobAdded", job => {
+      socket.broadcast.emit("newJob", job);
+    });
+
     socket.on("disconnect", () => {
       const userToRemove = onlineUsers.findIndex(
         user => user.socketId === socket.id,

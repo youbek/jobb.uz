@@ -13,7 +13,17 @@ module.exports = gql`
   }
 
   extend type Mutation {
-    postJob(job: JobInput): String! # HASH ID OF THE NEWLY CREATED JOB
+    postJob(
+      title: String!
+      address: String!
+      companyName: String!
+      contactPhone: String
+      description: String!
+      noExperience: Boolean!
+      salaryFrom: Int!
+      salaryTo: Int!
+      partTime: Boolean!
+    ): Job!
   }
 
   type Job {
@@ -44,17 +54,5 @@ module.exports = gql`
   type JobCategory {
     name: String!
     subCategories: [String]
-  }
-
-  input JobInput {
-    title: String!
-    address: String!
-    companyName: String!
-    contactPhone: String
-    description: String!
-    noExperience: Boolean!
-    salaryFrom: Int!
-    salaryTo: Int!
-    partTime: Boolean!
   }
 `;

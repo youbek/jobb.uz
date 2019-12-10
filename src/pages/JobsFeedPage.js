@@ -1,12 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
+
+import { SocketContext } from "../context/SocketContext";
 
 import JobCategories from "../components/JobCategories";
 import JobsFeed from "../components/JobsFeed";
 import JobsFilter from "../components/JobsFilter";
 import PopularJobTitles from "../components/PopularJobTitles";
-import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Breadcrumb,
+  BreadcrumbItem,
+  Spinner,
+} from "reactstrap";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
 
@@ -18,15 +27,18 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
       subCategoryName,
     },
   });
+  const { socket } = useContext(SocketContext);
 
   const [jobs, setJobs] = useState(undefined);
   const [allJobFetched, setAllJobFetched] = useState(false);
 
   useEffect(() => {
     document.addEventListener("scroll", trackFeedBottom);
+    socket.on("newJob", onNewJob);
 
     return () => {
       document.removeEventListener("scroll", trackFeedBottom);
+      socket.off("newJob", onNewJob);
     };
   });
 
@@ -127,6 +139,18 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
     });
   }
 
+  function onNewJob(job) {
+    if (categoryName && categoryName !== job.category) {
+      return;
+    }
+
+    if (subCategoryName && subCategoryName !== job.title) {
+      return;
+    }
+
+    setJobs([job, ...jobs]);
+  }
+
   return (
     <React.Fragment>
       <React.Fragment>
@@ -171,6 +195,9 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
               )}
               {!getLatestJobQuery.loading && jobs !== undefined && (
                 <JobsFeed jobs={jobs} />
+              )}
+              {getLatestJobQuery.loading && (
+                <Spinner className="spinner-center" color="primary" size="sm" />
               )}
             </Col>
             <Col md="4">

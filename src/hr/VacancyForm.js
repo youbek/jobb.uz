@@ -6,8 +6,10 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { AuthContext } from "../context/AuthContext";
 import PropTypes from "prop-types";
+
+import { AuthContext } from "../context/AuthContext";
+import { SocketContext } from "../context/SocketContext";
 
 import {
   Container,
@@ -73,6 +75,8 @@ const customStyles = {
 
 function VacancyForm({ history }) {
   const { authenticatedUser } = useContext(AuthContext);
+  const { socket } = useContext(SocketContext);
+
   const jobCategoriesQueryStatus = useQuery(JOB_CATEGORIES);
   const [postJob, postJobStatus] = useMutation(POST_JOB, {
     onCompleted: onNewVacancy,
@@ -193,9 +197,10 @@ function VacancyForm({ history }) {
   }
 
   function onNewVacancy(data) {
-    const hashId = data.postJob;
+    const hashId = data.postJob.hashId;
 
     setSubmitted(true);
+    socket.emit("newJobAdded", data.postJob);
 
     setTimeout(() => {
       history.push(`/vacancy/${hashId}`);

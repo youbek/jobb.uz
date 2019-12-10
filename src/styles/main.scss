@@ -23,6 +23,10 @@ span.invalid-feedback {
   display: inline;
 }
 
+.spinner-center {
+  margin: auto;
+}
+
 // SLIDE
 .slide-container {
   position: relative;
@@ -343,6 +347,11 @@ span.invalid-feedback {
 
 .jobs-feed-page {
   margin-top: 2rem;
+
+  #feed-page {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 //

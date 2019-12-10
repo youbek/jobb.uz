@@ -56,18 +56,34 @@ export const POST_JOB = gql`
     $partTime: Boolean!
   ) {
     postJob(
-      job: {
-        title: $title
-        address: $address
-        companyName: $companyName
-        contactPhone: $contactPhone
-        description: $description
-        noExperience: $noExperience
-        salaryFrom: $salaryFrom
-        salaryTo: $salaryTo
-        partTime: $partTime
+      title: $title
+      address: $address
+      companyName: $companyName
+      contactPhone: $contactPhone
+      description: $description
+      noExperience: $noExperience
+      salaryFrom: $salaryFrom
+      salaryTo: $salaryTo
+      partTime: $partTime
+    ) {
+      hashId
+      title
+      state
+      address
+      companyName
+      contactPhone
+      description
+      noExperience
+      salaryFrom
+      salaryTo
+      partTime
+      author {
+        firstName
+        lastName
+        hashId
       }
-    )
+      date
+    }
   }
 `;
 

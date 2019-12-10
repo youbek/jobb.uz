@@ -30,7 +30,9 @@ module.exports = {
           searchQuery.title = { $regex: subCategoryName, $options: "i" };
         }
 
-        const jobs = await JobModel.find(searchQuery).limit(limit);
+        const jobs = await JobModel.find(searchQuery)
+          .sort({ date: -1 })
+          .limit(limit);
 
         return jobs;
       } catch (err) {
@@ -55,7 +57,7 @@ module.exports = {
         throw new AuthenticationError();
       }
 
-      const jobModelToPost = args.job;
+      const jobModelToPost = { ...args };
       const jobCategory = JobCategories.find(category =>
         category.subCategories.includes(jobModelToPost.title),
       ).name;
@@ -63,11 +65,13 @@ module.exports = {
       jobModelToPost.authorId = context.user.hashId;
       jobModelToPost.category = jobCategory;
 
-      const newJob = new JobModel(args.job);
+      console.log(jobModelToPost);
+
+      const newJob = new JobModel(jobModelToPost);
 
       const savedJob = await newJob.save();
 
-      return savedJob.hashId;
+      return savedJob;
     },
   },
 };
