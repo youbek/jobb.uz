@@ -1,8 +1,10 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 // DON'T DELETE THE FOLLOWING COMMENT!
 /* global google */
 
-class SearchBar extends React.Component {
+class GoogleAutoComplete extends React.Component {
   constructor(props) {
     super(props);
     this.autocompleteInput = React.createRef();
@@ -13,10 +15,13 @@ class SearchBar extends React.Component {
   componentDidMount() {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.autocompleteInput.current,
-      { types: ['(cities)'], componentRestrictions: { country: 'us' } },
+      {
+        types: this.props.fullAddress ? ["address"] : ["(cities)"],
+        componentRestrictions: { country: "us" },
+      },
     );
 
-    this.autocomplete.addListener('place_changed', this.handlePlaceChanged);
+    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   }
 
   handlePlaceChanged() {
@@ -33,9 +38,10 @@ class SearchBar extends React.Component {
         placeholder="Enter location"
         type="text"
         disabled={this.props.fetching}
+        autoComplete="false"
       />
     );
   }
 }
 
-export default SearchBar;
+export default GoogleAutoComplete;
