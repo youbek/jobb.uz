@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
+import GoogleAutoComplete from "../components/GoogleAutoComplete";
 
 import { AuthContext } from "../context/AuthContext";
 import { SocketContext } from "../context/SocketContext";
@@ -93,6 +94,8 @@ function VacancyForm({ history }) {
     noExperience: false,
     partTime: false,
     forTeens: false,
+    lat: "",
+    long: "",
   });
 
   const [error, setError] = useState({
@@ -207,6 +210,15 @@ function VacancyForm({ history }) {
     }, 1000);
   }
 
+  function handlePlaceChange(place) {
+    setJob({
+      ...job,
+      address: place.formatted_address,
+      lat: place.geometry.location.lat(),
+      long: place.geometry.location.lng(),
+    });
+  }
+
   return (
     <div>
       <Container>
@@ -282,15 +294,13 @@ function VacancyForm({ history }) {
                   <Label for="jobAddress">
                     Job Address <FormFeedback tag="span">*</FormFeedback>
                   </Label>
-                  <Input
-                    id="jobAddress"
-                    name="address"
-                    invalid={error.type === "address"}
-                    value={job.address}
+                  <GoogleAutoComplete
+                    fullAddress={true}
+                    handlePlaceChange={handlePlaceChange}
                     disabled={postJobStatus.loading}
-                    onChange={handleChange}
-                    autoComplete="password-none"
+                    invalid={error.type === "address"}
                   />
+
                   <FormFeedback>{error.msg}</FormFeedback>
                 </FormGroup>
                 <FormGroup>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Label, FormGroup, CustomInput, Button } from "reactstrap";
-import Autocomplete from "./Autocomplete";
+import GoogleAutoComplete from "./GoogleAutoComplete";
 
 function JobsFilter() {
   // CONTROLLING FILTER INPUTS LOCATION, RADIUS, CATEGORY
@@ -81,7 +81,7 @@ function JobsFilter() {
             Search Area
           </Label>
           <div className="filter-location">
-            <Autocomplete
+            <GoogleAutoComplete
               fetching={fetching}
               handlePlaceChange={handlePlaceChange}
             />
