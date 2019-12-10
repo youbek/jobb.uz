@@ -196,6 +196,8 @@ span.invalid-feedback {
   margin-top: 10px;
   line-height: 1.5;
   font-size: 16px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .job-description {

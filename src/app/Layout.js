@@ -59,7 +59,22 @@ function Layout() {
           unLoggedProtected={true}
           Component={ProfilePage}
         />
-        <Route exact path="/" component={JobsFeedPage} />
+        <Route
+          exact
+          path="/:categoryName?/:popularJobTitles?"
+          render={routerProps => {
+            const categoryName = routerProps.match.params.categoryName;
+            const popularJobTitles = routerProps.match.params.popularJobTitles;
+            return (
+              <JobsFeedPage
+                match={routerProps.match}
+                categoryName={categoryName}
+                popularJobTitles={popularJobTitles}
+                currentUrl={routerProps.match.url}
+              />
+            );
+          }}
+        />
         <Route render={() => <Redirect to="/404" />} />
       </Switch>
     </Fragment>

@@ -1,4 +1,6 @@
-import React, { useStatate } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+
 import JobCard from "./JobCard";
 import JobsFeedEmpty from "./JobsFeedEmpty";
 
@@ -15,5 +17,9 @@ function JobsFeed({ jobs }) {
     </div>
   );
 }
+
+JobsFeed.propTypes = {
+  jobs: PropTypes.object.isRequired,
+};
 
 export default JobsFeed;

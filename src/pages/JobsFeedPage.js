@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
+import PropTypes from "prop-types";
 
 import JobCategories from "../components/JobCategories";
 import JobsFeed from "../components/JobsFeed";
@@ -12,7 +13,7 @@ import { Route } from "react-router-dom";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
 
-function JobsFeedPage() {
+function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
       limit: 2,
@@ -65,16 +66,10 @@ function JobsFeedPage() {
     },
   ];
 
-  function renderJobsFeed(match) {
+  function renderJobsFeed() {
     if (getLatestJobQuery.loading || jobs === undefined) {
       return null;
     }
-
-    const categoryName = match.params.categoryName
-      ? match.params.categoryName.replace(/-/g, " ").toLowerCase()
-      : undefined;
-    const popularJobTitles = match.params.popularJobTitles;
-    const currentUrl = match.url;
 
     // RENDER JOBS FEED ACCORDING TO CATEGORIES
     if (categoryName && !popularJobTitles) {
@@ -156,63 +151,55 @@ function JobsFeedPage() {
 
   return (
     <React.Fragment>
-      <Route
-        // RENDER JOBS FEED ACCORDING TO CATEGORIES OR POPULAR JOB TITLES
-        path="/:categoryName?/:popularJobTitles?"
-        render={routerProps => {
-          const categoryName = routerProps.match.params.categoryName;
-          const popularJobTitles = routerProps.match.params.popularJobTitles;
-          return (
-            <React.Fragment>
-              <Breadcrumb>
-                <Container>
-                  <Row>
-                    <Col>
-                      <BreadcrumbItem
-                        active={!categoryName && !popularJobTitles}
-                      >
-                        New York
-                      </BreadcrumbItem>
-                      {categoryName && (
-                        <BreadcrumbItem
-                          active={categoryName && !popularJobTitles}
-                        >
-                          {_.startCase(_.toLower(categoryName))}
-                        </BreadcrumbItem>
-                      )}
-                      {popularJobTitles && (
-                        <BreadcrumbItem active={popularJobTitles}>
-                          {_.startCase(_.toLower(popularJobTitles))}
-                        </BreadcrumbItem>
-                      )}
-                    </Col>
-                  </Row>
-                </Container>
-              </Breadcrumb>
-              <Container>
-                {!categoryName && (
-                  <Row>
-                    <Col md="12">
-                      <JobCategories />
-                    </Col>
-                  </Row>
+      <React.Fragment>
+        <Breadcrumb>
+          <Container>
+            <Row>
+              <Col>
+                <BreadcrumbItem active={!categoryName && !popularJobTitles}>
+                  New York
+                </BreadcrumbItem>
+                {categoryName && (
+                  <BreadcrumbItem active={categoryName && !popularJobTitles}>
+                    {_.startCase(_.toLower(categoryName))}
+                  </BreadcrumbItem>
                 )}
+                {popularJobTitles && (
+                  <BreadcrumbItem active={popularJobTitles}>
+                    {_.startCase(_.toLower(popularJobTitles))}
+                  </BreadcrumbItem>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        </Breadcrumb>
+        <Container>
+          {!categoryName && (
+            <Row>
+              <Col md="12">
+                <JobCategories />
+              </Col>
+            </Row>
+          )}
 
-                <Row className="jobs-feed-page">
-                  <Col id="feed-page" md="8">
-                    {renderJobsFeed(routerProps.match)}
-                  </Col>
-                  <Col md="4">
-                    <JobsFilter />
-                  </Col>
-                </Row>
-              </Container>
-            </React.Fragment>
-          );
-        }}
-      />
+          <Row className="jobs-feed-page">
+            <Col id="feed-page" md="8">
+              {renderJobsFeed()}
+            </Col>
+            <Col md="4">
+              <JobsFilter />
+            </Col>
+          </Row>
+        </Container>
+      </React.Fragment>
     </React.Fragment>
   );
 }
+
+JobsFeedPage.propTypes = {
+  categoryName: PropTypes.string,
+  popularJobTitles: PropTypes.string,
+  currentUrl: PropTypes.string.isRequired,
+};
 
 export default JobsFeedPage;
