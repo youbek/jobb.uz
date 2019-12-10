@@ -13,6 +13,8 @@ import LogOut from "../components/LogOut";
 import AppHeader from "../components/AppHeader/AppHeader";
 import VacancyForm from "../hr/VacancyForm";
 
+import _ from "lodash";
+
 function Layout() {
   return (
     <Fragment>
@@ -61,15 +63,19 @@ function Layout() {
         />
         <Route
           exact
-          path="/:categoryName?/:popularJobTitles?"
+          path="/:categoryName?/:subCategoryName?"
           render={routerProps => {
-            const categoryName = routerProps.match.params.categoryName;
-            const popularJobTitles = routerProps.match.params.popularJobTitles;
+            const categoryName = _.startCase(
+              _.toLower(routerProps.match.params.categoryName),
+            );
+            const subCategoryName = _.startCase(
+              _.toLower(routerProps.match.params.subCategoryName),
+            );
             return (
               <JobsFeedPage
                 match={routerProps.match}
                 categoryName={categoryName}
-                popularJobTitles={popularJobTitles}
+                subCategoryName={subCategoryName}
                 currentUrl={routerProps.match.url}
               />
             );

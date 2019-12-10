@@ -7,16 +7,15 @@ import JobsFeed from "../components/JobsFeed";
 import JobsFilter from "../components/JobsFilter";
 import PopularJobTitles from "../components/PopularJobTitles";
 import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
-import _ from "lodash";
-
-import { Route } from "react-router-dom";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
 
-function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
+function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
       limit: 2,
+      categoryName,
+      subCategoryName,
     },
   });
 
@@ -38,6 +37,10 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
 
     setJobs(getLatestJobQuery.data.getLatestJobs);
   }, [getLatestJobQuery]);
+
+  useEffect(() => {
+    refetchJobsByCategory();
+  }, [categoryName, subCategoryName]);
 
   const popularProfessions = [
     {
@@ -66,50 +69,6 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
     },
   ];
 
-  function renderJobsFeed() {
-    if (getLatestJobQuery.loading || jobs === undefined) {
-      return null;
-    }
-
-    // RENDER JOBS FEED ACCORDING TO CATEGORIES
-    if (categoryName && !popularJobTitles) {
-      return (
-        <React.Fragment>
-          <PopularJobTitles
-            categoryName={categoryName}
-            popularProfessions={popularProfessions}
-            currentUrl={currentUrl}
-          />
-          <JobsFeed
-            jobs={jobs.filter(
-              job => job.categoryName.toLowerCase() === categoryName,
-            )}
-          />
-        </React.Fragment>
-      );
-    }
-
-    // RENDER JOBS FEED ACCORDING TO POPULAR JOBS TITLES
-    if (popularJobTitles) {
-      return (
-        <React.Fragment>
-          <JobsFeed
-            jobs={jobs.filter(
-              job => job.title.toLowerCase() === popularJobTitles,
-            )}
-          />
-        </React.Fragment>
-      );
-    }
-
-    // RENDER JOBS FEED ACCORDING TO NOTHING (DEFAULT)
-    return (
-      <React.Fragment>
-        <JobsFeed jobs={jobs} />
-      </React.Fragment>
-    );
-  }
-
   function trackFeedBottom() {
     if (getLatestJobQuery.loading || allJobFetched) {
       return;
@@ -132,8 +91,9 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
 
     getLatestJobQuery.fetchMore({
       variables: {
-        offset: getLatestJobQuery.data.getLatestJobs.length,
         cursor: lastJob._id,
+        categoryName,
+        subCategoryName,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult || !fetchMoreResult.getLatestJobs.length) {
@@ -149,6 +109,24 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
     });
   }
 
+  function refetchJobsByCategory() {
+    if (getLatestJobQuery.loading) {
+      return;
+    }
+
+    getLatestJobQuery.fetchMore({
+      variables: {
+        limit: 2,
+        categoryName,
+        subCategoryName,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        setJobs(fetchMoreResult.getLatestJobs);
+        return;
+      },
+    });
+  }
+
   return (
     <React.Fragment>
       <React.Fragment>
@@ -156,17 +134,17 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
           <Container>
             <Row>
               <Col>
-                <BreadcrumbItem active={!categoryName && !popularJobTitles}>
+                <BreadcrumbItem active={!categoryName && !subCategoryName}>
                   New York
                 </BreadcrumbItem>
                 {categoryName && (
-                  <BreadcrumbItem active={categoryName && !popularJobTitles}>
-                    {_.startCase(_.toLower(categoryName))}
+                  <BreadcrumbItem active={categoryName && !subCategoryName}>
+                    {categoryName}
                   </BreadcrumbItem>
                 )}
-                {popularJobTitles && (
-                  <BreadcrumbItem active={popularJobTitles}>
-                    {_.startCase(_.toLower(popularJobTitles))}
+                {subCategoryName && (
+                  <BreadcrumbItem active={subCategoryName}>
+                    {subCategoryName}
                   </BreadcrumbItem>
                 )}
               </Col>
@@ -184,7 +162,16 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
 
           <Row className="jobs-feed-page">
             <Col id="feed-page" md="8">
-              {renderJobsFeed()}
+              {categoryName && (
+                <PopularJobTitles
+                  categoryName={categoryName}
+                  popularProfessions={popularProfessions}
+                  currentUrl={currentUrl}
+                />
+              )}
+              {!getLatestJobQuery.loading && jobs !== undefined && (
+                <JobsFeed jobs={jobs} />
+              )}
             </Col>
             <Col md="4">
               <JobsFilter />
@@ -198,7 +185,7 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
 
 JobsFeedPage.propTypes = {
   categoryName: PropTypes.string,
-  popularJobTitles: PropTypes.string,
+  subCategoryName: PropTypes.string,
   currentUrl: PropTypes.string.isRequired,
 };
 

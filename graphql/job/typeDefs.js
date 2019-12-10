@@ -3,7 +3,12 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   extend type Query {
     job(hashId: String!): Job
-    getLatestJobs(cursor: ID, limit: Int!): [Job]
+    getLatestJobs(
+      cursor: ID
+      limit: Int!
+      categoryName: String
+      subCategoryName: String
+    ): [Job]
     jobCategories: [JobCategory]
   }
 

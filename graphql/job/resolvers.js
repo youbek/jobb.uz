@@ -15,15 +15,19 @@ module.exports = {
     },
     getLatestJobs: async (_, args) => {
       try {
-        const { cursor, limit, category } = args;
+        const { cursor, limit, categoryName, subCategoryName } = args;
         const searchQuery = {};
 
         if (cursor) {
           searchQuery._id = { $gt: cursor };
         }
 
-        if (category) {
-          searchQuery.category = category;
+        if (categoryName) {
+          searchQuery.category = { $regex: categoryName, $options: "i" };
+        }
+
+        if (subCategoryName) {
+          searchQuery.title = { $regex: subCategoryName, $options: "i" };
         }
 
         const jobs = await JobModel.find(searchQuery).limit(limit);
