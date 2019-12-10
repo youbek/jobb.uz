@@ -1,0 +1,53 @@
+const { gql } = require("apollo-server");
+
+module.exports = gql`
+  extend type Query {
+    job(hashId: String!): Job
+    getLatestJobs(cursor: ID, limit: Int!): [Job]
+    jobCategories: [JobCategory]
+  }
+
+  extend type Mutation {
+    postJob(job: JobInput): String! # HASH ID OF THE NEWLY CREATED JOB
+  }
+
+  type Job {
+    hashId: ID!
+    title: String!
+    state: String
+    address: String!
+    companyName: String!
+    contactPhone: String
+    description: String!
+    noExperience: Boolean!
+    salaryFrom: Int!
+    salaryTo: Int!
+    partTime: Boolean!
+    date: String!
+    author: JobAuthor!
+    authorId: String!
+  }
+
+  type JobAuthor {
+    firstName: String!
+    lastName: String!
+    hashId: String!
+  }
+
+  type JobCategory {
+    name: String!
+    subCategories: [String]
+  }
+
+  input JobInput {
+    title: String!
+    address: String!
+    companyName: String!
+    contactPhone: String
+    description: String!
+    noExperience: Boolean!
+    salaryFrom: Int!
+    salaryTo: Int!
+    partTime: Boolean!
+  }
+`;
