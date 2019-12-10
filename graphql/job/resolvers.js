@@ -19,7 +19,7 @@ module.exports = {
         const searchQuery = {};
 
         if (cursor) {
-          searchQuery._id = { $gt: cursor };
+          searchQuery._id = { $lt: cursor };
         }
 
         if (categoryName) {
