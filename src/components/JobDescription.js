@@ -1,54 +1,33 @@
 import React, { useState } from "react";
-import { Editor, EditorState, convertFromRaw } from "draft-js";
+import PropTypes from "prop-types";
 
-function JobDescription({ job }) {
-  const description = JSON.parse(job.description);
-  const contentState = convertFromRaw(description);
-  const editorState = EditorState.createWithContent(contentState);
+function JobDescription({ description }) {
   const [expand, setExpand] = useState(false);
-
-  console.log(description.blocks[0].text);
-
-  function renderDescription() {
-    if (description.blocks[0].text.length > 101) {
-      const shortDescription = contentState.slice(0, 300) + "...";
-      console.log(shortDescription);
-      return shortDescription;
-    }
-  }
+  const shortForm =
+    description.length > 101 ? description.slice(0, 300) : description;
 
   function handleExpandButton(event) {
     event.stopPropagation();
     setExpand(true);
   }
 
-  function renderExpandButton() {
-    return (
-      <button
-        className="btn btn-expand-description"
-        onClick={handleExpandButton}
-      >
-        Show More
-      </button>
-    );
-  }
-
   return (
     <div className="job-card-job-description">
-      {expand ? (
-        <Editor
-          className="job-description"
-          editorState={editorState}
-          readOnly={true}
-        />
-      ) : (
-        <React.Fragment>
-          <p className="job-description">{renderDescription()}</p>
-          {renderExpandButton()}
-        </React.Fragment>
+      <p className="job-description">{expand ? description : shortForm}</p>
+      {!expand && (
+        <button
+          className="btn btn-expand-description"
+          onClick={handleExpandButton}
+        >
+          Show More
+        </button>
       )}
     </div>
   );
 }
+
+JobDescription.propTypes = {
+  description: PropTypes.string.isRequired,
+};
 
 export default JobDescription;

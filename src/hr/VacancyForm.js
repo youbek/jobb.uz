@@ -4,7 +4,7 @@
   =========================================
 */
 
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { AuthContext } from "../context/AuthContext";
 import PropTypes from "prop-types";
@@ -27,7 +27,6 @@ import {
 } from "reactstrap";
 
 import Select from "react-select";
-import JobDescriptionForm from "../components/Hr/JobDescriptionForm";
 
 import { POST_JOB } from "../graphql/mutations";
 import { JOB_CATEGORIES } from "../graphql/queries";
@@ -35,7 +34,6 @@ import { JOB_CATEGORIES } from "../graphql/queries";
 import { isEmptyStr } from "../helpers";
 
 import "draft-js/dist/Draft.css";
-import { RenameTypes } from "graphql-tools";
 
 // REACT SELECT CUSTOM STYLES
 const customStyles = {
@@ -266,15 +264,12 @@ function VacancyForm({ history }) {
                   <Label for="jobDescription">
                     Job Description <FormFeedback tag="span">*</FormFeedback>
                   </Label>
-                  <JobDescriptionForm
-                    postJobStatus={postJobStatus}
-                    job={job}
-                    error={error}
-                    handleDescription={newDescription =>
-                      setJob({ ...job, description: newDescription })
-                    }
+                  <Input
+                    id="jobDescription"
+                    type="textarea"
+                    placeholder="write your description"
+                    className="new-vacancy-textarea"
                   />
-
                   <FormFeedback></FormFeedback>
                 </FormGroup>
                 <FormGroup>

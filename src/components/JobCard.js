@@ -31,7 +31,7 @@ const JobCard = ({ job }) => {
         </div>
         <div className="job-card-job-title">{job.title}</div>
       </div>
-      <JobDescription job={job} />
+      <JobDescription description={job.description} />
       <JobCardBadges noExperience={job.noExperience} partTime={job.partTime} />
       <JobCardViewCompanyName>{job.companyName}</JobCardViewCompanyName>
       <JobCardViewFooter>
