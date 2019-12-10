@@ -17,11 +17,12 @@ module.exports = {
       try {
         const { cursor, limit } = args;
 
+        console.log(cursor);
+
         const jobs = await JobModel.find(
-          cursor ? { hashId: { $gt: cursor } } : {},
-        )
-          .limit(limit)
-          .sort({ date: -1 });
+          cursor ? { _id: { $gt: cursor } } : {},
+        ).limit(limit);
+
         return jobs;
       } catch (err) {
         throw new Error(err);
