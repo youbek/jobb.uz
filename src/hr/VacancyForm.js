@@ -33,8 +33,6 @@ import { JOB_CATEGORIES } from "../graphql/queries";
 
 import { isEmptyStr } from "../helpers";
 
-import "draft-js/dist/Draft.css";
-
 // REACT SELECT CUSTOM STYLES
 const customStyles = {
   control: provided => ({

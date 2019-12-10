@@ -2,7 +2,6 @@ import React from "react";
 import "moment-timezone";
 import Moment from "react-moment";
 import PropTypes from "prop-types";
-import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 import JobCardBadges from "./JobCardBadges";
 import JobApplication from "./JobApplication";
@@ -10,10 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 function JobInfo({ job, user }) {
-  const description = JSON.parse(job.description);
-  const contentState = convertFromRaw(description);
-  const editorState = EditorState.createWithContent(contentState);
-
   return (
     <div>
       <h1 className="job-page-job-title">{`${job.title} at 
@@ -28,7 +23,7 @@ function JobInfo({ job, user }) {
         accessible={job.accessible}
       />
       <div className="job-description">
-        <Editor className="mt-4" editorState={editorState} readOnly={true} />
+        <p className="mt-4">{job.description}</p>
       </div>
       <div className="date-and-view">
         <FontAwesomeIcon icon={faClock} className="mr-2" />
