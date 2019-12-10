@@ -12,6 +12,10 @@ const JobSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   state: {
     type: String,
     required: false,
