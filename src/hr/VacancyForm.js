@@ -266,11 +266,14 @@ function VacancyForm({ history }) {
                   </Label>
                   <Input
                     id="jobDescription"
-                    type="textarea"
-                    placeholder="write your description"
                     className="new-vacancy-textarea"
+                    type="textarea"
+                    name="description"
+                    invalid={error.type === "description"}
+                    placeholder="write your description"
+                    onChange={handleChange}
                   />
-                  <FormFeedback></FormFeedback>
+                  <FormFeedback>{error.msg}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                   <Label for="jobAddress">
