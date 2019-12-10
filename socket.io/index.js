@@ -24,7 +24,10 @@ function initialize(app) {
 
       const removedUser = onlineUsers.splice(userToRemove, 1)[0];
 
-      socket.broadcast.emit("userDisconnected", removedUser.hashId);
+      socket.broadcast.emit(
+        "userDisconnected",
+        removedUser ? removedUser.hashId : null,
+      );
     });
   });
 

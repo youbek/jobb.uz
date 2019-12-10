@@ -133,10 +133,10 @@ function JobsFeedPage({ categoryName, popularJobTitles, currentUrl }) {
     getLatestJobQuery.fetchMore({
       variables: {
         offset: getLatestJobQuery.data.getLatestJobs.length,
-        cursor: lastJob.hashId,
+        cursor: lastJob._id,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult || !fetchMoreResult.getLatestJobs) {
+        if (!fetchMoreResult || !fetchMoreResult.getLatestJobs.length) {
           setAllJobFetched(true);
           return;
         }

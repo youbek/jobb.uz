@@ -24,6 +24,7 @@ export const JOB_CATEGORIES = gql`
 export const GET_LATEST_JOBS = gql`
   query GetLatestJobs($cursor: ID, $limit: Int!) {
     getLatestJobs(cursor: $cursor, limit: $limit) {
+      _id
       title
       date
       description

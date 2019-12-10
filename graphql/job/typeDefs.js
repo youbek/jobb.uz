@@ -12,6 +12,7 @@ module.exports = gql`
   }
 
   type Job {
+    _id: ID!
     hashId: ID!
     title: String!
     state: String
