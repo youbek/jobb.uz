@@ -141,7 +141,7 @@ function JobsFeedPage() {
         cursor: lastJob._id,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult || !fetchMoreResult.getLatestJobs) {
+        if (!fetchMoreResult || !fetchMoreResult.getLatestJobs.length) {
           setAllJobFetched(true);
           return;
         }
