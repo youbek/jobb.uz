@@ -15,6 +15,7 @@ module.exports = gql`
     _id: ID!
     hashId: ID!
     title: String!
+    categoryName: String!
     state: String
     address: String!
     companyName: String!

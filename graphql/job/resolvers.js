@@ -15,13 +15,18 @@ module.exports = {
     },
     getLatestJobs: async (_, args) => {
       try {
-        const { cursor, limit } = args;
+        const { cursor, limit, category } = args;
+        const searchQuery = {};
 
-        console.log(cursor);
+        if (cursor) {
+          searchQuery._id = { $gt: cursor };
+        }
 
-        const jobs = await JobModel.find(
-          cursor ? { _id: { $gt: cursor } } : {},
-        ).limit(limit);
+        if (category) {
+          searchQuery.category = category;
+        }
+
+        const jobs = await JobModel.find(searchQuery).limit(limit);
 
         return jobs;
       } catch (err) {
@@ -47,7 +52,12 @@ module.exports = {
       }
 
       const jobModelToPost = args.job;
+      const jobCategory = JobCategories.find(category =>
+        category.subCategories.includes(jobModelToPost.title),
+      ).name;
+
       jobModelToPost.authorId = context.user.hashId;
+      jobModelToPost.category = jobCategory;
 
       const newJob = new JobModel(args.job);
 
