@@ -74,16 +74,7 @@ function JobPage({ hashId }) {
 
   if (getJobQuery.error) throw new Error(`Error ${getJobQuery.error.message}`);
 
-  if (getJobQuery.loading || job === undefined)
-    return (
-      <Container>
-        <Row>
-          <Col md="8">
-            <Spinner />
-          </Col>
-        </Row>
-      </Container>
-    );
+  if (getJobQuery.loading || job === undefined) return <div></div>;
 
   if (!getJobQuery.data || !getJobQuery.data.job) {
     return <Redirect to="/404" />;

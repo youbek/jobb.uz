@@ -12,6 +12,7 @@ import LogOut from "../components/LogOut";
 
 import AppHeader from "../components/AppHeader/AppHeader";
 import VacancyForm from "../hr/VacancyForm";
+import Footer from "../components/Footer";
 
 import _ from "lodash";
 
@@ -83,6 +84,7 @@ function Layout() {
         />
         <Route render={() => <Redirect to="/404" />} />
       </Switch>
+      <Footer />
     </Fragment>
   );
 }

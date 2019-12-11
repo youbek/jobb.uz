@@ -175,7 +175,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
             </Row>
           </Container>
         </Breadcrumb>
-        <Container>
+        <Container className='jobs-feed-wrapper"'>
           {!categoryName && (
             <Row>
               <Col md="12">
@@ -194,10 +194,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
                 />
               )}
               {!getLatestJobQuery.loading && jobs !== undefined && (
-                <JobsFeed jobs={jobs} />
-              )}
-              {getLatestJobQuery.loading && (
-                <Spinner className="spinner-center" color="primary" size="sm" />
+                <JobsFeed jobs={jobs} loading={!allJobFetched} />
               )}
             </Col>
             <Col md="4">

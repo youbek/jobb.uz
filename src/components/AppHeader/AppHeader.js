@@ -70,27 +70,18 @@ function AppHeader() {
                 </InputGroup>
               </Form>
               {authenticatedUser ? (
-                authenticatedUser.isHr ? (
-                  <NavItem>
-                    <NavLink tag={Link} to="/hr">
-                      Post a Job
-                    </NavLink>
-                  </NavItem>
-                ) : (
-                  <NavItem>
-                    <NavLink tag={Link} to="/applicant/resume">
-                      My Resume
-                    </NavLink>
-                  </NavItem>
-                )
-              ) : (
-                <NavItem>
-                  <NavLink onClick={toggleRegisterHrModal}>Post a Job</NavLink>
-                </NavItem>
-              )}
-
-              {authenticatedUser ? (
                 <React.Fragment>
+                  <NavItem>
+                    {authenticatedUser.isHr ? (
+                      <NavLink tag={Link} to="/hr">
+                        Post a Job
+                      </NavLink>
+                    ) : (
+                      <NavLink tag={Link} to="/applicant/resume">
+                        My Resume
+                      </NavLink>
+                    )}
+                  </NavItem>
                   <NavItem>
                     <NavLink tag={Link} to="/profile">
                       Profile
@@ -104,6 +95,9 @@ function AppHeader() {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
+                  <NavItem>
+                    <Button onClick={toggleRegisterHrModal}>Post a Job</Button>
+                  </NavItem>
                   <NavItem>
                     <NavLink onClick={toggleRegisterModal}>Register</NavLink>
                   </NavItem>

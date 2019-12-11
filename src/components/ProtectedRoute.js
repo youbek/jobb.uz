@@ -64,7 +64,7 @@ ProtectedRoute.propTypes = {
   exact: PropTypes.bool,
   redirectTo: PropTypes.string,
   unLoggedProtected: PropTypes.bool,
-  Component: PropTypes.element.isRequired,
+  Component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 };
 
 export default ProtectedRoute;

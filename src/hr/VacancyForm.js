@@ -213,19 +213,45 @@ function VacancyForm({ history }) {
   function handlePlaceChange(place) {
     setJob({
       ...job,
-      address: place.formatted_address,
+      address: place.formatted_address.slice(0, -5),
       lat: place.geometry.location.lat(),
       long: place.geometry.location.lng(),
     });
   }
+
+  function formatPhoneNumber(value, prevValue) {
+    if (!value) return value;
+
+    const currentValue = value.replace(/[^\d]/g, "");
+    if (!prevValue || value.length > prevValue.length) {
+      if (currentValue.length <= 3) return currentValue;
+      if (currentValue.length === 3) return `(${currentValue})`;
+      if (currentValue.length <= 6)
+        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
+      if (currentValue.length === 6)
+        return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}-`;
+      return `(${currentValue.slice(0, 3)}) ${currentValue.slice(
+        3,
+        6,
+      )}-${currentValue.slice(6, 10)}`;
+    }
+  }
+
+  const handlePhoneNumber = ({ target: { value } }) => {
+    const contactPhone = formatPhoneNumber(value, job.contactPhone);
+    setJob({ ...job, contactPhone });
+  };
 
   return (
     <div>
       <Container>
         <Row>
           <Col>
-            <div className="form-container mx-auto my-auto">
+            <div className="vacancy-form-container mx-auto my-auto">
               <h3 className="mb-2">Create a Vacancy</h3>
+              <p className="text-muted">
+                All fields are required unless otherwise specified
+              </p>
               <Collapse isOpen={submitted}>
                 <Alert color="success" className="mt-4 mb-4">
                   <p className="m-0">Redirecting to vacancy post...</p>
@@ -233,9 +259,7 @@ function VacancyForm({ history }) {
               </Collapse>
               <Form onSubmit={handleSubmit} className="mt-4" autoComplete="off">
                 <FormGroup>
-                  <Label for="companyName">
-                    Company Name <FormFeedback tag="span">*</FormFeedback>
-                  </Label>
+                  <Label for="companyName">Company Name</Label>
                   <Input
                     id="companyName"
                     name="companyName"
@@ -248,7 +272,7 @@ function VacancyForm({ history }) {
                 </FormGroup>
                 <FormGroup>
                   <Label for="jopPosition">
-                    Job Position <FormFeedback tag="span">* </FormFeedback>
+                    Job Position
                     <span className="text-muted">
                       (Select job position from the list)
                     </span>
@@ -291,9 +315,7 @@ function VacancyForm({ history }) {
                   <FormFeedback>{error.msg}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                  <Label for="jobAddress">
-                    Job Address <FormFeedback tag="span">*</FormFeedback>
-                  </Label>
+                  <Label for="jobAddress">Job Address</Label>
                   <GoogleAutoComplete
                     fullAddress={true}
                     handlePlaceChange={handlePlaceChange}
@@ -304,9 +326,21 @@ function VacancyForm({ history }) {
                   <FormFeedback>{error.msg}</FormFeedback>
                 </FormGroup>
                 <FormGroup>
-                  <Label>
-                    Salary <FormFeedback tag="span">*</FormFeedback>
+                  <Label for="phoneNumber">
+                    Contact Number{" "}
+                    <span className="text-muted">(Optional)</span>
                   </Label>
+                  <Input
+                    type="text"
+                    placeholder="Enter phone number"
+                    if="phoneNumber"
+                    name="phoneNumber"
+                    value={job.contactPhone}
+                    onChange={handlePhoneNumber}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Salary</Label>
                   <InputGroup>
                     <Input
                       type="number"

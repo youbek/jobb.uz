@@ -15,6 +15,11 @@ html {
   color: #333;
 }
 
+#root {
+  position: relative;
+  min-height: 100vh;
+}
+
 body {
   font-family: "Inter";
 }
@@ -343,7 +348,7 @@ span.invalid-feedback {
   margin-bottom: 2rem;
 }
 
-//
+// JOBS FEED
 
 .jobs-feed-page {
   margin-top: 2rem;
@@ -354,6 +359,12 @@ span.invalid-feedback {
   }
 }
 
+.load-more-results {
+  display: -webkit-flex;
+  display: flex;
+  padding-bottom: 10rem;
+}
+
 //
 .custom-checkbox .custom-control-label::before {
   border-radius: 0;
@@ -361,9 +372,13 @@ span.invalid-feedback {
 
 // HR VACANCY ADDING PAGE
 
-.form-container {
+.vacancy-form-container {
   width: 42rem;
   padding: 5rem;
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .new-vacancy-textarea {
@@ -593,5 +608,21 @@ span.invalid-feedback {
     margin-right: 16px;
     padding: 2px 0;
     display: inline-block;
+  }
+}
+
+// FOOTER
+footer {
+  background-color: #f5f5f5;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.footer {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  p {
+    margin-bottom: 0;
   }
 }

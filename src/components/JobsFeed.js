@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { Spinner } from "reactstrap";
 import JobCard from "./JobCard";
 import JobsFeedEmpty from "./JobsFeedEmpty";
 
-function JobsFeed({ jobs }) {
+function JobsFeed({ jobs, loading }) {
   return (
     <div className="jobs-feed">
       {// IF NO JOBS FOUND
@@ -14,12 +15,18 @@ function JobsFeed({ jobs }) {
       jobs.map((job, index) => (
         <JobCard key={index} job={job}></JobCard>
       ))}
+      <div className="load-more-results mt-4">
+        {loading && (
+          <Spinner className="spinner-center" color="primary" size="sm" />
+        )}
+      </div>
     </div>
   );
 }
 
 JobsFeed.propTypes = {
   jobs: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default JobsFeed;

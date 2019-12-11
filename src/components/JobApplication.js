@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button, Tooltip, Modal, ModalBody, ModalHeader } from 'reactstrap';
-import moment from 'moment';
+import React, { useState } from "react";
+import { Button, Tooltip, Modal, ModalBody, ModalHeader } from "reactstrap";
+import moment from "moment";
 
 function JobApplication({ job, user }) {
   // TOOLTIP STATE
@@ -13,8 +13,8 @@ function JobApplication({ job, user }) {
 
   // VALIDATING WHETHER JOB EXPIRED OR NOT
   const dateFrom = moment()
-    .subtract(30, 'd')
-    .format('YYYY-MM-DD');
+    .subtract(30, "d")
+    .format("YYYY-MM-DD");
   const isJobActive = new Date(job.date) > new Date(dateFrom);
 
   if (user.isUserHr) {
@@ -68,7 +68,7 @@ function JobApplication({ job, user }) {
               toggle={toggleModal}
             >{`${job.title} at ${job.companyName}`}</ModalHeader>
             <ModalBody>
-              {job.recruiter.firstName + job.recruiter.lastName}
+              {`${job.author.firstName} ${job.author.lastName}`}
               <div>{job.contactPhone}</div>
             </ModalBody>
             <Button color="secondary" onClick={toggleModal}>
