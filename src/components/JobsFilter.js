@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Form, Input, Label, FormGroup, CustomInput, Button } from "reactstrap";
 import GoogleAutoComplete from "./GoogleAutoComplete";
 
 function JobsFilter() {
+  const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
   // CONTROLLING FILTER INPUTS LOCATION, RADIUS, CATEGORY
   const [jobFilter, setJobFilter] = useState({
     location: "",
@@ -71,13 +73,19 @@ function JobsFilter() {
     });
   }
 
-  //console.log(jobFilter);
-
   return (
     <div className="jobs-filter">
       <Form>
-        <FormGroup className="search-area">
-          <Label className="search-area-label" for="location">
+        {isMobile && (
+          <FormGroup className="mb-4">
+            <Label className="font-weight-bold" for="search">
+              Search
+            </Label>
+            <Input type="text" placeholder="Enter job title" />
+          </FormGroup>
+        )}
+        <FormGroup className="mb-4">
+          <Label className="font-weight-bold" for="location">
             Search Area
           </Label>
           <div className="filter-location">
@@ -101,7 +109,7 @@ function JobsFilter() {
           </div>
         </FormGroup>
         <FormGroup>
-          <Label for="category" className="category-label">
+          <Label for="category" className="font-weight-bold">
             Category
           </Label>
           <Input
@@ -117,6 +125,7 @@ function JobsFilter() {
         </FormGroup>
         <FormGroup>
           <CustomInput
+            className="mb-2"
             type="checkbox"
             name="partTime"
             checked={jobFilter.partTime}
@@ -126,6 +135,7 @@ function JobsFilter() {
             id="partTime"
           />
           <CustomInput
+            className="mb-2"
             type="checkbox"
             name="seasonal"
             checked={jobFilter.seasonal}
@@ -144,10 +154,15 @@ function JobsFilter() {
             id="teen"
           />
         </FormGroup>
-        <Button color="primary" className="mr-2" onClick={handleFilterSubmit}>
+        <Button
+          color="success"
+          className={`mr-2 ${isMobile && "mt-4"}`}
+          block={isMobile}
+          onClick={handleFilterSubmit}
+        >
           Apply
         </Button>
-        <Button color="success" onClick={handleResetFilter}>
+        <Button color="secondary" block={isMobile} onClick={handleResetFilter}>
           Reset Filter
         </Button>
       </Form>

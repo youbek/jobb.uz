@@ -24,6 +24,10 @@ body {
   font-family: "Inter";
 }
 
+.full-container {
+  min-height: calc(100vh - 50px);
+}
+
 span.invalid-feedback {
   display: inline;
 }
@@ -234,10 +238,21 @@ span.invalid-feedback {
   border-radius: 0;
 }
 
+.btn-clear {
+  width: 20px;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 .btn-custom {
   color: #fff;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-color: rgba(255, 255, 255, 0.5);
   padding: 0.375rem 1rem;
   border-radius: 2rem;
@@ -245,6 +260,16 @@ span.invalid-feedback {
   &:hover {
     border-color: #fff;
     background-color: transparent;
+  }
+
+  &:active {
+    background-color: transparent !important;
+    border-color: #fff !important;
+  }
+
+  &:active,
+  &:focus {
+    box-shadow: none !important;
   }
 }
 
@@ -314,6 +339,13 @@ span.invalid-feedback {
 
 .navbar {
   padding: 1rem 1rem;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.mobile-search {
 }
 
 // JOBS FILTER
@@ -495,7 +527,38 @@ span.invalid-feedback {
   padding-bottom: 10px;
 }
 
-// LOGIN & REGISTER MODAL
+// LOGIN & REGISTER MODAL & OVERLAY CONTAINER
+.overlay-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 200;
+  overflow-y: scroll;
+}
+
+.overlay-container-content {
+  display: flex;
+  flex-grow: 1;
+  > div {
+    flex-grow: 1;
+  }
+}
+
+.overlay-container-header {
+  padding: 0.5rem 1rem;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  h5 {
+    margin: 0;
+  }
+}
 
 .login-modal {
   color: #333;
@@ -624,5 +687,9 @@ footer {
   padding-bottom: 1rem;
   p {
     margin-bottom: 0;
+
+    @media screen and (max-width: $xs) {
+      font-size: 0.75rem;
+    }
   }
 }

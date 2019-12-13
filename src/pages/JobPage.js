@@ -89,12 +89,15 @@ function JobPage({ hashId }) {
           </BreadcrumbItem>
         </Container>
       </Breadcrumb>
-      <Container>
+      <Container className="full-container">
         <Row>
           <Col md="8">
             <JobInfo job={job} user={user} />
           </Col>
-          <Col md="4" className="address-and-employer-details">
+          <Col
+            md="4"
+            className="address-and-employer-details d-none d-xl-block"
+          >
             <div className="job-location ml-2">
               <div className="job-location-map">
                 <StaticGoogleMap

@@ -16,7 +16,7 @@ function JobsFeed({ jobs, loading }) {
         <JobCard key={index} job={job}></JobCard>
       ))}
       <div className="load-more-results mt-4">
-        {loading && (
+        {loading && jobs.length !== 0 && (
           <Spinner className="spinner-center" color="primary" size="sm" />
         )}
       </div>

@@ -4,14 +4,16 @@ import { AuthContext } from "../context/AuthContext";
 
 import { Container, Row, Col, Input, Button, Collapse } from "reactstrap";
 
-import { EDIT_USER } from "../graphql/mutations";
+import { EDIT_USER, DELETE_USER } from "../graphql/mutations";
 
 function ProfilePage() {
   const { authenticatedUser, setAuthenticatedUser } = useContext(AuthContext);
   const [editUser, editUserStatus] = useMutation(EDIT_USER, {
     onCompleted: onEditUser,
   });
-
+  const [deleteUser, deleteUserStatus] = useMutation(DELETE_USER, {
+    onCompleted: onDeleteUser,
+  });
   const [activeSettings, setActiveSettings] = useState(undefined);
   const [newFirstName, setNewFirstName] = useState(undefined);
   const [newLastName, setNewLastName] = useState(undefined);
@@ -53,6 +55,20 @@ function ProfilePage() {
       variables: { ...variables, userId: authenticatedUser.hashId },
     });
     return;
+  }
+
+  function handleDeleteUser() {
+    const confirmation = window.confirm("Are you sure?");
+    if (confirmation) {
+      deleteUser({ variables: { userId: authenticatedUser.hashId } });
+    }
+  }
+
+  function onDeleteUser(data) {
+    if (!data.deleteUser) return;
+
+    localStorage.removeItem("userToken");
+    setAuthenticatedUser(null);
   }
 
   function onEditUser(data) {
@@ -289,7 +305,7 @@ function ProfilePage() {
                 <Button
                   className="mt-4 text-muted"
                   color="link"
-                  onClick={() => alert("Are you sure?")}
+                  onClick={handleDeleteUser}
                 >
                   Delete Account
                 </Button>

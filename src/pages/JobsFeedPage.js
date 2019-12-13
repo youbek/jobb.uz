@@ -186,7 +186,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
 
           <Row className="jobs-feed-page">
             <Col id="feed-page" md="8">
-              {categoryName && (
+              {categoryName && !subCategoryName && (
                 <PopularJobTitles
                   categoryName={categoryName}
                   popularProfessions={popularProfessions}
@@ -197,7 +197,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
                 <JobsFeed jobs={jobs} loading={!allJobFetched} />
               )}
             </Col>
-            <Col md="4">
+            <Col md="4" className="d-none d-lg-block d-xl-block">
               <JobsFilter />
             </Col>
           </Row>
