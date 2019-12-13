@@ -8,14 +8,7 @@ import JobCategories from "../components/JobCategories";
 import JobsFeed from "../components/JobsFeed";
 import JobsFilter from "../components/JobsFilter";
 import PopularJobTitles from "../components/PopularJobTitles";
-import {
-  Container,
-  Row,
-  Col,
-  Breadcrumb,
-  BreadcrumbItem,
-  Spinner,
-} from "reactstrap";
+import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
 
@@ -31,6 +24,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
 
   const [jobs, setJobs] = useState(undefined);
   const [allJobFetched, setAllJobFetched] = useState(false);
+  const [refetching, setRefetching] = useState(false);
 
   useEffect(() => {
     document.addEventListener("scroll", trackFeedBottom);
@@ -53,6 +47,25 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   useEffect(() => {
     refetchJobsByCategory();
   }, [categoryName, subCategoryName]);
+
+  useEffect(() => {
+    if (!refetching) {
+      return;
+    }
+
+    refetchJobs();
+  }, [refetching]);
+
+  useEffect(() => {
+    // CHECKING FOR
+    // 1. INITIAL LOAD
+    // 3. IT IS NOT REFETCHING SO INITIAL QUERY REQUEST
+    if (!jobs || !refetching) {
+      return;
+    }
+
+    setRefetching(false);
+  }, [jobs, allJobFetched]);
 
   const popularProfessions = [
     {
@@ -82,7 +95,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   ];
 
   function trackFeedBottom() {
-    if (getLatestJobQuery.loading || allJobFetched) {
+    if (getLatestJobQuery.loading || allJobFetched || refetching) {
       return;
     }
 
@@ -94,7 +107,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
     const isBottom = bottomPoint <= windowHeight;
 
     if (isBottom) {
-      refetchJobs();
+      setRefetching(true);
     }
   }
 
@@ -193,8 +206,8 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
                   currentUrl={currentUrl}
                 />
               )}
-              {!getLatestJobQuery.loading && jobs !== undefined && (
-                <JobsFeed jobs={jobs} loading={!allJobFetched} />
+              {jobs !== undefined && (
+                <JobsFeed jobs={jobs} loading={refetching} />
               )}
             </Col>
             <Col md="4" className="d-none d-lg-block d-xl-block">
