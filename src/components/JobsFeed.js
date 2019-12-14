@@ -25,7 +25,7 @@ function JobsFeed({ jobs, loading }) {
 }
 
 JobsFeed.propTypes = {
-  jobs: PropTypes.object.isRequired,
+  jobs: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 

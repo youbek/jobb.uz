@@ -29,7 +29,6 @@ import {
   faArrowAltCircleRight,
   faArrowAltCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { isObject } from "util";
 
 function JobCategories() {
   const categories = [
