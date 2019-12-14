@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import LoginModal from "./modals/LoginModal";
 import RegisterModal from "./modals/RegisterModal";
+import LoginModalMobile from "./modals/LoginModalMobile";
 import JobsFilterMobile from "../JobsFilterMobile";
 
 import Logo from "../../icons/Logo.svg";
@@ -33,8 +34,15 @@ function AppHeader() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showRegisterHrModal, setShowRegisterHrModal] = useState(false);
   const [showJobSearchMobile, setShowJobSearchMobile] = useState(false);
+  const [showLoginModalMobile, setShowLoginModalMobile] = useState(false);
+
+  const [showModals, setShowModals] = useState(false);
 
   const { authenticatedUser } = useContext(AuthContext);
+
+  function toggleModals(modal) {
+    setShowModals(!modal);
+  }
 
   function toggleLoginModal() {
     setShowLoginModal(!showLoginModal);
@@ -50,6 +58,10 @@ function AppHeader() {
 
   function toggleJobSearchMobile() {
     setShowJobSearchMobile(!showJobSearchMobile);
+  }
+
+  function toggleLoginModalMobile() {
+    setShowLoginModalMobile(!showLoginModalMobile);
   }
 
   return (
@@ -94,8 +106,7 @@ function AppHeader() {
                     <NavItem>
                       <NavLink
                         className="mr-3 text-muted"
-                        tag={Link}
-                        to="/login"
+                        onClick={toggleLoginModalMobile}
                       >
                         Login
                       </NavLink>
@@ -109,6 +120,12 @@ function AppHeader() {
                   <JobsFilterMobile
                     showJobSearchMobile={showJobSearchMobile}
                     toggleJobSearchMobile={toggleJobSearchMobile}
+                  />
+                )}
+                {showLoginModalMobile && (
+                  <LoginModalMobile
+                    showLoginModalMobile={showLoginModalMobile}
+                    toggleLoginModalMobile={toggleLoginModalMobile}
                   />
                 )}
               </React.Fragment>

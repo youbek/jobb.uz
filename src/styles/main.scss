@@ -345,6 +345,12 @@ span.invalid-feedback {
   flex-direction: row;
 }
 
+.navbar-brand img {
+  @media screen and (max-width: $md) {
+    width: 120px;
+  }
+}
+
 .mobile-search {
 }
 
@@ -546,6 +552,8 @@ span.invalid-feedback {
   flex-grow: 1;
   > div {
     flex-grow: 1;
+    padding: 1rem;
+    background-color: #f9f9f9;
   }
 }
 
@@ -557,6 +565,31 @@ span.invalid-feedback {
   color: #fff;
   h5 {
     margin: 0;
+  }
+}
+
+.overlay-container-footer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #eeee;
+
+  > button {
+    padding: 0.75rem;
+  }
+
+  button {
+    color: #222;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+      color: #222;
+    }
   }
 }
 
