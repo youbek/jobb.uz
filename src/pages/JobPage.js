@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 
 import { SocketContext } from "../context/SocketContext";
+import { AppHeaderContext } from "../context/AppHeaderContext";
 
 import { GET_JOB } from "../graphql/queries/index";
 
@@ -26,6 +27,8 @@ function JobPage({ hashId }) {
   const [job, setJob] = useState(undefined);
   const { socket } = useContext(SocketContext);
 
+  const { appHeaderState, setAppHeaderState } = useContext(AppHeaderContext);
+
   useEffect(() => {
     socket.on("userDisconnected", trackUserDisconnection);
 
@@ -35,6 +38,10 @@ function JobPage({ hashId }) {
   useEffect(() => {
     if (getJobQuery.data) {
       setJob(getJobQuery.data.job);
+      setAppHeaderState({
+        ...appHeaderState,
+        title: getJobQuery.data.job.title,
+      });
     }
   }, [getJobQuery]);
 

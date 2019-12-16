@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 function JobDescription({ description }) {
   const [expand, setExpand] = useState(false);
   const shortForm =
-    description.length > 101 ? description.slice(0, 300) : description;
+    description.length > 101 ? description.slice(0, 300) + "..." : description;
 
   function handleExpandButton(event) {
     event.stopPropagation();

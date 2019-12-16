@@ -25,7 +25,7 @@ function JobInfo({ job, user }) {
       <div className="job-description">
         <p className="mt-4">{job.description}</p>
       </div>
-      <div className="date-and-view">
+      <div className="date-and-view mt-2">
         <FontAwesomeIcon icon={faClock} className="mr-2" />
         <Moment fromNow className="text-muted">
           {job.date}

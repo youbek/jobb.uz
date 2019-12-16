@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+
 import { useMediaQuery } from "react-responsive";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -7,6 +8,7 @@ import LoginModal from "./modals/LoginModal";
 import RegisterModal from "./modals/RegisterModal";
 import LoginModalMobile from "./modals/LoginModalMobile";
 import JobsFilterMobile from "../JobsFilterMobile";
+import MobileHeader from "./MobileHeader";
 
 import Logo from "../../icons/Logo.svg";
 import { Link } from "react-router-dom";
@@ -25,9 +27,8 @@ import {
 } from "reactstrap";
 
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@apollo/react-hooks";
 
-function AppHeader() {
+function AppHeader({ appHeaderState }) {
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
   const isDesktop = useMediaQuery({ query: "(min-device-width: 992px )" });
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -63,6 +64,10 @@ function AppHeader() {
   function toggleLoginModalMobile() {
     setShowLoginModalMobile(!showLoginModalMobile);
   }
+
+  const isMobileHeader =
+    isMobile && window.location.pathname.split("/")[1] === "vacancy";
+  if (isMobileHeader) return <MobileHeader title={appHeaderState.title} />;
 
   return (
     <React.Fragment>

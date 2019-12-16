@@ -467,6 +467,39 @@ span.invalid-feedback {
 
 // JOB PAGE
 
+.job-page-job-title {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+
+  @media screen and (max-width: $sm) {
+    font-size: 1.5rem;
+  }
+}
+
+.job-page-action-buttons {
+  @media screen and (max-width: $sm) {
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    padding: 1rem;
+    background: linear-gradient(0deg, #fff 15%, hsla(0, 0%, 100%, 0));
+  }
+
+  button {
+    @media screen and (max-width: $sm) {
+      width: 100%;
+      display: block;
+
+      &:first-child {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
 .date-and-view {
   display: flex;
   align-items: center;
@@ -534,6 +567,31 @@ span.invalid-feedback {
 }
 
 // LOGIN & REGISTER MODAL & OVERLAY CONTAINER
+.mobile-header-offset {
+  min-height: 55px;
+}
+.mobile-header {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.mobile-header-content {
+  display: flex;
+  padding: 0.5rem 1rem;
+  height: 55px;
+  color: #fff;
+  align-items: center;
+}
+
+.mobile-header-title {
+  font-size: 1.25rem;
+}
+
 .overlay-container {
   display: flex;
   flex-direction: column;
