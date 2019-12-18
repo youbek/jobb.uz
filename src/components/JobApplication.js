@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
 import { Button, Tooltip, Modal, ModalBody, ModalHeader } from "reactstrap";
 import moment from "moment";
+import { AuthContext } from "../context/AuthContext";
 
-function JobApplication({ job, user }) {
+function JobApplication({ job }) {
+  const { authenticatedUser } = useContext(AuthContext);
   // TOOLTIP STATE
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
@@ -17,7 +20,7 @@ function JobApplication({ job, user }) {
     .format("YYYY-MM-DD");
   const isJobActive = new Date(job.date) > new Date(dateFrom);
 
-  if (user.isUserHr) {
+  if (authenticatedUser && authenticatedUser.isHr) {
     return (
       <div className="job-page-action-buttons mt-4">
         <Button id="userIsHr" className="mr-2" color="primary">

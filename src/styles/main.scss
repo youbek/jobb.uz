@@ -91,7 +91,7 @@ span.invalid-feedback {
   align-items: center;
 }
 
-// CAROUSEL BUTTON (JOB CATEGORIES)
+// CAROUSEL BUTTON (JOB CATEGORIES) && JOB CATEGORIES MOBILE
 
 .carousel-slide {
   padding-bottom: 15px;
@@ -152,6 +152,50 @@ span.invalid-feedback {
 
 .btn-hidden {
   visibility: hidden;
+}
+
+.all-category-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 !important;
+
+  .all-category-btn {
+    flex-basis: 33.33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    font-size: 14px;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    text-decoration: none;
+    color: #555;
+    &:nth-child(3n + 3) {
+      border-right: none;
+    }
+  }
+}
+
+// PROFILE DROPDOWN
+.profile-dropdown-container {
+  background-color: #343434;
+
+  .profile-dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #3c3c3c;
+
+    a {
+      color: #9a9a9a;
+    }
+
+    .profile-dropdown-name {
+      color: #fff;
+      font-weight: 600;
+    }
+  }
 }
 
 // JOBCARD
@@ -285,19 +329,6 @@ span.invalid-feedback {
   }
 }
 
-.nav-item {
-  display: flex;
-  align-items: center;
-}
-
-.nav-link {
-  color: #fff !important;
-  display: block;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  padding: 0;
-}
-
 .bg-dark {
   background-color: #222 !important;
 }
@@ -349,6 +380,23 @@ span.invalid-feedback {
   @media screen and (max-width: $md) {
     width: 120px;
   }
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+
+  @media screen and (max-width: $md) {
+    margin-right: 1.5rem;
+  }
+}
+
+.nav-link {
+  color: #fff !important;
+  display: block;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  padding: 0;
 }
 
 .mobile-search {
@@ -558,6 +606,13 @@ span.invalid-feedback {
   padding: 0;
   padding-top: 10px;
   margin-bottom: 2rem;
+
+  a {
+    @media screen and (max-width: $sm) {
+      font-size: 14px;
+      color: #555;
+    }
+  }
 }
 
 .breadcrumb-item {
@@ -703,15 +758,44 @@ span.invalid-feedback {
   table button {
     padding: 0;
   }
+
+  h2 {
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #cfd4d7;
+  }
 }
 
 .profile-settings {
   .profile-edit-table {
     background-color: #f9f9f9;
+    @media screen and (max-width: $md) {
+      padding-bottom: 0.5rem;
+      :nth-child(3n + 3) {
+        position: initial !important;
+      }
+    }
   }
   .row {
     align-items: center;
     border-bottom: 1px solid #e7e7e7;
+    margin: 0;
+
+    @media screen and (max-width: $md) {
+      align-items: flex-end;
+
+      .btn-link {
+        padding: 0;
+      }
+      .col {
+        flex-basis: auto;
+      }
+
+      :nth-child(3n + 3) {
+        position: absolute;
+        right: 10px;
+      }
+    }
 
     &:last-child {
       border-bottom: 0;

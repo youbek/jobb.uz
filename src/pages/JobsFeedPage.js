@@ -11,6 +11,7 @@ import PopularJobTitles from "../components/PopularJobTitles";
 import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
+import AppHeader from "../components/AppHeader/AppHeader";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
@@ -166,56 +167,54 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
 
   return (
     <React.Fragment>
-      <React.Fragment>
-        <Breadcrumb>
-          <Container>
-            <Row>
-              <Col>
-                <BreadcrumbItem active={!categoryName && !subCategoryName}>
-                  New York
+      <Breadcrumb>
+        <Container>
+          <Row>
+            <Col>
+              <BreadcrumbItem active={!categoryName && !subCategoryName}>
+                New York
+              </BreadcrumbItem>
+              {categoryName && (
+                <BreadcrumbItem active={categoryName && !subCategoryName}>
+                  {categoryName}
                 </BreadcrumbItem>
-                {categoryName && (
-                  <BreadcrumbItem active={categoryName && !subCategoryName}>
-                    {categoryName}
-                  </BreadcrumbItem>
-                )}
-                {subCategoryName && (
-                  <BreadcrumbItem active={subCategoryName}>
-                    {subCategoryName}
-                  </BreadcrumbItem>
-                )}
-              </Col>
-            </Row>
-          </Container>
-        </Breadcrumb>
-        <Container className='jobs-feed-wrapper"'>
-          {!categoryName && (
-            <Row>
-              <Col md="12">
-                <JobCategories />
-              </Col>
-            </Row>
-          )}
-
-          <Row className="jobs-feed-page">
-            <Col id="feed-page" md="8">
-              {categoryName && !subCategoryName && (
-                <PopularJobTitles
-                  categoryName={categoryName}
-                  popularProfessions={popularProfessions}
-                  currentUrl={currentUrl}
-                />
               )}
-              {jobs !== undefined && (
-                <JobsFeed jobs={jobs} loading={refetching} />
+              {subCategoryName && (
+                <BreadcrumbItem active={subCategoryName}>
+                  {subCategoryName}
+                </BreadcrumbItem>
               )}
-            </Col>
-            <Col md="4" className="d-none d-lg-block d-xl-block">
-              <JobsFilter />
             </Col>
           </Row>
         </Container>
-      </React.Fragment>
+      </Breadcrumb>
+      <Container className='jobs-feed-wrapper"'>
+        {!categoryName && (
+          <Row>
+            <Col md="12">
+              <JobCategories />
+            </Col>
+          </Row>
+        )}
+
+        <Row className="jobs-feed-page">
+          <Col id="feed-page" md="8">
+            {categoryName && !subCategoryName && (
+              <PopularJobTitles
+                categoryName={categoryName}
+                popularProfessions={popularProfessions}
+                currentUrl={currentUrl}
+              />
+            )}
+            {jobs !== undefined && (
+              <JobsFeed jobs={jobs} loading={refetching} />
+            )}
+          </Col>
+          <Col md="4" className="d-none d-lg-block d-xl-block">
+            <JobsFilter />
+          </Col>
+        </Row>
+      </Container>
     </React.Fragment>
   );
 }

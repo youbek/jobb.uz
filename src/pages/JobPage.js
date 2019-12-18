@@ -5,14 +5,7 @@ import { Redirect, Link } from "react-router-dom";
 
 import JobInfo from "../components/JobInfo";
 import { StaticGoogleMap, Marker } from "react-static-google-map";
-import {
-  Spinner,
-  Breadcrumb,
-  BreadcrumbItem,
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
+import { Breadcrumb, BreadcrumbItem, Container, Row, Col } from "reactstrap";
 
 import { SocketContext } from "../context/SocketContext";
 import { AppHeaderContext } from "../context/AppHeaderContext";
@@ -26,7 +19,6 @@ function JobPage({ hashId }) {
 
   const [job, setJob] = useState(undefined);
   const { socket } = useContext(SocketContext);
-
   const { appHeaderState, setAppHeaderState } = useContext(AppHeaderContext);
 
   useEffect(() => {
@@ -46,7 +38,7 @@ function JobPage({ hashId }) {
   }, [getJobQuery]);
 
   useEffect(() => {
-    if (!job) {
+    if (!job || "status" in job.author) {
       return;
     }
 
@@ -75,10 +67,6 @@ function JobPage({ hashId }) {
     });
   }
 
-  const user = {
-    isUserHr: false,
-  };
-
   if (getJobQuery.error) throw new Error(`Error ${getJobQuery.error.message}`);
 
   if (getJobQuery.loading || job === undefined) return <div></div>;
@@ -91,15 +79,14 @@ function JobPage({ hashId }) {
     <React.Fragment>
       <Breadcrumb>
         <Container>
-          <BreadcrumbItem>
-            {<Link to="">Jobs in {job.address}</Link>}
-          </BreadcrumbItem>
+          <BreadcrumbItem>{<Link to="">New York</Link>}</BreadcrumbItem>
+          <BreadcrumbItem>{<Link to="">{job.category}</Link>}</BreadcrumbItem>
         </Container>
       </Breadcrumb>
       <Container className="full-container">
         <Row>
           <Col md="8">
-            <JobInfo job={job} user={user} />
+            <JobInfo job={job} />
           </Col>
           <Col
             md="4"

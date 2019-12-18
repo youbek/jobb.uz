@@ -8,7 +8,7 @@ import JobApplication from "./JobApplication";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 
-function JobInfo({ job, user }) {
+function JobInfo({ job }) {
   return (
     <div>
       <h1 className="job-page-job-title">{`${job.title} at 
@@ -31,7 +31,7 @@ function JobInfo({ job, user }) {
           {job.date}
         </Moment>
       </div>
-      <JobApplication job={job} user={user} />
+      <JobApplication job={job} />
     </div>
   );
 }

@@ -98,7 +98,7 @@ function ProfilePage() {
         <Col md="8">
           <h2>Profile settings</h2>
           <div className="profile-settings mt-3">
-            <Row>
+            <Row className="profile-table">
               <Col>Name</Col>
               <Col>{`${firstName} ${lastName}`}</Col>
               <Col align="right">

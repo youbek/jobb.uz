@@ -65,6 +65,7 @@ export const GET_JOB = gql`
         hashId
       }
       date
+      category
     }
   }
 `;

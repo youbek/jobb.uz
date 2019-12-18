@@ -30,7 +30,7 @@ module.exports = gql`
     _id: ID!
     hashId: ID!
     title: String!
-    categoryName: String!
+    category: String!
     state: String
     address: String!
     companyName: String!

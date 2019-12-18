@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
+import { useMediaQuery } from "react-responsive";
 
+import JobCategoriesMobile from "./JobCategoriesMobile";
 import {
   CarouselProvider,
   Slider,
@@ -28,9 +30,14 @@ import {
   faBriefcaseMedical,
   faArrowAltCircleRight,
   faArrowAltCircleLeft,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 function JobCategories() {
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
+  const isTablet = useMediaQuery({ query: "(max-device-width: 1024px )" });
+
   const categories = [
     {
       id: 1,
@@ -122,33 +129,17 @@ function JobCategories() {
     setCurrentSlide(currentSlide - 3);
   };
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-
-  function handleWindowResize() {
-    setIsMobile(window.innerWidth < 576);
-    setIsTablet(window.innerWidth < 1025);
+  function toggleAllCategories() {
+    setShowAllCategories(!showAllCategories);
   }
-
-  useEffect(() => {
-    handleWindowResize();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("resize", _.throttle(handleWindowResize, 200));
-  }, [window.innerWidth]);
-
-  useEffect(() => {
-    window.removeEventListener("resize", _.throttle(handleWindowResize, 200));
-  }, [window.innerWidth]);
 
   return (
     <div className="job-categories">
       <CarouselProvider
         naturalSlideWidth={10}
         naturalSlideHeight={6}
-        totalSlides={categories.length}
-        visibleSlides={isMobile ? 2 : isTablet ? 5 : 7}
+        totalSlides={isMobile ? categories.length + 1 : categories.length}
+        visibleSlides={isMobile ? 2 : isTablet ? 4 : 7}
         step={3}
         dragEnabled={isMobile}
         dragStep={2}
@@ -165,6 +156,14 @@ function JobCategories() {
           <FontAwesomeIcon icon={faArrowAltCircleLeft} size="2x" />
         </ButtonBack>
         <Slider className="carousel-slide">
+          {isMobile && (
+            <Slide className="carousel-slide-item">
+              <Link className="btn-carousel" onClick={toggleAllCategories}>
+                <FontAwesomeIcon icon={faArrowRight} size="lg" />
+                <span>All Categories</span>
+              </Link>
+            </Slide>
+          )}
           {categories.map((category, index) => (
             <Slide className="carousel-slide-item" index={index} key={index}>
               <Link
@@ -193,6 +192,13 @@ function JobCategories() {
           <FontAwesomeIcon icon={faArrowAltCircleRight} size="2x" />
         </ButtonNext>
       </CarouselProvider>
+      {showAllCategories && (
+        <JobCategoriesMobile
+          showAllCategories={showAllCategories}
+          toggleAllCategories={toggleAllCategories}
+          categories={categories}
+        />
+      )}
     </div>
   );
 }

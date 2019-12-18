@@ -9,6 +9,7 @@ import RegisterModal from "./modals/RegisterModal";
 import LoginModalMobile from "./modals/LoginModalMobile";
 import JobsFilterMobile from "../JobsFilterMobile";
 import MobileHeader from "./MobileHeader";
+import ProfileDropdown from "./ProfileDropdown";
 
 import Logo from "../../icons/Logo.svg";
 import { Link } from "react-router-dom";
@@ -26,7 +27,7 @@ import {
   NavLink,
 } from "reactstrap";
 
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 
 function AppHeader({ appHeaderState }) {
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
@@ -36,6 +37,8 @@ function AppHeader({ appHeaderState }) {
   const [showRegisterHrModal, setShowRegisterHrModal] = useState(false);
   const [showJobSearchMobile, setShowJobSearchMobile] = useState(false);
   const [showLoginModalMobile, setShowLoginModalMobile] = useState(false);
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const userIcon = React.createRef();
 
   const [showModals, setShowModals] = useState(false);
 
@@ -63,6 +66,10 @@ function AppHeader({ appHeaderState }) {
 
   function toggleLoginModalMobile() {
     setShowLoginModalMobile(!showLoginModalMobile);
+  }
+
+  function toggleProfileDropdown() {
+    setShowProfileDropdown(!showProfileDropdown);
   }
 
   const isMobileHeader =
@@ -96,13 +103,12 @@ function AppHeader({ appHeaderState }) {
                       )}
                     </NavItem>
                     <NavItem>
-                      <NavLink tag={Link} to="/profile">
-                        Profile
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink tag={Link} to="/logout">
-                        Log out
+                      <NavLink
+                        tag={Link}
+                        onClick={toggleProfileDropdown}
+                        innerRef={userIcon}
+                      >
+                        <FontAwesomeIcon icon={faUser} />
                       </NavLink>
                     </NavItem>
                   </React.Fragment>
@@ -218,6 +224,14 @@ function AppHeader({ appHeaderState }) {
           </Nav>
         </Container>
       </Navbar>
+      {showProfileDropdown && (
+        <ProfileDropdown
+          user={authenticatedUser}
+          toggleProfileDropdown={toggleProfileDropdown}
+          setShowProfileDropdown={setShowProfileDropdown}
+          ref={userIcon}
+        />
+      )}
     </React.Fragment>
   );
 }
