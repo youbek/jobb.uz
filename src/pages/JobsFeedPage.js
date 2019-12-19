@@ -11,7 +11,6 @@ import PopularJobTitles from "../components/PopularJobTitles";
 import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
-import AppHeader from "../components/AppHeader/AppHeader";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {

@@ -15,7 +15,7 @@ module.exports = gql`
   extend type Mutation {
     postJob(
       title: String!
-      address: String!
+      address: JobAddressInput!
       companyName: String!
       contactPhone: String
       description: String!
@@ -32,7 +32,7 @@ module.exports = gql`
     title: String!
     category: String!
     state: String
-    address: String!
+    address: JobAddress!
     companyName: String!
     contactPhone: String
     description: String!
@@ -54,5 +54,17 @@ module.exports = gql`
   type JobCategory {
     name: String!
     subCategories: [String]
+  }
+
+  type JobAddress {
+    name: String!
+    lat: Float!
+    long: Float!
+  }
+
+  input JobAddressInput {
+    name: String!
+    lat: Float!
+    long: Float!
   }
 `;

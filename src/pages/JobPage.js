@@ -98,10 +98,10 @@ function JobPage({ hashId }) {
                   size="300x120"
                   apiKey="AIzaSyATyzWeCcSuG_szpR2IjHm79kq9YcSUQh0"
                 >
-                  <Marker location="55.763756,37.854395 " />
+                  <Marker location={`${job.address.lat},${job.address.long}`} />
                 </StaticGoogleMap>
                 <div className="job-location-address mt-2">
-                  Address<p>{job.address}</p>
+                  Address<p>{job.address.name}</p>
                 </div>
               </div>
               <div className="employer-details">

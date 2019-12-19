@@ -46,7 +46,7 @@ export const LOGIN_USER = gql`
 export const POST_JOB = gql`
   mutation PostJob(
     $title: String!
-    $address: String!
+    $address: JobAddressInput!
     $companyName: String!
     $contactPhone: String
     $description: String!
@@ -69,7 +69,11 @@ export const POST_JOB = gql`
       hashId
       title
       state
-      address
+      address {
+        name
+        lat
+        long
+      }
       companyName
       contactPhone
       description

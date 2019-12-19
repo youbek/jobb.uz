@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { privateKey } = require("../env");
 
 function signNewJWT(user) {
   return new Promise((resolve, reject) => {
@@ -8,7 +7,7 @@ function signNewJWT(user) {
       {
         hashId: user.hashId,
       },
-      privateKey,
+      process.env.JWT_SECRET,
       {
         expiresIn: "2 days",
       },
@@ -23,7 +22,7 @@ function signNewJWT(user) {
 
 function checkJWT(token) {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, privateKey, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) reject(null);
 
       resolve(decoded);

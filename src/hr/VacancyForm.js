@@ -1,9 +1,3 @@
-/*
-  =========================================
-  NOTE RENDERS FORM TO CREATE A NEW VACANCY
-  =========================================
-*/
-
 import React, { useState, useEffect, useContext } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
@@ -87,15 +81,17 @@ function VacancyForm({ history }) {
     companyName: "",
     title: "",
     contactPhone: "",
-    address: "",
+    address: {
+      name: "",
+      lat: "",
+      long: "",
+    },
     description: "",
     salaryFrom: "",
     salaryTo: "",
     noExperience: false,
     partTime: false,
     forTeens: false,
-    lat: "",
-    long: "",
   });
 
   const [error, setError] = useState({
@@ -151,7 +147,7 @@ function VacancyForm({ history }) {
       return;
     }
 
-    if (isEmptyStr(job.address)) {
+    if (isEmptyStr(job.address.name)) {
       setError({
         type: "address",
         msg: "Please, provide job address",
@@ -213,9 +209,11 @@ function VacancyForm({ history }) {
   function handlePlaceChange(place) {
     setJob({
       ...job,
-      address: place.formatted_address.slice(0, -5),
-      lat: place.geometry.location.lat(),
-      long: place.geometry.location.lng(),
+      address: {
+        name: place.formatted_address.slice(0, -5),
+        lat: place.geometry.location.lat(),
+        long: place.geometry.location.lng(),
+      },
     });
   }
 

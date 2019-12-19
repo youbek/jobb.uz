@@ -1,10 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
+
+import { Link } from "react-router-dom";
 import JobDescription from "./JobDescription";
 import JobCardBadges from "./JobCardBadges";
-import styled from "styled-components";
 import Moment from "react-moment";
+
+import styled from "styled-components";
+
 import "moment-timezone";
-import { Link } from "react-router-dom";
 
 const JobCardViewCompanyName = styled.div`
   font-weight: 700;
@@ -35,11 +39,28 @@ const JobCard = ({ job }) => {
       <JobCardBadges noExperience={job.noExperience} partTime={job.partTime} />
       <JobCardViewCompanyName>{job.companyName}</JobCardViewCompanyName>
       <JobCardViewFooter>
-        <JobCardViewAddress>{job.address}</JobCardViewAddress>
+        <JobCardViewAddress>{job.address.name}</JobCardViewAddress>
       </JobCardViewFooter>
       <Link className="job-card-link" to={`/vacancy/${job.hashId}`}></Link>
     </div>
   );
+};
+
+JobCard.propTypes = {
+  job: PropTypes.shape({
+    companyName: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    noExperience: PropTypes.bool.isRequired,
+    partTime: PropTypes.bool.isRequired,
+    address: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      lat: PropTypes.number.isRequired,
+      long: PropTypes.number.isRequired,
+    }).isRequired,
+    hashId: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+  }),
 };
 
 export default JobCard;

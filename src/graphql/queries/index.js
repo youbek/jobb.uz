@@ -38,7 +38,11 @@ export const GET_LATEST_JOBS = gql`
       title
       date
       description
-      address
+      address {
+        name
+        lat
+        long
+      }
       noExperience
       hashId
     }
@@ -51,7 +55,11 @@ export const GET_JOB = gql`
       hashId
       title
       state
-      address
+      address {
+        name
+        lat
+        long
+      }
       companyName
       contactPhone
       description

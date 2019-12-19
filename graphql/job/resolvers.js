@@ -54,6 +54,8 @@ module.exports = {
   },
   Mutation: {
     postJob: async (parent, args, context) => {
+      console.log("?");
+
       if (!context.loggedIn) {
         throw new AuthenticationError();
       }

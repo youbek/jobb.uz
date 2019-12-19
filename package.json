@@ -15,6 +15,7 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",
     "draft-js": "^0.11.3",
+    "env-cmd": "^10.0.1",
     "express": "^4.17.1",
     "formik": "^2.0.6",
     "graphql": "^14.5.8",
@@ -51,10 +52,11 @@
     "styled-components": "^4.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "concurrently \" nodemon server.js \" \" npm start \" ",
+    "start:back-end": "env-cmd -f ./.env nodemon server.js",
+    "start:front-end": "react-scripts start",
+    "dev": "npm-run-all -p start:back-end start:front-end",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "env-cmd -f ./test.env jest",
     "eject": "react-scripts eject"
   },
   "resolutions": {
@@ -76,9 +78,13 @@
     ]
   },
   "devDependencies": {
+    "apollo-server-testing": "^2.9.14",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.7.2",
     "eslint-plugin-react": "^7.17.0",
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
     "relay-config": "^7.1.0"
   }
 }
