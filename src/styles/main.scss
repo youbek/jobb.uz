@@ -25,7 +25,7 @@ body {
 }
 
 .full-container {
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 260px);
 }
 
 span.invalid-feedback {
@@ -339,6 +339,9 @@ span.invalid-feedback {
   padding-left: 2.5rem;
   border-radius: 0;
   background-clip: unset;
+  @media screen and (max-width: $xl) {
+    width: 200px !important;
+  }
 }
 
 .header-search-select {
@@ -386,7 +389,7 @@ span.invalid-feedback {
   display: flex;
   align-items: center;
 
-  @media screen and (max-width: $md) {
+  @media screen and (max-width: $lg) {
     margin-right: 1.5rem;
   }
 }
@@ -448,7 +451,7 @@ span.invalid-feedback {
 .load-more-results {
   display: -webkit-flex;
   display: flex;
-  padding-bottom: 10rem;
+  justify-content: center;
 }
 
 //
@@ -461,6 +464,18 @@ span.invalid-feedback {
 .vacancy-form-container {
   width: 42rem;
   padding: 5rem;
+
+  @media screen and (max-width: $md) {
+    width: 100%;
+    padding: unset;
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+
+    .btn {
+      display: block;
+      width: 100%;
+    }
+  }
 
   .form-group {
     margin-bottom: 1.25rem;
@@ -596,7 +611,11 @@ span.invalid-feedback {
 
 // POPULAR JOB TITLES
 
-.popular-job-titles {
+.popular-job-title-btn {
+  color: #666;
+  background-color: #cbd1d34d;
+  border: none;
+  padding: 0.25rem 0.75rem;
 }
 
 // BREADCRUMB
@@ -608,10 +627,8 @@ span.invalid-feedback {
   margin-bottom: 2rem;
 
   a {
-    @media screen and (max-width: $sm) {
-      font-size: 14px;
-      color: #555;
-    }
+    font-size: 14px;
+    color: #555;
   }
 }
 
@@ -619,6 +636,7 @@ span.invalid-feedback {
   display: inline-block;
   position: relative;
   padding-bottom: 10px;
+  font-size: 14px;
 }
 
 // LOGIN & REGISTER MODAL & OVERLAY CONTAINER
@@ -853,7 +871,6 @@ span.invalid-feedback {
 footer {
   background-color: #f5f5f5;
   width: 100%;
-  position: absolute;
   bottom: 0;
 }
 
