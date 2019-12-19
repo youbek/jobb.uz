@@ -30,7 +30,9 @@ import {
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 
 function AppHeader({ appHeaderState }) {
-  const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
+  const isMobileAndIsTablet = useMediaQuery({
+    query: "(max-device-width: 992px )",
+  });
   const isDesktop = useMediaQuery({ query: "(min-device-width: 992px )" });
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -73,7 +75,7 @@ function AppHeader({ appHeaderState }) {
   }
 
   const isMobileHeader =
-    isMobile && window.location.pathname.split("/")[1] === "vacancy";
+    isMobileAndIsTablet && window.location.pathname.split("/")[1] === "vacancy";
   if (isMobileHeader) return <MobileHeader title={appHeaderState.title} />;
 
   return (
@@ -87,7 +89,7 @@ function AppHeader({ appHeaderState }) {
             {
               // MOBILE
             }
-            {isMobile && (
+            {isMobileAndIsTablet && (
               <React.Fragment>
                 {authenticatedUser ? (
                   <React.Fragment>

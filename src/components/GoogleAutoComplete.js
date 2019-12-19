@@ -38,7 +38,7 @@ class GoogleAutoComplete extends React.Component {
         placeholder="Enter location"
         type="text"
         disabled={this.props.fetching}
-        autoComplete="false"
+        autoComplete="off"
       />
     );
   }

@@ -188,7 +188,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
           </Row>
         </Container>
       </Breadcrumb>
-      <Container className='jobs-feed-wrapper"'>
+      <Container className="jobs-feed-wrapper full-container">
         {!categoryName && (
           <Row>
             <Col md="12">
@@ -198,7 +198,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
         )}
 
         <Row className="jobs-feed-page">
-          <Col id="feed-page" md="8">
+          <Col id="feed-page" lg="8">
             {categoryName && !subCategoryName && (
               <PopularJobTitles
                 categoryName={categoryName}

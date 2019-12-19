@@ -3,7 +3,7 @@ import { Container, Col, Row } from "reactstrap";
 
 function Footer() {
   return (
-    <footer className="border-top mt-4">
+    <footer className="border-top mt-5">
       <Container>
         <Row>
           <Col className="footer">
