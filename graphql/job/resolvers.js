@@ -2,6 +2,7 @@ const JobModel = require("./model");
 const UserModel = require("../user/model");
 const { AuthenticationError } = require("apollo-server");
 const { JobCategories } = require("../../constant");
+const { escapeRegex } = require("../../helpers");
 
 module.exports = {
   Query: {
@@ -70,6 +71,16 @@ module.exports = {
       );
 
       return sorted.filter((category, index) => (index < 5 ? category : null));
+    },
+    searchJob: async (_, args) => {
+      const { keyword } = args;
+      const regex = new RegExp(escapeRegex(keyword), "gi");
+      const hotResults = await JobModel.find(
+        { title: regex },
+        { title: 1, hashId: 1, _id: -1 },
+      ).distinct("title");
+
+      return hotResults;
     },
   },
   Job: {

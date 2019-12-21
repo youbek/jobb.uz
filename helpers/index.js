@@ -50,9 +50,14 @@ function hash(strToHash) {
   });
 }
 
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 module.exports = {
   signNewJWT,
   checkJWT,
   compareHash,
   hash,
+  escapeRegex,
 };
