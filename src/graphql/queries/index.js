@@ -49,6 +49,15 @@ export const GET_LATEST_JOBS = gql`
   }
 `;
 
+export const GET_POPULAR_JOB_TITLES = gql`
+  query GetPopularJobTitles($categoryName: String) {
+    getPopularJobTitles(categoryName: $categoryName) {
+      name
+      amount
+    }
+  }
+`;
+
 export const GET_JOB = gql`
   query getJob($hashId: String!) {
     job(hashId: $hashId) {

@@ -10,6 +10,7 @@ module.exports = gql`
       subCategoryName: String
     ): [Job]
     jobCategories: [JobCategory]
+    getPopularJobTitles(categoryName: String): [PopularJobTitle]
   }
 
   extend type Mutation {
@@ -60,6 +61,11 @@ module.exports = gql`
     name: String!
     lat: Float!
     long: Float!
+  }
+
+  type PopularJobTitle {
+    name: String!
+    amount: Int!
   }
 
   input JobAddressInput {

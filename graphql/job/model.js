@@ -6,7 +6,7 @@ const JobSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    default: nanoid(10),
+    default: () => nanoid(10),
   },
   title: {
     type: String,
@@ -65,7 +65,7 @@ const JobSchema = new mongoose.Schema({
   date: {
     type: String,
     required: false,
-    default: new Date(),
+    default: Date.now,
   },
   authorId: {
     type: String,

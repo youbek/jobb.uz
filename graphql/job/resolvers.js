@@ -41,6 +41,36 @@ module.exports = {
       }
     },
     jobCategories: () => JobCategories,
+    getPopularJobTitles: async (_, args) => {
+      const { categoryName } = args;
+
+      if (!categoryName) {
+        return [];
+      }
+
+      const subCategories = JobCategories.find(
+        category => category.name.toLowerCase() === categoryName.toLowerCase(),
+      ).subCategories;
+
+      const count = await Promise.all(
+        subCategories.map(async category => {
+          const amount = await JobModel.count({ title: category });
+          return { name: category, amount };
+        }),
+      );
+
+      const sorted = count.sort((categoryA, categoryB) =>
+        categoryA.amount > categoryB.amount
+          ? -1
+          : categoryA.amount === categoryB.amount
+          ? categoryA.name > categoryB.name
+            ? 1
+            : -1
+          : 1,
+      );
+
+      return sorted.filter((category, index) => (index < 5 ? category : null));
+    },
   },
   Job: {
     author: async job => {
@@ -54,8 +84,6 @@ module.exports = {
   },
   Mutation: {
     postJob: async (parent, args, context) => {
-      console.log("?");
-
       if (!context.loggedIn) {
         throw new AuthenticationError();
       }
