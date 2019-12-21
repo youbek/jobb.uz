@@ -12,6 +12,7 @@ module.exports = gql`
     jobCategories: [JobCategory]
     getPopularJobTitles(categoryName: String): [PopularJobTitle]
     searchJob(keyword: String!): [String]!
+    similarJobsPay(title: String!): [String]!
   }
 
   extend type Mutation {

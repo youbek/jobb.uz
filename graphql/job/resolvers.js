@@ -82,6 +82,39 @@ module.exports = {
 
       return hotResults;
     },
+    similarJobsPay: async (_, args) => {
+      const { title } = args;
+
+      const similarJobs = await JobModel.find(
+        { title },
+        { _id: 0, salaryTo: 1, salaryFrom: 1 },
+      );
+
+      let minAmount = undefined;
+      let maxAmount = undefined;
+
+      for (let i = 0; i < similarJobs.length; i++) {
+        const salaryFrom = similarJobs[i].salaryFrom;
+        const salaryTo = similarJobs[i].salaryTo;
+        minAmount =
+          minAmount === undefined
+            ? salaryFrom
+            : minAmount > salaryFrom
+            ? salaryFrom
+            : minAmount;
+        maxAmount =
+          maxAmount === undefined
+            ? salaryTo
+            : minAmount < salaryTo
+            ? salaryTo
+            : minAmount;
+      }
+
+      return {
+        minAmount,
+        maxAmount,
+      };
+    },
   },
   Job: {
     author: async job => {
