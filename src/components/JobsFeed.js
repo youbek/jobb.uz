@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Spinner } from "reactstrap";
-import JobCard from "./JobCard";
+import JobCard from "./JobsFeed/JobCard/JobCard";
 import JobsFeedEmpty from "./JobsFeedEmpty";
 
 function JobsFeed({ jobs, loading }) {

@@ -4,13 +4,18 @@ import PropTypes from "prop-types";
 
 import { SocketContext } from "../context/SocketContext";
 
-import JobCategories from "../components/JobCategories";
+import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
 import JobsFeed from "../components/JobsFeed";
-import JobsFilter from "../components/JobsFilter";
+import JobsFilter from "../components/JobsFeed/JobsFilter/JobsFilter";
 import PopularJobTitles from "../components/PopularJobTitles";
-import { Container, Row, Col, Breadcrumb, BreadcrumbItem } from "reactstrap";
+
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
+import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
+import JobsFeedContainer from "../components/JobsFeed/JobsFeedContainer";
+import { Row, Col } from "reactstrap";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
+import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
@@ -166,28 +171,19 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
 
   return (
     <React.Fragment>
-      <Breadcrumb>
-        <Container>
-          <Row>
-            <Col>
-              <BreadcrumbItem active={!categoryName && !subCategoryName}>
-                New York
-              </BreadcrumbItem>
-              {categoryName && (
-                <BreadcrumbItem active={categoryName && !subCategoryName}>
-                  {categoryName}
-                </BreadcrumbItem>
-              )}
-              {subCategoryName && (
-                <BreadcrumbItem active={subCategoryName}>
-                  {subCategoryName}
-                </BreadcrumbItem>
-              )}
-            </Col>
-          </Row>
-        </Container>
-      </Breadcrumb>
-      <Container className="jobs-feed-wrapper full-container">
+      <nav>
+        <Breadcrumb>
+          <BreadcrumbContainer>
+            <BreadcrumbItem>New York</BreadcrumbItem>
+            {categoryName && <BreadcrumbItem>{categoryName}</BreadcrumbItem>}
+            {subCategoryName && (
+              <BreadcrumbItem>{subCategoryName}</BreadcrumbItem>
+            )}
+          </BreadcrumbContainer>
+        </Breadcrumb>
+      </nav>
+
+      <JobsFeedContainer>
         {!categoryName && (
           <Row>
             <Col md="12">
@@ -213,7 +209,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
             <JobsFilter />
           </Col>
         </Row>
-      </Container>
+      </JobsFeedContainer>
     </React.Fragment>
   );
 }

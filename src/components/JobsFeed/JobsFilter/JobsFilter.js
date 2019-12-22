@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
-import { Form, Input, Label, FormGroup, CustomInput, Button } from "reactstrap";
-import GoogleAutoComplete from "./GoogleAutoComplete";
+import Label from "../../Form/Label";
+import Input from "../../Form/Input";
+import Select from "../../Form/Select";
+import CustomCheckbox from "../../Form/CustomCheckbox";
+import Button from "../../Buttons/Button";
+
+import GoogleAutoComplete from "../../GoogleAutoComplete";
+
+// STYLED COMPONENT
+const SelectRadius = styled(Select)`
+  width: 50%;
+  border-left: hidden;
+`;
 
 function JobsFilter() {
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
-  // CONTROLLING FILTER INPUTS LOCATION, RADIUS, CATEGORY
+  // CONTROLLING FILTER INPUTS LOCATION , RADIUS, CATEGORY
   const [jobFilter, setJobFilter] = useState({
     location: "",
     radius: "",
@@ -74,28 +86,23 @@ function JobsFilter() {
   }
 
   return (
-    <div className="jobs-filter">
-      <Form>
+    <div>
+      <form>
         {isMobile && (
-          <FormGroup className="mb-4">
-            <Label className="font-weight-bold" for="search">
-              Search
-            </Label>
-            <Input type="text" placeholder="Enter job title" />
-          </FormGroup>
+          <div className="mb-4">
+            <Label for="search">Search</Label>
+            <Input placeholder="Enter job title" />
+          </div>
         )}
-        <FormGroup className="mb-4">
-          <Label className="font-weight-bold" for="location">
-            Search Area
-          </Label>
+        <div className="mb-4">
+          <Label for="location">Search Area</Label>
           <div className="filter-location">
             <GoogleAutoComplete
               fetching={fetching}
               handlePlaceChange={handlePlaceChange}
             />
-            <Input
-              className="filter-location-radius"
-              type="select"
+            <SelectRadius
+              left
               name="radius"
               value={jobFilter.radius}
               disabled={fetching}
@@ -105,14 +112,12 @@ function JobsFilter() {
               <option value={jobFilter.radius}>10 miles</option>
               <option value={jobFilter.radius}>20 miles</option>
               <option value={jobFilter.radius}>50 miles</option>
-            </Input>
+            </SelectRadius>
           </div>
-        </FormGroup>
-        <FormGroup>
-          <Label for="category" className="font-weight-bold">
-            Category
-          </Label>
-          <Input
+        </div>
+        <div>
+          <Label for="category">Category</Label>
+          <Select
             id="category"
             placeholder="Select a category"
             value={jobFilter.category}
@@ -121,51 +126,52 @@ function JobsFilter() {
             onChange={handleJobFilterChange}
           >
             <option></option>
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <CustomInput
-            className="mb-2"
-            type="checkbox"
-            name="partTime"
-            checked={jobFilter.partTime}
-            label="Part-time"
-            onChange={handleJobFilterChange}
-            disabled={fetching}
-            id="partTime"
-          />
-          <CustomInput
-            className="mb-2"
-            type="checkbox"
-            name="seasonal"
-            checked={jobFilter.seasonal}
-            label="Seasonal"
-            onChange={handleJobFilterChange}
-            disabled={fetching}
-            id="seasonal"
-          />
-          <CustomInput
-            type="checkbox"
-            name="teen"
-            checked={jobFilter.teen}
-            label="Teen"
-            onChange={handleJobFilterChange}
-            disabled={fetching}
-            id="teen"
-          />
-        </FormGroup>
+          </Select>
+        </div>
+        <div className="mt-3">
+          <div className="mb-2">
+            <CustomCheckbox
+              name="partTime"
+              checked={jobFilter.partTime}
+              onChange={handleJobFilterChange}
+              disabled={fetching}
+              id="partTime"
+            />
+            <Label for="partTime">Part Time</Label>
+          </div>
+          <div className="mb-2">
+            <CustomCheckbox
+              name="seasonal"
+              checked={jobFilter.seasonal}
+              onChange={handleJobFilterChange}
+              disabled={fetching}
+              id="seasonal"
+            />
+            <Label for="seasonal">Seasonal</Label>
+          </div>
+          <div>
+            <CustomCheckbox
+              name="teen"
+              checked={jobFilter.teen}
+              onChange={handleJobFilterChange}
+              disabled={fetching}
+              id="teen"
+            />
+            <Label for="teen">Teen</Label>
+          </div>
+        </div>
         <Button
-          color="success"
+          secondary
           className={`mr-2 ${isMobile && "mt-4"}`}
           block={isMobile}
           onClick={handleFilterSubmit}
         >
           Apply
         </Button>
-        <Button color="secondary" block={isMobile} onClick={handleResetFilter}>
+        <Button grey block={isMobile} onClick={handleResetFilter}>
           Reset Filter
         </Button>
-      </Form>
+      </form>
     </div>
   );
 }

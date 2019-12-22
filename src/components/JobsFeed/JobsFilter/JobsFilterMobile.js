@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import OverlayContainer from "./OverlayContainer/OverlayContainer";
+import OverlayContainer from "../../Layout/OverlayContainer/OverlayContainer";
 import JobsFilter from "./JobsFilter";
 
 function JobsFilterMobile({ showJobSearchMobile, toggleJobSearchMobile }) {

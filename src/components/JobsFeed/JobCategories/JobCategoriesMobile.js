@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import OverlayContainer from "./OverlayContainer/OverlayContainer";
+import OverlayContainer from "../../Layout/OverlayContainer/OverlayContainer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function JobCategoriesMobile({

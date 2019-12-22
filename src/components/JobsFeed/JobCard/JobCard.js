@@ -2,13 +2,49 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
-import JobDescription from "./JobDescription";
-import JobCardBadges from "./JobCardBadges";
+import JobDescription from "../../JobDescription";
+import JobCardBadges from "../../JobCardBadges";
 import Moment from "react-moment";
 
 import styled from "styled-components";
 
 import "moment-timezone";
+
+const JobCardJobTitle = styled.div`
+  font-size: 20px;
+  margin-top: 5px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #4687ff;
+`;
+
+const JobCardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  border: 1px solid #e0dfde;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover ${JobCardJobTitle} {
+    color: #f64f64;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 1px rgba(56, 60, 67, 0.07),
+      0 0px 0px 0 rgba(56, 60, 67, 0.15);
+    transition: box-shadow 0.25s ease-out;
+  }
+`;
+
+const JobCardDate = styled.div`
+  font-size: 14px;
+  color: #757575;
+`;
 
 const JobCardViewCompanyName = styled.div`
   font-weight: 700;
@@ -23,17 +59,27 @@ const JobCardViewAddress = styled.div`
   color: #757575;
   margin-top: 4px;
 `;
+const JobCardLink = styled(Link)`
+  bottom: 0px;
+  left: 0px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  display: block;
+  z-index: 1;
+`;
 
 const JobCard = ({ job }) => {
+  console.log(job);
   return (
-    <div className="job-card">
+    <JobCardWrapper>
       <div>
-        <div className="job-card-date">
+        <JobCardDate>
           <Moment locale="ru" fromNow>
             {job.date}
           </Moment>
-        </div>
-        <div className="job-card-job-title">{job.title}</div>
+        </JobCardDate>
+        <JobCardJobTitle>{job.title}</JobCardJobTitle>
       </div>
       <JobDescription description={job.description} />
       <JobCardBadges noExperience={job.noExperience} partTime={job.partTime} />
@@ -41,8 +87,8 @@ const JobCard = ({ job }) => {
       <JobCardViewFooter>
         <JobCardViewAddress>{job.address.name}</JobCardViewAddress>
       </JobCardViewFooter>
-      <Link className="job-card-link" to={`/vacancy/${job.hashId}`}></Link>
-    </div>
+      <JobCardLink to={`/vacancy/${job.hashId}`} />
+    </JobCardWrapper>
   );
 };
 

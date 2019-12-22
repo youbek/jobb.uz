@@ -7,25 +7,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoginModal from "./modals/LoginModal";
 import RegisterModal from "./modals/RegisterModal";
 import LoginModalMobile from "./modals/LoginModalMobile";
-import JobsFilterMobile from "../JobsFilterMobile";
+import JobsFilterMobile from "../JobsFeed/JobsFilter/JobsFilterMobile";
 import MobileHeader from "./MobileHeader";
 import ProfileDropdown from "./ProfileDropdown";
 
 import Logo from "../../icons/Logo.svg";
 import { Link } from "react-router-dom";
 
-import {
-  Navbar,
-  NavbarBrand,
-  Form,
-  NavItem,
-  Input,
-  InputGroup,
-  Container,
-  Nav,
-  Button,
-  NavLink,
-} from "reactstrap";
+import Button from "../Buttons/Button";
+import ButtonLink from "../Buttons/ButtonLink";
+import NavItem from "../Navbar/NavItem";
+import NavLink from "../Navbar/NavLink";
+import FormInline from "../Form/FormInline";
+import HeaderSearch from "./HeaderSearch";
+import Navbar from "../Navbar/Navbar";
+import NavContainer from "../Navbar/NavContainer";
+import NavBrand from "../Navbar/NavBrand";
+import NavbarNav from "../Navbar/NavbarNav";
 
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -80,37 +78,29 @@ function AppHeader({ appHeaderState }) {
 
   return (
     <React.Fragment>
-      <Navbar color="dark" expand="md">
-        <Container>
-          <NavbarBrand tag={Link} to="/">
+      <Navbar>
+        <NavContainer>
+          <NavBrand to="/">
             <img src={Logo} alt="joblink-logo" />
-          </NavbarBrand>
-          <Nav className="ml-auto" navbar>
-            {
-              // MOBILE
-            }
+          </NavBrand>
+          <NavbarNav>
             {isMobileAndIsTablet && (
               <React.Fragment>
                 {authenticatedUser ? (
                   <React.Fragment>
                     <NavItem>
                       {authenticatedUser.isHr ? (
-                        <NavLink tag={Link} to="/hr">
-                          Post a Job
-                        </NavLink>
+                        <NavLink to="/hr">Post a Job</NavLink>
                       ) : (
-                        <NavLink tag={Link} to="/applicant/resume">
-                          My Resume
-                        </NavLink>
+                        <NavLink to="/applicant/resume">My Resume</NavLink>
                       )}
                     </NavItem>
                     <NavItem>
                       <NavLink
-                        tag={Link}
                         onClick={toggleProfileDropdown}
                         innerRef={userIcon}
                       >
-                        <FontAwesomeIcon icon={faUser} />
+                        <FontAwesomeIcon icon={faUser} color="#fff" />
                       </NavLink>
                     </NavItem>
                   </React.Fragment>
@@ -146,30 +136,16 @@ function AppHeader({ appHeaderState }) {
 
             {isDesktop && (
               <React.Fragment>
-                <Form inline className="mr-5">
-                  <InputGroup className="header-search">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      className="header-search-icon"
-                    />
-                    <Input
-                      placeholder="Search jobs"
-                      className="header-search-input"
-                    ></Input>
-                    <Input type="select" className="header-search-select">
-                      <option>New York</option>
-                      <option value="">Seattle</option>
-                    </Input>
-                    <Button className="btn-search-job">Search</Button>
-                  </InputGroup>
-                </Form>
+                <FormInline className="mr-4">
+                  <HeaderSearch />
+                </FormInline>
                 {authenticatedUser ? (
                   <React.Fragment>
                     <NavItem>
                       {authenticatedUser.isHr ? (
-                        <NavLink tag={Link} to="/hr">
+                        <ButtonLink className="mr-2" to="/hr">
                           Post a Job
-                        </NavLink>
+                        </ButtonLink>
                       ) : (
                         <NavLink tag={Link} to="/applicant/resume">
                           My Resume
@@ -190,10 +166,7 @@ function AppHeader({ appHeaderState }) {
                 ) : (
                   <React.Fragment>
                     <NavItem className="mr-2">
-                      <Button
-                        className="btn-custom"
-                        onClick={toggleRegisterHrModal}
-                      >
+                      <Button onClick={toggleRegisterHrModal}>
                         Post a Job
                       </Button>
                     </NavItem>
@@ -223,8 +196,8 @@ function AppHeader({ appHeaderState }) {
                 )}
               </React.Fragment>
             )}
-          </Nav>
-        </Container>
+          </NavbarNav>
+        </NavContainer>
       </Navbar>
       {showProfileDropdown && (
         <ProfileDropdown

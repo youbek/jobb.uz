@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 function JobInfo({ job }) {
+  console.log(job);
   return (
     <div>
       <h1 className="job-page-job-title">{`${job.title} at 

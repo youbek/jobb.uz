@@ -45,6 +45,11 @@ export const GET_LATEST_JOBS = gql`
       }
       noExperience
       hashId
+      companyName
+      noExperience
+      salaryFrom
+      salaryTo
+      partTime
     }
   }
 `;

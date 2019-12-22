@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
-import _ from "lodash";
-import { useMediaQuery } from "react-responsive";
+import React, { useState } from "react";
 
+import { useMediaQuery } from "react-responsive";
+import SlideButton from "./SlideButton";
+import NextButton from "./NextButton";
+import PrevButton from "./PrevButton";
+import JobCategoriesContainer from "./JobCategoriesContainer";
 import JobCategoriesMobile from "./JobCategoriesMobile";
-import {
-  CarouselProvider,
-  Slider,
-  Slide,
-  ButtonBack,
-  ButtonNext,
-} from "pure-react-carousel";
+import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { Link } from "react-router-dom";
 
@@ -28,9 +25,8 @@ import {
   faLaptopCode,
   faBrush,
   faBriefcaseMedical,
-  faArrowAltCircleRight,
-  faArrowAltCircleLeft,
   faArrowRight,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 function JobCategories() {
@@ -134,27 +130,22 @@ function JobCategories() {
   }
 
   return (
-    <div className="job-categories">
+    <JobCategoriesContainer>
       <CarouselProvider
-        naturalSlideWidth={10}
-        naturalSlideHeight={6}
+        naturalSlideWidth={12}
+        naturalSlideHeight={8}
         totalSlides={isMobile ? categories.length + 1 : categories.length}
         visibleSlides={isMobile ? 2 : isTablet ? 4 : 7}
         step={3}
         dragEnabled={isMobile}
         dragStep={2}
       >
-        <ButtonBack
+        <PrevButton
           onClick={handleBack}
-          className={`d-none d-xl-block
-            ${
-              currentSlide === 0
-                ? "btn btn-carousel-back btn-hidden"
-                : "btn btn-carousel-back"
-            }`}
+          className={`${currentSlide === 0 && "btn-hidden"}`}
         >
-          <FontAwesomeIcon icon={faArrowAltCircleLeft} size="2x" />
-        </ButtonBack>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </PrevButton>
         <Slider className="carousel-slide">
           {isMobile && (
             <Slide className="carousel-slide-item">
@@ -166,31 +157,25 @@ function JobCategories() {
           )}
           {categories.map((category, index) => (
             <Slide className="carousel-slide-item" index={index} key={index}>
-              <Link
-                className="btn-carousel"
+              <SlideButton
                 to={`${category.name.replace(/\s+/g, "-").toLowerCase()}`}
               >
                 <FontAwesomeIcon
                   icon={category.iconName}
-                  color={category.color}
+                  color="#4687ff"
                   size="lg"
                 />
                 <span>{category.name}</span>
-              </Link>
+              </SlideButton>
             </Slide>
           ))}
         </Slider>
-        <ButtonNext
+        <NextButton
           onClick={handleNext}
-          className={`d-none d-xl-block
-            ${
-              currentSlide === 6
-                ? "btn btn-carousel-back btn-hidden"
-                : "btn btn-carousel-next"
-            }`}
+          className={`${currentSlide === 6 && "btn-hidden"}`}
         >
-          <FontAwesomeIcon icon={faArrowAltCircleRight} size="2x" />
-        </ButtonNext>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </NextButton>
       </CarouselProvider>
       {showAllCategories && (
         <JobCategoriesMobile
@@ -199,7 +184,7 @@ function JobCategories() {
           categories={categories}
         />
       )}
-    </div>
+    </JobCategoriesContainer>
   );
 }
 

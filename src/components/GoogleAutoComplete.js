@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Input from "./Form/Input";
 
 // DON'T DELETE THE FOLLOWING COMMENT!
 /* global google */
@@ -31,8 +32,8 @@ class GoogleAutoComplete extends React.Component {
 
   render() {
     return (
-      <input
-        className="form-control"
+      <Input
+        right
         ref={this.autocompleteInput}
         id="autocomplete"
         placeholder="Enter location"

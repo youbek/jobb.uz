@@ -16,8 +16,8 @@ import {
   Spinner,
 } from "reactstrap";
 
-import OverlayContainer from "../../OverlayContainer/OverlayContainer";
-import OverlayContainerFooter from "../../OverlayContainer/OverlayContainerFooter";
+import OverlayContainer from "../../Layout/OverlayContainer/OverlayContainer";
+import OverlayContainerFooter from "../../Layout/OverlayContainer/OverlayContainerFooter";
 
 function LoginModalMobile({ showLoginModalMobile, toggleLoginModalMobile }) {
   const [loginUser, loginStatus] = useMutation(LOGIN_USER, {
