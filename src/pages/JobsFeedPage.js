@@ -13,9 +13,9 @@ import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
 import JobsFeedContainer from "../components/JobsFeed/JobsFeedContainer";
 import { Row, Col } from "reactstrap";
-
-import { GET_LATEST_JOBS } from "../graphql/queries";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
+
+import { GET_LATEST_JOBS, GET_POPULAR_JOB_TITLES } from "../graphql/queries";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
@@ -25,6 +25,12 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
       subCategoryName,
     },
   });
+  const getPopularJobTitlesQueryStatus = useQuery(GET_POPULAR_JOB_TITLES, {
+    variables: {
+      categoryName,
+    },
+  });
+
   const { socket } = useContext(SocketContext);
 
   const [jobs, setJobs] = useState(undefined);
@@ -71,33 +77,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
 
     setRefetching(false);
   }, [jobs, allJobFetched]);
-
-  const popularProfessions = [
-    {
-      id: 1,
-      title: "driver",
-    },
-    {
-      id: 2,
-      title: "engineer",
-    },
-    {
-      id: 3,
-      title: "clerk",
-    },
-    {
-      id: 4,
-      title: "cashier",
-    },
-    {
-      id: 5,
-      title: "salesperson",
-    },
-    {
-      id: 6,
-      title: "manager",
-    },
-  ];
 
   function trackFeedBottom() {
     if (getLatestJobQuery.loading || allJobFetched || refetching) {
@@ -155,6 +134,12 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
         return;
       },
     });
+
+    getPopularJobTitlesQueryStatus.fetchMore({
+      variables: {
+        categoryName,
+      },
+    });
   }
 
   function onNewJob(job) {
@@ -168,6 +153,8 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
 
     setJobs([job, ...jobs]);
   }
+
+  console.log(getPopularJobTitlesQueryStatus.data);
 
   return (
     <React.Fragment>
@@ -197,7 +184,11 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
             {categoryName && !subCategoryName && (
               <PopularJobTitles
                 categoryName={categoryName}
-                popularProfessions={popularProfessions}
+                popularProfessions={
+                  getPopularJobTitlesQueryStatus.data
+                    ? getPopularJobTitlesQueryStatus.data.getPopularJobTitles
+                    : []
+                }
                 currentUrl={currentUrl}
               />
             )}

@@ -1,10 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
-import capitalize from "lodash/capitalize";
-import _ from "lodash";
 
-function PopularJobTitles({ categoryName, popularProfessions, currentUrl }) {
+import capitalize from "lodash/capitalize";
+
+function PopularJobTitles({ popularProfessions, currentUrl }) {
   return (
     <div className="popular-job-titles mb-4">
       <div className="popular-jobs-title h6">Popular Job Titles</div>
@@ -17,7 +19,7 @@ function PopularJobTitles({ categoryName, popularProfessions, currentUrl }) {
             tag={Link}
             to={`${currentUrl}/${profession.title}`}
           >
-            {capitalize(profession.title)}
+            {capitalize(profession.name)}
           </Button>
         ))}
       </div>
@@ -25,8 +27,9 @@ function PopularJobTitles({ categoryName, popularProfessions, currentUrl }) {
   );
 }
 
-PopularJobTitles.defaultProps = {
-  currentUrl: "",
+PopularJobTitles.propTypes = {
+  popularProfessions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentUrl: PropTypes.string.isRequired,
 };
 
 export default PopularJobTitles;
