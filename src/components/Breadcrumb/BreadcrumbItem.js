@@ -6,6 +6,15 @@ const BreadcrumbItem = styled.li`
   padding-bottom: 10px;
   font-size: 14px;
 
+  a {
+    color: #fff9;
+
+    &:hover {
+      color: #fff9;
+      text-decoration: none;
+    }
+  }
+
   & + & {
     padding-left: 0.5rem;
   }

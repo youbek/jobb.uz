@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { SocketContext } from "../context/SocketContext";
 
 import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
-import JobsFeed from "../components/JobsFeed";
+import JobsFeed from "../components/JobsFeed/JobsFeed";
 import JobsFilter from "../components/JobsFeed/JobsFilter/JobsFilter";
-import PopularJobTitles from "../components/PopularJobTitles";
+import PopularJobTitles from "../components/JobsFeed/PopularJobTitles";
 
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
@@ -17,7 +17,7 @@ import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 
 import { GET_LATEST_JOBS, GET_POPULAR_JOB_TITLES } from "../graphql/queries";
 
-function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
+function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
       limit: 2,
@@ -155,6 +155,8 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl }) {
   }
 
   console.log(getPopularJobTitlesQueryStatus.data);
+
+  console.log(match);
 
   return (
     <React.Fragment>

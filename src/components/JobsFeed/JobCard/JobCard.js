@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
-import JobDescription from "../../JobDescription";
-import JobCardBadges from "../../JobCardBadges";
+import JobDescription from "./JobDescription";
+import JobCardBadges from "./JobCardBadges";
 import Moment from "react-moment";
 
 import styled from "styled-components";
@@ -15,7 +15,7 @@ const JobCardJobTitle = styled.div`
   margin-top: 5px;
   font-weight: 700;
   line-height: 1.5;
-  color: #4687ff;
+  color: #383c43;
 `;
 
 const JobCardWrapper = styled.div`
@@ -70,13 +70,13 @@ const JobCardLink = styled(Link)`
 `;
 
 const JobCard = ({ job }) => {
-  console.log(job);
+  const date = new Date(Number(job.date)).toString();
   return (
     <JobCardWrapper>
       <div>
         <JobCardDate>
           <Moment locale="ru" fromNow>
-            {job.date}
+            {new Date(date)}
           </Moment>
         </JobCardDate>
         <JobCardJobTitle>{job.title}</JobCardJobTitle>

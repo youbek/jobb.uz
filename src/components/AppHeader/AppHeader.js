@@ -32,41 +32,21 @@ function AppHeader({ appHeaderState }) {
     query: "(max-device-width: 992px )",
   });
   const isDesktop = useMediaQuery({ query: "(min-device-width: 992px )" });
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [showRegisterHrModal, setShowRegisterHrModal] = useState(false);
-  const [showJobSearchMobile, setShowJobSearchMobile] = useState(false);
-  const [showLoginModalMobile, setShowLoginModalMobile] = useState(false);
+  const [openModal, setOpenModal] = useState({
+    login: false,
+    register: false,
+    registerHr: false,
+    jobSearchMobile: false,
+    loginMobile: false,
+  });
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const userIcon = React.createRef();
 
-  const [showModals, setShowModals] = useState(false);
-
   const { authenticatedUser } = useContext(AuthContext);
 
-  function toggleModals(modal) {
-    setShowModals(!modal);
-  }
-
-  function toggleLoginModal() {
-    setShowLoginModal(!showLoginModal);
-  }
-
-  function toggleRegisterModal() {
-    setShowRegisterModal(!showRegisterModal);
-  }
-
-  function toggleRegisterHrModal() {
-    setShowRegisterHrModal(!showRegisterHrModal);
-  }
-
-  function toggleJobSearchMobile() {
-    setShowJobSearchMobile(!showJobSearchMobile);
-  }
-
-  function toggleLoginModalMobile() {
-    setShowLoginModalMobile(!showLoginModalMobile);
-  }
+  const toggleModals = modal => {
+    setOpenModal({ ...openModal, [modal]: !openModal[modal] });
+  };
 
   function toggleProfileDropdown() {
     setShowProfileDropdown(!showProfileDropdown);
@@ -109,26 +89,31 @@ function AppHeader({ appHeaderState }) {
                     <NavItem>
                       <NavLink
                         className="mr-3 text-muted"
-                        onClick={toggleLoginModalMobile}
+                        onClick={() => toggleModals("loginMobile")}
                       >
                         Login
                       </NavLink>
                     </NavItem>
                   </React.Fragment>
                 )}
-                <a className="mobile-search" onClick={toggleJobSearchMobile}>
+                <a
+                  className="mobile-search"
+                  onClick={() => toggleModals("jobSearchMobile")}
+                >
                   <FontAwesomeIcon icon={faSearch} color="#fff" />
                 </a>
-                {showJobSearchMobile && (
+                {openModal.jobSearchMobile && (
                   <JobsFilterMobile
-                    showJobSearchMobile={showJobSearchMobile}
-                    toggleJobSearchMobile={toggleJobSearchMobile}
+                    showJobSearchMobile={openModal.jobSearchMobile}
+                    toggleJobSearchMobile={() =>
+                      toggleModals("jobSearchMobile")
+                    }
                   />
                 )}
-                {showLoginModalMobile && (
+                {openModal.loginMobile && (
                   <LoginModalMobile
-                    showLoginModalMobile={showLoginModalMobile}
-                    toggleLoginModalMobile={toggleLoginModalMobile}
+                    showLoginModalMobile={openModal.loginMobile}
+                    toggleLoginModalMobile={() => toggleModals("loginMobile")}
                   />
                 )}
               </React.Fragment>
@@ -143,9 +128,7 @@ function AppHeader({ appHeaderState }) {
                   <React.Fragment>
                     <NavItem>
                       {authenticatedUser.isHr ? (
-                        <ButtonLink className="mr-2" to="/hr">
-                          Post a Job
-                        </ButtonLink>
+                        <ButtonLink to="/hr">Post a Job</ButtonLink>
                       ) : (
                         <NavLink tag={Link} to="/applicant/resume">
                           My Resume
@@ -165,33 +148,37 @@ function AppHeader({ appHeaderState }) {
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <NavItem className="mr-2">
-                      <Button onClick={toggleRegisterHrModal}>
+                    <NavItem>
+                      <Button onClick={() => toggleModals("registerHr")}>
                         Post a Job
                       </Button>
                     </NavItem>
                     <NavItem>
-                      <NavLink onClick={toggleRegisterModal}>Register</NavLink>
+                      <NavLink onClick={() => toggleModals("register")}>
+                        Register
+                      </NavLink>
                     </NavItem>
                     <NavItem>
-                      <NavLink onClick={toggleLoginModal}>Login</NavLink>
+                      <NavLink onClick={() => toggleModals("login")}>
+                        Login
+                      </NavLink>
                     </NavItem>
                   </React.Fragment>
                 )}
-                {showLoginModal && (
+                {openModal.login && (
                   <LoginModal
-                    showLoginModal={showLoginModal}
-                    toggleLoginModal={toggleLoginModal}
-                    toggleRegisterModal={toggleRegisterModal}
+                    showLoginModal={openModal.login}
+                    toggleLoginModal={() => toggleModals("login")}
+                    toggleRegisterModal={() => toggleModals("register")}
                   />
                 )}
-                {(showRegisterModal || showRegisterHrModal) && (
+                {(openModal.register || openModal.registerHr) && (
                   <RegisterModal
-                    isHr={showRegisterHrModal}
-                    showRegisterModal={showRegisterModal}
-                    toggleRegisterModal={toggleRegisterModal}
-                    toggleRegisterHrModal={toggleRegisterHrModal}
-                    toggleLoginModal={toggleLoginModal}
+                    isHr={openModal.registerHr}
+                    showRegisterModal={openModal.register}
+                    toggleRegisterModal={() => toggleModals("register")}
+                    toggleRegisterHrModal={() => toggleModals("registerHr")}
+                    toggleLoginModal={() => toggleModals("login")}
                   />
                 )}
               </React.Fragment>

@@ -64,6 +64,7 @@ function Layout() {
             unLoggedProtected={true}
             Component={ProfilePage}
           />
+
           <Route
             exact
             path="/:categoryName?/:subCategoryName?"

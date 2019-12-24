@@ -96,7 +96,7 @@ function JobsFilter() {
         )}
         <div className="mb-4">
           <Label for="location">Search Area</Label>
-          <div className="filter-location">
+          <div className="d-flex">
             <GoogleAutoComplete
               fetching={fetching}
               handlePlaceChange={handlePlaceChange}
@@ -160,17 +160,19 @@ function JobsFilter() {
             <Label for="teen">Teen</Label>
           </div>
         </div>
-        <Button
-          secondary
-          className={`mr-2 ${isMobile && "mt-4"}`}
-          block={isMobile}
-          onClick={handleFilterSubmit}
-        >
-          Apply
-        </Button>
-        <Button grey block={isMobile} onClick={handleResetFilter}>
-          Reset Filter
-        </Button>
+        <div className="mt-3">
+          <Button
+            secondary
+            className={`mr-2 ${isMobile && "mt-4"}`}
+            block={isMobile}
+            onClick={handleFilterSubmit}
+          >
+            Apply
+          </Button>
+          <Button grey block={isMobile} onClick={handleResetFilter}>
+            Reset Filter
+          </Button>
+        </div>
       </form>
     </div>
   );

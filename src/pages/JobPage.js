@@ -3,14 +3,20 @@ import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { Redirect, Link } from "react-router-dom";
 
-import JobInfo from "../components/JobInfo";
-import { StaticGoogleMap, Marker } from "react-static-google-map";
-import { Breadcrumb, BreadcrumbItem, Container, Row, Col } from "reactstrap";
+import JobInfo from "../components/JobPage/JobInfo";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
+import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
+import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
+import JobPageContainer from "../components/JobPage/JobPageContainer";
+import Row from "../components/Layout/Row";
 
 import { SocketContext } from "../context/SocketContext";
 import { AppHeaderContext } from "../context/AppHeaderContext";
 
 import { GET_JOB } from "../graphql/queries/index";
+import JobAddressAndRecruiter from "../components/JobPage/JobAddressAndRecruiter";
+import Spinner from "../components/Spinner/Spinner";
+import JobPageSpinner from "../components/JobPage/JobPageSpinner";
 
 function JobPage({ hashId }) {
   const getJobQuery = useQuery(GET_JOB, {
@@ -69,7 +75,7 @@ function JobPage({ hashId }) {
 
   if (getJobQuery.error) throw new Error(`Error ${getJobQuery.error.message}`);
 
-  if (getJobQuery.loading || job === undefined) return <div></div>;
+  if (getJobQuery.loading || job === undefined) return <JobPageSpinner />;
 
   if (!getJobQuery.data || !getJobQuery.data.job) {
     return <Redirect to="/404" />;
@@ -78,43 +84,28 @@ function JobPage({ hashId }) {
   return (
     <React.Fragment>
       <Breadcrumb>
-        <Container>
+        <BreadcrumbContainer>
           <BreadcrumbItem>{<Link to="">New York</Link>}</BreadcrumbItem>
-          <BreadcrumbItem>{<Link to="">{job.category}</Link>}</BreadcrumbItem>
-        </Container>
+          <BreadcrumbItem>
+            {
+              <Link to={`/${job.category.replace(/\s+/g, "-").toLowerCase()}`}>
+                {job.category}
+              </Link>
+            }
+          </BreadcrumbItem>
+        </BreadcrumbContainer>
       </Breadcrumb>
-      <Container className="full-container">
+      <JobPageContainer>
         <Row>
-          <Col md="8">
-            <JobInfo job={job} />
-          </Col>
-          <Col
-            md="4"
-            className="address-and-employer-details d-none d-xl-block"
-          >
-            <div className="job-location ml-2">
-              <div className="job-location-map">
-                <StaticGoogleMap
-                  size="300x120"
-                  apiKey="AIzaSyATyzWeCcSuG_szpR2IjHm79kq9YcSUQh0"
-                >
-                  <Marker location={`${job.address.lat},${job.address.long}`} />
-                </StaticGoogleMap>
-                <div className="job-location-address mt-2">
-                  Address<p>{job.address.name}</p>
-                </div>
-              </div>
-              <div className="employer-details">
-                Recruiter
-                <p>
-                  {`${job.author.firstName} ${job.author.lastName}`}{" "}
-                  <span status={!job.author.status ? "false" : "true"}></span>
-                </p>
-              </div>
-            </div>
-          </Col>
+          <JobInfo job={job} />
+          <JobAddressAndRecruiter
+            location={`${job.address.lat},${job.address.long}`}
+            address={job.address.name}
+            recruiter={`${job.author.firstName} ${job.author.lastName}`}
+            status={!job.author.status ? "false" : "true"}
+          />
         </Row>
-      </Container>
+      </JobPageContainer>
     </React.Fragment>
   );
 }

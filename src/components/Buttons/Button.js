@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Button = styled.button`
   display: inline-block;
-  font-weight: 400;
+  font-weight: 600;
   border: 0;
   color: ${props => (props.grey ? "#5B5E64" : "#fff")};
   text-align: center;
@@ -16,7 +16,7 @@ const Button = styled.button`
     }
   }};
   padding: 0.62rem 1.5rem;
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5;
   border: ${props => props.grey && "1px solid #CBD1D4"};
   border-radius: 0.25rem;
