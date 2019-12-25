@@ -2,7 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { AuthContext } from "../context/AuthContext";
 
-import { Container, Row, Col, Input, Button, Collapse } from "reactstrap";
+import ProfileContainer from "../components/ProfilePage/ProfileContainer";
+import Row from "../components/Layout/Row";
+import Col8 from "../components/Layout/Col8";
+import TableRow from "../components/ProfilePage/TableRow";
+import TableCol from "../components/ProfilePage/TableCol";
+import Button from "../components/Buttons/Button";
+import Input from "../components/Form/Input";
+import TableCollapse from "../components/ProfilePage/TableCollapse";
 
 import { EDIT_USER, DELETE_USER } from "../graphql/mutations";
 
@@ -93,25 +100,22 @@ function ProfilePage() {
   const isLoading = editUserStatus.loading || submitted;
 
   return (
-    <Container>
-      <Row className=" profile-page mt-5">
-        <Col md="8">
+    <ProfileContainer>
+      <Row>
+        <Col8>
           <h2>Profile settings</h2>
-          <div className="profile-settings mt-3">
-            <Row className="profile-table">
-              <Col>Name</Col>
-              <Col>{`${firstName} ${lastName}`}</Col>
-              <Col align="right">
-                <Button color="link" onClick={() => toggleSettings("name")}>
-                  {activeSettings === "name" && submitted ? "Edited" : "Edit"}
-                </Button>
-              </Col>
-            </Row>
-            <Collapse
-              isOpen={activeSettings === "name"}
-              className="row profile-edit-table"
-            >
-              <Col>
+          <div>
+            <TableRow
+              name="Name"
+              value={`${firstName} ${lastName}`}
+              button={
+                activeSettings === "name" && submitted ? "Edited" : "Edit"
+              }
+              onClick={() => toggleSettings("name")}
+              activeSettings={activeSettings}
+            />
+            <TableCollapse isOpen={activeSettings === "name"}>
+              <TableCol>
                 <Input
                   placeholder="First name"
                   value={newFirstName}
@@ -119,8 +123,8 @@ function ProfilePage() {
                   valid={activeSettings === "name" && submitted}
                   onChange={e => setNewFirstName(e.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Input
                   placeholder="Last name"
                   value={newLastName}
@@ -128,8 +132,8 @@ function ProfilePage() {
                   valid={activeSettings === "name" && submitted}
                   onChange={e => setNewLastName(e.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Button
                   color="primary"
                   disabled={isLoading}
@@ -137,23 +141,17 @@ function ProfilePage() {
                 >
                   {activeSettings === "name" && submitted ? "Saved" : "Save"}
                 </Button>
-              </Col>
-            </Collapse>
-            <Row>
-              <Col>Email</Col>
-              <Col>{email}</Col>
-              <Col align="right">
-                <Button color="link" onClick={() => toggleSettings("email")}>
-                  Change
-                </Button>
-              </Col>
-            </Row>
-            <Collapse
-              isOpen={activeSettings === "email"}
-              className="row profile-edit-table"
-            >
-              <Col>New email</Col>
-              <Col>
+              </TableCol>
+            </TableCollapse>
+            <TableRow
+              name="Email"
+              value={email}
+              button="Change"
+              onClick={() => toggleSettings("email")}
+            />
+            <TableCollapse isOpen={activeSettings === "email"}>
+              <TableCol>New email</TableCol>
+              <TableCol>
                 <Input
                   placeholder="New email address"
                   value={newEmail}
@@ -161,8 +159,8 @@ function ProfilePage() {
                   valid={activeSettings === "email" && submitted}
                   onChange={event => setNewEmail(event.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Button
                   color="primary"
                   disabled={isLoading}
@@ -170,22 +168,16 @@ function ProfilePage() {
                 >
                   {activeSettings === "email" && submitted ? "Saved" : "Save"}
                 </Button>
-              </Col>
-            </Collapse>
-            <Row>
-              <Col>Password</Col>
-              <Col>*******</Col>
-              <Col align="right">
-                <Button color="link" onClick={() => toggleSettings("password")}>
-                  Change
-                </Button>
-              </Col>
-            </Row>
-            <Collapse
-              isOpen={activeSettings === "password"}
-              className="row profile-edit-table"
-            >
-              <Col>
+              </TableCol>
+            </TableCollapse>
+            <TableRow
+              name="Password"
+              value="*******"
+              button="Change"
+              onClick={() => toggleSettings("password")}
+            />
+            <TableCollapse isOpen={activeSettings === "password"}>
+              <TableCol>
                 <Input
                   placeholder="Old password"
                   value={lastPassword}
@@ -193,8 +185,8 @@ function ProfilePage() {
                   valid={activeSettings === "password" && submitted}
                   onChange={e => setLastPassword(e.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Input
                   placeholder="New password"
                   value={newPassword}
@@ -202,8 +194,8 @@ function ProfilePage() {
                   valid={activeSettings === "password" && submitted}
                   onChange={e => setNewPassword(e.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Button
                   color="primary"
                   disabled={isLoading}
@@ -213,28 +205,19 @@ function ProfilePage() {
                     ? "Saved"
                     : "Save"}
                 </Button>
-              </Col>
-            </Collapse>
-            <Row>
-              <Col>Phone Number</Col>
-              <Col>{phoneNumber ? phoneNumber : "Not provided"}</Col>
-              <Col align="right">
-                <Button
-                  color="link"
-                  onClick={() => toggleSettings("phoneNumber")}
-                >
-                  {phoneNumber ? "Edit" : "Add"}
-                </Button>
-              </Col>
-            </Row>
-            <Collapse
-              isOpen={activeSettings === "phoneNumber"}
-              className="row profile-edit-table"
-            >
-              <Col>
+              </TableCol>
+            </TableCollapse>
+            <TableRow
+              name="Phone Number"
+              value={phoneNumber ? phoneNumber : "Not provided"}
+              button={phoneNumber ? "Edit" : "Add"}
+              onClick={() => toggleSettings("phoneNumber")}
+            />
+            <TableCollapse isOpen={activeSettings === "phoneNumber"}>
+              <TableCol>
                 {phoneNumber ? "Edit phone number" : "Add phone number "}
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Input
                   placeholder="Phone number"
                   value={newPhoneNumber}
@@ -242,8 +225,8 @@ function ProfilePage() {
                   disabled={isLoading}
                   onChange={e => setNewPhoneNumber(e.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Button
                   color="primary"
                   disabled={isLoading}
@@ -254,43 +237,27 @@ function ProfilePage() {
                     ? "Saved"
                     : "Save"}
                 </Button>
-              </Col>
-            </Collapse>
-            <Row>
-              <Col>Address</Col>
-              <Col>{address ? address : "Not Provided"}</Col>
-              <Col align="right">
-                {address ? (
-                  <Button
-                    color="link"
-                    onClick={() => toggleSettings("address")}
-                  >
-                    Edit
-                  </Button>
-                ) : (
-                  <Button
-                    color="link"
-                    onClick={() => toggleSettings("address")}
-                  >
-                    Add
-                  </Button>
-                )}
-              </Col>
-            </Row>
-            <Collapse
-              isOpen={activeSettings === "address"}
-              className="row profile-edit-table"
-            >
-              <Col>{address ? "Edit address" : "Add new address"}</Col>
-              <Col>
+              </TableCol>
+            </TableCollapse>
+            <TableRow
+              name="Address"
+              value={address ? address : "Not Provided"}
+              button={address ? "Edit" : "Add"}
+              onClick={() => toggleSettings("address")}
+            />
+            <TableCollapse isOpen={activeSettings === "address"}>
+              <TableCol>
+                {address ? "Edit address" : "Add new address"}
+              </TableCol>
+              <TableCol>
                 <Input
                   placeholder="Address"
                   value={newAddress}
                   disabled={isLoading}
                   onChange={e => setNewAddress(e.target.value)}
                 />
-              </Col>
-              <Col>
+              </TableCol>
+              <TableCol>
                 <Button
                   color="primary"
                   disabled={isLoading}
@@ -298,23 +265,16 @@ function ProfilePage() {
                 >
                   Save
                 </Button>
-              </Col>
-            </Collapse>
-            <Row>
-              <Col className="text-right">
-                <Button
-                  className="mt-4 text-muted"
-                  color="link"
-                  onClick={handleDeleteUser}
-                >
-                  Delete Account
-                </Button>
-              </Col>
-            </Row>
+              </TableCol>
+            </TableCollapse>
+
+            <Button className="mt-4" onClick={handleDeleteUser}>
+              Delete Account
+            </Button>
           </div>
-        </Col>
+        </Col8>
       </Row>
-    </Container>
+    </ProfileContainer>
   );
 }
 
