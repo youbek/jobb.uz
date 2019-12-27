@@ -18,7 +18,7 @@ function HeaderSearch() {
   return (
     <InputGroup>
       <SearchIcon icon={faSearch} />
-      <Input hasIcon width="250px" placeholder="Поиск работы" />
+      <Input hasIcon width="350px" placeholder="Поиск работы" />
       <Button secondary className="ml-2">
         Найти
       </Button>

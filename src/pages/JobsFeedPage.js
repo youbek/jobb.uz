@@ -39,11 +39,9 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 
   useEffect(() => {
     document.addEventListener("scroll", trackFeedBottom);
-    socket.on("newJob", onNewJob);
 
     return () => {
       document.removeEventListener("scroll", trackFeedBottom);
-      socket.off("newJob", onNewJob);
     };
   });
 
@@ -163,7 +161,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
       <nav>
         <Breadcrumb>
           <BreadcrumbContainer>
-            <BreadcrumbItem>New York</BreadcrumbItem>
+            <BreadcrumbItem>Работа в Ташкенте</BreadcrumbItem>
             {categoryName && <BreadcrumbItem>{categoryName}</BreadcrumbItem>}
             {subCategoryName && (
               <BreadcrumbItem>{subCategoryName}</BreadcrumbItem>

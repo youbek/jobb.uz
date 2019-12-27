@@ -36,7 +36,7 @@ const customStyles = {
     ...provided,
     borderRadius: 0,
     borderColor: "#ced4da",
-    minHeight: "calc(1.5em + 0.75rem + 2px)",
+    minHeight: "45px",
     "&:hover": {
       borderColor: "#ced4da",
       cursor: "auto",

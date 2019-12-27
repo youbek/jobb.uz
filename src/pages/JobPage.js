@@ -10,12 +10,12 @@ import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
 import JobPageContainer from "../components/JobPage/JobPageContainer";
 import Row from "../components/Layout/Row";
 
-import { SocketContext } from "../context/SocketContext";
+import SimilarJobsFeed from "../components/JobsFeed/SimilarJobsFeed";
+
 import { AppHeaderContext } from "../context/AppHeaderContext";
 
 import { GET_JOB } from "../graphql/queries/index";
 import JobAddressAndRecruiter from "../components/JobPage/JobAddressAndRecruiter";
-import Spinner from "../components/Spinner/Spinner";
 import JobPageSpinner from "../components/JobPage/JobPageSpinner";
 
 function JobPage({ hashId }) {
@@ -24,14 +24,8 @@ function JobPage({ hashId }) {
   });
 
   const [job, setJob] = useState(undefined);
-  const { socket } = useContext(SocketContext);
+
   const { appHeaderState, setAppHeaderState } = useContext(AppHeaderContext);
-
-  useEffect(() => {
-    socket.on("userDisconnected", trackUserDisconnection);
-
-    return () => socket.off("userDisconnected", trackUserDisconnection);
-  }, []);
 
   useEffect(() => {
     if (getJobQuery.data) {
@@ -43,36 +37,6 @@ function JobPage({ hashId }) {
     }
   }, [getJobQuery]);
 
-  useEffect(() => {
-    if (!job || "status" in job.author) {
-      return;
-    }
-
-    socket.emit("checkUserOnlineStatus", job.author.hashId, status => {
-      setJob({
-        ...job,
-        author: {
-          ...job.author,
-          status,
-        },
-      });
-    });
-  }, [job]);
-
-  function trackUserDisconnection(disconnectedUserId) {
-    if (job || disconnectedUserId !== job.author.hashId) {
-      return;
-    }
-
-    setJob({
-      ...job,
-      author: {
-        ...job.author,
-        status: false,
-      },
-    });
-  }
-
   if (getJobQuery.error) throw new Error(`Error ${getJobQuery.error.message}`);
 
   if (getJobQuery.loading || job === undefined) return <JobPageSpinner />;
@@ -80,6 +44,8 @@ function JobPage({ hashId }) {
   if (!getJobQuery.data || !getJobQuery.data.job) {
     return <Redirect to="/404" />;
   }
+
+  const similarJobs = [];
 
   return (
     <React.Fragment>
@@ -102,8 +68,10 @@ function JobPage({ hashId }) {
             location={`${job.address.lat},${job.address.long}`}
             address={job.address.name}
             recruiter={`${job.author.firstName} ${job.author.lastName}`}
-            status={!job.author.status ? "false" : "true"}
           />
+        </Row>
+        <Row>
+          <SimilarJobsFeed similarJobs={similarJobs} />
         </Row>
       </JobPageContainer>
     </React.Fragment>

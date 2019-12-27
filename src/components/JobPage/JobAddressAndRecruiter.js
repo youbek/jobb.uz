@@ -40,7 +40,7 @@ const JobAddressAndEmployer = styled.div`
   }
 `;
 
-function JobAddressAndRecruiter({ location, address, recruiter, status }) {
+function JobAddressAndRecruiter({ location, address }) {
   return (
     <Col4>
       <JobLocation>
@@ -52,14 +52,7 @@ function JobAddressAndRecruiter({ location, address, recruiter, status }) {
             <Marker location={location} />
           </StaticGoogleMap>
           <JobAddressAndEmployer>
-            Address<p>{address}</p>
-          </JobAddressAndEmployer>
-          <JobAddressAndEmployer>
-            Recruiter
-            <p>
-              {recruiter}
-              <span status={status}></span>
-            </p>
+            Местоположение<p>{address}</p>
           </JobAddressAndEmployer>
         </JobLocationMap>
       </JobLocation>

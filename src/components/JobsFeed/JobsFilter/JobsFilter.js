@@ -5,33 +5,33 @@ import Label from "../../Form/Label";
 import Input from "../../Form/Input";
 import Select from "../../Form/Select";
 import CustomCheckbox from "../../Form/CustomCheckbox";
-import Button from "../../Buttons/Button";
+import FilterActions from "../../JobsFeed/JobsFilter/FilterActions";
 
 import GoogleAutoComplete from "../../GoogleAutoComplete";
 
-// STYLED COMPONENT
-const SelectRadius = styled(Select)`
-  width: 50%;
-  border-left: hidden;
-`;
+import { default as ReactSelect } from "react-select";
+
+// REACT SELECT CUSTOM STYLE
+const customStyles = {
+  control: provided => ({
+    ...provided,
+    borderColor: "#ced4da",
+    minHeight: "45px",
+    "&:hover": {
+      borderColor: "#ced4da",
+      cursor: "auto",
+    },
+  }),
+};
 
 function JobsFilter() {
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
   // CONTROLLING FILTER INPUTS LOCATION , RADIUS, CATEGORY
   const [jobFilter, setJobFilter] = useState({
-    location: "",
-    radius: "",
+    district: "",
     category: "",
     partTime: false,
-    seasonal: false,
-    teen: false,
-  });
-
-  // ADDITIONAL FILTER OPTIONS SUCH AS PART-TIME AND TEEN
-  const [filterCheckbox, setFilterCheckbox] = useState({
-    partTime: false,
-    seasonal: false,
-    teen: false,
+    noExperience: false,
   });
 
   const [fetching, setFetching] = useState(false);
@@ -58,10 +58,6 @@ function JobsFilter() {
     }, 2000);
   }, [fetching]);
 
-  function handlePlaceChange(place) {
-    setJobFilter({ ...jobFilter, location: place });
-  }
-
   function handleJobFilterChange(event) {
     const { name, value, checked, type } = event.target;
     setJobFilter({
@@ -76,13 +72,29 @@ function JobsFilter() {
 
   function handleResetFilter() {
     setJobFilter({
-      location: "",
-      radius: "",
+      district: "",
       category: "",
       partTime: false,
-      seasonal: false,
-      teen: false,
+      noExperience: false,
     });
+  }
+
+  const districts = [
+    { value: "Алмазарский район", label: "Алмазарский район" },
+    { value: "Бектемирский район", label: "Бектемирский район" },
+    { value: "Мирабадский район", label: "Мирабадский район" },
+    { value: "Мирзо-Улугбекский район", label: "Мирзо-Улугбекский район" },
+    { value: "Сергелийский район", label: "Сергелийский район" },
+    { value: "Учтепинский район", label: "Учтепинский район" },
+    { value: "Чиланзарский район", label: "Чиланзарский район" },
+    { value: "Шайхантахурский район", label: "Шайхантахурский район" },
+    { value: "Юнусабадский район", label: "Юнусабадский район" },
+    { value: "Яккасарайский район", label: "Яккасарайский район" },
+    { value: "Яшнабадский район", label: "Яшнабадский район" },
+  ];
+
+  function handleDistrictChange(selectedDistrict) {
+    setJobFilter({ ...jobFilter, district: selectedDistrict.value });
   }
 
   return (
@@ -90,33 +102,26 @@ function JobsFilter() {
       <form>
         {isMobile && (
           <div className="mb-4">
-            <Label for="search">Search</Label>
+            <Label for="search">Поиск</Label>
             <Input placeholder="Enter job title" />
           </div>
         )}
         <div className="mb-4">
-          <Label for="location">Search Area</Label>
-          <div className="d-flex">
-            <GoogleAutoComplete
-              fetching={fetching}
-              handlePlaceChange={handlePlaceChange}
-            />
-            <SelectRadius
-              left
-              name="radius"
-              value={jobFilter.radius}
-              disabled={fetching}
-              onChange={handleJobFilterChange}
-            >
-              <option value={jobFilter.radius}>5 miles</option>
-              <option value={jobFilter.radius}>10 miles</option>
-              <option value={jobFilter.radius}>20 miles</option>
-              <option value={jobFilter.radius}>50 miles</option>
-            </SelectRadius>
-          </div>
+          <Label for="location">Район поиска</Label>
+          <ReactSelect
+            id="location"
+            placeholder="Введите район поиска"
+            name="jobDistrict"
+            value={{ value: jobFilter.district, label: jobFilter.district }}
+            options={districts}
+            disabled={fetching}
+            onChange={handleDistrictChange}
+            styles={customStyles}
+            isLoading={fetching}
+          />
         </div>
         <div>
-          <Label for="category">Category</Label>
+          <Label for="category">Категория</Label>
           <Select
             id="category"
             placeholder="Select a category"
@@ -137,42 +142,24 @@ function JobsFilter() {
               disabled={fetching}
               id="partTime"
             />
-            <Label for="partTime">Part Time</Label>
+            <Label for="partTime">Неполный рабочий день</Label>
           </div>
           <div className="mb-2">
             <CustomCheckbox
-              name="seasonal"
-              checked={jobFilter.seasonal}
+              name="noExperience"
+              checked={jobFilter.noExperience}
               onChange={handleJobFilterChange}
               disabled={fetching}
-              id="seasonal"
+              id="noExperience"
             />
-            <Label for="seasonal">Seasonal</Label>
-          </div>
-          <div>
-            <CustomCheckbox
-              name="teen"
-              checked={jobFilter.teen}
-              onChange={handleJobFilterChange}
-              disabled={fetching}
-              id="teen"
-            />
-            <Label for="teen">Teen</Label>
+            <Label for="noExperience">Без опыта</Label>
           </div>
         </div>
-        <div className="mt-3">
-          <Button
-            secondary
-            className={`mr-2 ${isMobile && "mt-4"}`}
-            block={isMobile}
-            onClick={handleFilterSubmit}
-          >
-            Apply
-          </Button>
-          <Button grey block={isMobile} onClick={handleResetFilter}>
-            Reset Filter
-          </Button>
-        </div>
+        <FilterActions
+          isMobile={isMobile}
+          handleResetFilter={handleResetFilter}
+          handleFilterSubmit={handleFilterSubmit}
+        />
       </form>
     </div>
   );

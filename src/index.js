@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import "moment/locale/ru";
 
 import App from "./app/App";
 

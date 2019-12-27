@@ -29,12 +29,11 @@ const JobBadge = styled.span`
     }};
 `;
 
-function JobCardBadges({ noExperience, partTime, teen }) {
+function JobCardBadges({ noExperience, partTime }) {
   return (
     <BadgeWrapper>
-      {noExperience && <JobBadge blue>No Experience</JobBadge>}
-      {partTime && <JobBadge>Part-time</JobBadge>}
-      {teen && <JobBadge green>Teen</JobBadge>}
+      {noExperience && <JobBadge blue>Без опыта</JobBadge>}
+      {partTime && <JobBadge>Неполный день</JobBadge>}
     </BadgeWrapper>
   );
 }

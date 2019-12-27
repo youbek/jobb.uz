@@ -45,10 +45,9 @@ function JobInfo({ job }) {
   const date = new Date(Number(job.date)).toString();
   return (
     <Col8>
-      <JobTitle>{`${job.title} at 
-        ${job.companyName} `}</JobTitle>
-      <JobSalary className="job-page-salary">{`Salary  
-        $${job.salaryFrom} - $${job.salaryTo} /hour`}</JobSalary>
+      <JobTitle>{job.title}</JobTitle>
+      <JobSalary className="job-page-salary">{`от  
+        $${job.salaryFrom} до $${job.salaryTo} в месяц`}</JobSalary>
 
       <JobCardBadges
         partTime={job.partTime}
@@ -59,7 +58,7 @@ function JobInfo({ job }) {
       <JobDescription>{job.description}</JobDescription>
       <JobDate>
         <FontAwesomeIcon icon={faClock} color="#6c757d" className="mr-2" />
-        <Moment fromNow className="text-muted">
+        <Moment locale="ru" fromNow className="text-muted">
           {new Date(date)}
         </Moment>
       </JobDate>

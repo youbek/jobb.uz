@@ -10,11 +10,10 @@ function JobsFeed({ jobs, loading }) {
     <div>
       {// IF NO JOBS FOUND
       Array.isArray(jobs) && jobs.length === 0 && <JobsFeedEmpty />}
-
       {// ELSE
-      jobs.map((job, index) => (
-        <JobCard key={index} job={job}></JobCard>
-      ))}
+      Array.isArray(jobs) &&
+        jobs.length > 0 &&
+        jobs.map((job, index) => <JobCard key={index} job={job}></JobCard>)}
 
       {loading && jobs.length !== 0 && (
         <Spinner size="12" color="#f64f64" className="mr-2" />

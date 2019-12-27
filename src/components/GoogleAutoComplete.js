@@ -17,8 +17,8 @@ class GoogleAutoComplete extends React.Component {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.autocompleteInput.current,
       {
-        types: this.props.fullAddress ? ["address"] : ["(cities)"],
-        componentRestrictions: { country: "us" },
+        types: ["address"],
+        componentRestrictions: { country: "uz" },
       },
     );
 
@@ -36,7 +36,7 @@ class GoogleAutoComplete extends React.Component {
         right
         ref={this.autocompleteInput}
         id="autocomplete"
-        placeholder="Enter location"
+        placeholder="Введите адрес"
         type="text"
         disabled={this.props.fetching}
         autoComplete="off"

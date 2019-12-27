@@ -10,6 +10,10 @@ const NavBrand = styled(Link)`
   line-height: inherit;
   white-space: nowrap;
 
+  img {
+    width: 130px;
+  }
+
   @media screen and (max-width: 768px) {
     img {
       width: 120px;
