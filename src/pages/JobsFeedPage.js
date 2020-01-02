@@ -41,7 +41,14 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
   });
 
   useEffect(() => {
-    refetchJobsByCategory();
+    if (jobsQuery.loading || !jobsQuery.data) {
+      return;
+    }
+
+    jobsQuery.refetch({
+      categoryName,
+      subCategoryName,
+    });
   }, [categoryName, subCategoryName]);
 
   useEffect(() => {
@@ -51,17 +58,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 
     refetchJobs();
   }, [refetching]);
-
-  useEffect(() => {
-    // CHECKING FOR
-    // 1. INITIAL LOAD
-    // 3. IT IS NOT REFETCHING SO INITIAL QUERY REQUEST
-    if (!jobsQuery.data || !refetching) {
-      return;
-    }
-
-    setRefetching(false);
-  }, [jobsQuery.data, allJobFetched]);
 
   function trackFeedBottom() {
     if (jobsQuery.loading || allJobFetched || refetching) {
@@ -84,6 +80,8 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     const lastJob =
       jobsQuery.data.getLatestJobs[jobsQuery.data.getLatestJobs.length - 1];
 
+    console.log(lastJob);
+
     jobsQuery.fetchMore({
       variables: {
         cursor: lastJob._id,
@@ -91,6 +89,8 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
         subCategoryName,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
+        setRefetching(false);
+
         if (!fetchMoreResult || !fetchMoreResult.getLatestJobs.length) {
           setAllJobFetched(true);
           return;
@@ -102,28 +102,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
         ];
 
         return fetchMoreResult;
-      },
-    });
-  }
-
-  function refetchJobsByCategory() {
-    if (jobsQuery.loading) {
-      return;
-    }
-
-    jobsQuery.fetchMore({
-      variables: {
-        categoryName,
-        subCategoryName,
-      },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        return fetchMoreResult;
-      },
-    });
-
-    getPopularJobTitlesQueryStatus.fetchMore({
-      variables: {
-        categoryName,
       },
     });
   }

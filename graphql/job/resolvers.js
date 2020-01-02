@@ -32,9 +32,11 @@ module.exports = {
           searchQuery.title = { $regex: subCategoryName, $options: "i" };
         }
 
+        console.log(searchQuery);
+
         const jobs = await JobModel.find(searchQuery)
-          .sort({ date: -1, _id: -1 })
-          .limit(20);
+          .sort({ date: -1 })
+          .limit(2);
 
         return jobs;
       } catch (err) {
