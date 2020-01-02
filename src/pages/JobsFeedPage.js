@@ -17,7 +17,7 @@ import { GET_LATEST_JOBS, GET_POPULAR_JOB_TITLES } from "../graphql/queries";
 import Spinner from "../components/Spinner/Spinner";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
-  const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
+  const jobsQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
       categoryName,
       subCategoryName,
@@ -29,7 +29,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     },
   });
 
-  const [jobs, setJobs] = useState(undefined);
   const [allJobFetched, setAllJobFetched] = useState(false);
   const [refetching, setRefetching] = useState(false);
 
@@ -40,14 +39,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
       document.removeEventListener("scroll", trackFeedBottom);
     };
   });
-
-  useEffect(() => {
-    if (getLatestJobQuery.error || getLatestJobQuery.loading) {
-      return;
-    }
-
-    setJobs(getLatestJobQuery.data.getLatestJobs);
-  }, [getLatestJobQuery]);
 
   useEffect(() => {
     refetchJobsByCategory();
@@ -65,15 +56,15 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     // CHECKING FOR
     // 1. INITIAL LOAD
     // 3. IT IS NOT REFETCHING SO INITIAL QUERY REQUEST
-    if (!jobs || !refetching) {
+    if (!jobsQuery.data || !refetching) {
       return;
     }
 
     setRefetching(false);
-  }, [jobs, allJobFetched]);
+  }, [jobsQuery.data, allJobFetched]);
 
   function trackFeedBottom() {
-    if (getLatestJobQuery.loading || allJobFetched || refetching) {
+    if (jobsQuery.loading || allJobFetched || refetching) {
       return;
     }
 
@@ -90,9 +81,10 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
   }
 
   function refetchJobs() {
-    const lastJob = jobs[jobs.length - 1];
+    const lastJob =
+      jobsQuery.data.getLatestJobs[jobsQuery.data.getLatestJobs.length - 1];
 
-    getLatestJobQuery.fetchMore({
+    jobsQuery.fetchMore({
       variables: {
         cursor: lastJob._id,
         categoryName,
@@ -104,27 +96,28 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
           return;
         }
 
-        const newJobsList = [...jobs, ...fetchMoreResult.getLatestJobs];
+        fetchMoreResult.getLatestJobs = [
+          ...prev.getLatestJobs,
+          ...fetchMoreResult.getLatestJobs,
+        ];
 
-        setJobs(newJobsList);
-        return;
+        return fetchMoreResult;
       },
     });
   }
 
   function refetchJobsByCategory() {
-    if (getLatestJobQuery.loading) {
+    if (jobsQuery.loading) {
       return;
     }
 
-    getLatestJobQuery.fetchMore({
+    jobsQuery.fetchMore({
       variables: {
         categoryName,
         subCategoryName,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        setJobs(fetchMoreResult.getLatestJobs);
-        return;
+        return fetchMoreResult;
       },
     });
 
@@ -158,7 +151,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
           </Row>
         )}
 
-        <Row className="jobs-feed-page">
+        <Row className="jobsQuery.data-feed-page">
           <Col id="feed-page" lg="8">
             {categoryName && !subCategoryName && (
               <PopularJobTitles
@@ -171,9 +164,12 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
                 currentUrl={currentUrl}
               />
             )}
-            {getLatestJobQuery.loading && <Spinner />}
-            {jobs !== undefined && (
-              <JobsFeed jobs={jobs} loading={refetching} />
+            {jobsQuery.loading && <Spinner />}
+            {jobsQuery.data !== undefined && (
+              <JobsFeed
+                jobs={jobsQuery.data.getLatestJobs}
+                loading={refetching}
+              />
             )}
           </Col>
           <Col md="4" className="d-none d-lg-block d-xl-block">

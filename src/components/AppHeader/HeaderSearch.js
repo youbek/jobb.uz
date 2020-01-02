@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,10 +15,17 @@ const SearchIcon = styled(FontAwesomeIcon)`
 `;
 
 function HeaderSearch() {
+  const [placeholder, setPlaceholder] = useState("Поиск работы");
   return (
     <InputGroup>
       <SearchIcon icon={faSearch} />
-      <Input hasIcon width="350px" placeholder="Поиск работы" />
+      <Input
+        hasIcon
+        width="350px"
+        placeholder={placeholder}
+        onFocus={() => setPlaceholder("Введите профессию или компанию")}
+        onBlur={() => setPlaceholder("Поиск работы")}
+      />
       <Button secondary className="ml-2">
         Найти
       </Button>
