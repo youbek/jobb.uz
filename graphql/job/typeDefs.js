@@ -5,7 +5,6 @@ module.exports = gql`
     job(hashId: String!): Job
     getLatestJobs(
       cursor: ID
-      limit: Int!
       categoryName: String
       subCategoryName: String
     ): [Job]
@@ -39,13 +38,13 @@ module.exports = gql`
     companyName: String!
     contactPhone: String
     description: String!
-    noExperience: Boolean!
-    salaryFrom: Int!
-    salaryTo: Int!
-    partTime: Boolean!
-    date: String!
-    author: JobAuthor!
-    authorId: String!
+    noExperience: Boolean
+    salaryFrom: Int
+    salaryTo: Int
+    partTime: Boolean
+    date: Float!
+    link: String!
+    salaryCurrency: String
   }
 
   type JobAuthor {
@@ -60,9 +59,9 @@ module.exports = gql`
   }
 
   type JobAddress {
-    name: String!
-    lat: Float!
-    long: Float!
+    name: String
+    lat: Float
+    long: Float
   }
 
   type PopularJobTitle {

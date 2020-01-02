@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
-
-import { SocketContext } from "../context/SocketContext";
 
 import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
 import JobsFeed from "../components/JobsFeed/JobsFeed";
@@ -16,11 +14,11 @@ import { Row, Col } from "reactstrap";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 
 import { GET_LATEST_JOBS, GET_POPULAR_JOB_TITLES } from "../graphql/queries";
+import Spinner from "../components/Spinner/Spinner";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
   const getLatestJobQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
-      limit: 2,
       categoryName,
       subCategoryName,
     },
@@ -30,8 +28,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
       categoryName,
     },
   });
-
-  const { socket } = useContext(SocketContext);
 
   const [jobs, setJobs] = useState(undefined);
   const [allJobFetched, setAllJobFetched] = useState(false);
@@ -123,7 +119,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 
     getLatestJobQuery.fetchMore({
       variables: {
-        limit: 2,
         categoryName,
         subCategoryName,
       },
@@ -139,22 +134,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
       },
     });
   }
-
-  function onNewJob(job) {
-    if (categoryName && categoryName !== job.category) {
-      return;
-    }
-
-    if (subCategoryName && subCategoryName !== job.title) {
-      return;
-    }
-
-    setJobs([job, ...jobs]);
-  }
-
-  console.log(getPopularJobTitlesQueryStatus.data);
-
-  console.log(match);
 
   return (
     <React.Fragment>
@@ -192,6 +171,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
                 currentUrl={currentUrl}
               />
             )}
+            {getLatestJobQuery.loading && <Spinner />}
             {jobs !== undefined && (
               <JobsFeed jobs={jobs} loading={refetching} />
             )}

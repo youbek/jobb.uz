@@ -46,30 +46,22 @@ const JobSchema = new mongoose.Schema({
   },
   salaryFrom: {
     type: Number,
-    required: true,
+    required: false,
   },
   salaryTo: {
     type: Number,
-    required: true,
+    required: false,
   },
+  salaryCurrency: { type: String, required: false },
   partTime: {
     type: Boolean,
     required: false,
     default: false,
   },
-  forTeens: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
+  link: { type: String, required: true },
   date: {
-    type: String,
+    type: Number,
     required: false,
-    default: Date.now,
-  },
-  authorId: {
-    type: String,
-    required: true,
   },
 });
 

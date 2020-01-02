@@ -51,7 +51,9 @@ function JobPage({ hashId }) {
     <React.Fragment>
       <Breadcrumb>
         <BreadcrumbContainer>
-          <BreadcrumbItem>{<Link to="">New York</Link>}</BreadcrumbItem>
+          <BreadcrumbItem>
+            {<Link to="">Работа в Ташкенте</Link>}
+          </BreadcrumbItem>
           <BreadcrumbItem>
             {
               <Link to={`/${job.category.replace(/\s+/g, "-").toLowerCase()}`}>
@@ -65,9 +67,12 @@ function JobPage({ hashId }) {
         <Row>
           <JobInfo job={job} />
           <JobAddressAndRecruiter
-            location={`${job.address.lat},${job.address.long}`}
+            location={
+              job.address.lat && job.address.long
+                ? `${job.address.lat},${job.address.long}`
+                : "41.311081, 69.240562"
+            }
             address={job.address.name}
-            recruiter={`${job.author.firstName} ${job.author.lastName}`}
           />
         </Row>
         <Row>

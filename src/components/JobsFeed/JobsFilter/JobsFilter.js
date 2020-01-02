@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import Label from "../../Form/Label";
 import Input from "../../Form/Input";
 import Select from "../../Form/Select";
 import CustomCheckbox from "../../Form/CustomCheckbox";
 import FilterActions from "../../JobsFeed/JobsFilter/FilterActions";
-
-import GoogleAutoComplete from "../../GoogleAutoComplete";
 
 import { default as ReactSelect } from "react-select";
 

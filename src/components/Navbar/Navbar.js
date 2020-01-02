@@ -8,11 +8,11 @@ const Navbar = styled.nav`
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  padding: 0.5rem;
   background-color: #2c3038;
 
   @media screen and (max-width: 768px) {
-    padding: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 `;
 

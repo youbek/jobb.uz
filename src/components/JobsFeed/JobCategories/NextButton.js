@@ -9,7 +9,7 @@ const NextButton = styled(ButtonNext)`
   border: 1px solid #d5d5d5;
   padding: 0;
   right: -30px;
-  top: 26px;
+  top: 31px;
   display: block;
   margin: 0;
   background-color: #fff;

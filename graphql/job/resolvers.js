@@ -17,7 +17,7 @@ module.exports = {
     },
     getLatestJobs: async (_, args) => {
       try {
-        const { cursor, limit, categoryName, subCategoryName } = args;
+        const { cursor, categoryName, subCategoryName } = args;
         const searchQuery = {};
 
         if (cursor) {
@@ -33,8 +33,8 @@ module.exports = {
         }
 
         const jobs = await JobModel.find(searchQuery)
-          .sort({ date: -1 })
-          .limit(limit);
+          .sort({ date: -1, _id: -1 })
+          .limit(20);
 
         return jobs;
       } catch (err) {
@@ -116,16 +116,7 @@ module.exports = {
       };
     },
   },
-  Job: {
-    author: async job => {
-      const author = await UserModel.findOne(
-        { hashId: job.authorId },
-        { firstName: 1, lastName: 1, hashId: 1, _id: 0 },
-      );
 
-      return author;
-    },
-  },
   Mutation: {
     postJob: async (parent, args, context) => {
       if (!context.loggedIn) {

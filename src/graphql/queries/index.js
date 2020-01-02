@@ -24,13 +24,11 @@ export const JOB_CATEGORIES = gql`
 export const GET_LATEST_JOBS = gql`
   query GetLatestJobs(
     $cursor: ID
-    $limit: Int!
     $categoryName: String
     $subCategoryName: String
   ) {
     getLatestJobs(
       cursor: $cursor
-      limit: $limit
       categoryName: $categoryName
       subCategoryName: $subCategoryName
     ) {
@@ -81,13 +79,10 @@ export const GET_JOB = gql`
       salaryFrom
       salaryTo
       partTime
-      author {
-        firstName
-        lastName
-        hashId
-      }
       date
       category
+      link
+      salaryCurrency
     }
   }
 `;

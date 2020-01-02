@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "react-responsive";
 import SlideButton from "./SlideButton";
@@ -8,7 +9,7 @@ import JobCategoriesContainer from "./JobCategoriesContainer";
 import JobCategoriesMobile from "./JobCategoriesMobile";
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-import { Link } from "react-router-dom";
+import categories from "../../../constant/jobCategories";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -34,87 +35,6 @@ function JobCategories() {
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
   const isTablet = useMediaQuery({ query: "(max-device-width: 1024px )" });
 
-  const categories = [
-    {
-      id: 1,
-      name: "Hospitality And Tourism",
-      iconName: faUmbrellaBeach,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Retail And Sales",
-      iconName: faShoppingCart,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Industrial And Manufacturing",
-      iconName: faIndustry,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Transportation And Logistics",
-      iconName: faTruck,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Building And Construction",
-      iconName: faPaintRoller,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Business And Finance",
-      iconName: faCoins,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Government and Public",
-      iconName: faLandmark,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Agriculture",
-      iconName: faTractor,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Legal",
-      iconName: faBalanceScale,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Arts and Entertainment",
-      iconName: faGuitar,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Healthcare and Medicine",
-      iconName: faBriefcaseMedical,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Information Technologies",
-      iconName: faLaptopCode,
-      color: "#0f8fee",
-    },
-    {
-      id: 1,
-      name: "Engineering and Design",
-      iconName: faBrush,
-      color: "#0f8fee",
-    },
-  ];
-
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleNext = () => {
@@ -135,7 +55,7 @@ function JobCategories() {
         naturalSlideWidth={12}
         naturalSlideHeight={8}
         totalSlides={isMobile ? categories.length + 1 : categories.length}
-        visibleSlides={isMobile ? 2 : isTablet ? 4 : 7}
+        visibleSlides={isMobile ? 2 : isTablet ? 4 : 6}
         step={3}
         dragEnabled={isMobile}
         dragStep={2}
@@ -157,14 +77,8 @@ function JobCategories() {
           )}
           {categories.map((category, index) => (
             <Slide className="carousel-slide-item" index={index} key={index}>
-              <SlideButton
-                to={`${category.name.replace(/\s+/g, "-").toLowerCase()}`}
-              >
-                <FontAwesomeIcon
-                  icon={category.iconName}
-                  color="#4687ff"
-                  size="lg"
-                />
+              <SlideButton to={category.transliteratedName}>
+                <img src={category.icon}></img>
                 <span>{category.name}</span>
               </SlideButton>
             </Slide>
@@ -172,7 +86,7 @@ function JobCategories() {
         </Slider>
         <NextButton
           onClick={handleNext}
-          className={`${currentSlide === 6 && "btn-hidden"}`}
+          className={`${currentSlide === 16 && "btn-hidden"}`}
         >
           <FontAwesomeIcon icon={faArrowRight} />
         </NextButton>

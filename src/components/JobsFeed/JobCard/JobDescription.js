@@ -2,13 +2,23 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import Button from "../../Buttons/Button";
+import ReactHtmlParser from "react-html-parser";
 
 const JobCardDescription = styled.div`
   margin-top: 10px;
   line-height: 1.5;
-  font-size: 1rem;
-  word-wrap: break-word;
-  white-space: pre-wrap;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 2px;
+  }
 `;
 
 const ShowMore = styled(Button)`
@@ -36,10 +46,12 @@ function JobDescription({ description }) {
 
   return (
     <JobCardDescription>
-      <p className="mb-0">{expand ? description : shortForm}</p>
+      <p className="mb-0">
+        {expand ? ReactHtmlParser(description) : ReactHtmlParser(shortForm)}
+      </p>
       {!expand && (
         <ShowMore onClick={handleExpandButton}>
-          Show More <strong>↓</strong>
+          <strong>Подробнее ↓</strong>
         </ShowMore>
       )}
     </JobCardDescription>

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import "moment-timezone";
 import Moment from "react-moment";
+import ReactHtmlParser from "react-html-parser";
 
 import JobCardBadges from "../JobsFeed/JobCard/JobCardBadges";
 import JobApplication from "./JobApplication";
@@ -10,6 +11,7 @@ import Col8 from "../Layout/Col8";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import renderSalary from "../../helpers/renderSalary";
 
 // STYLED COMPONENTS
 
@@ -29,8 +31,18 @@ const JobSalary = styled.span`
 
 const JobDescription = styled.p`
   margin-top: 1.5rem;
-  word-wrap: break-word;
-  white-space: pre-wrap;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 2px;
+  }
 `;
 
 const JobDate = styled.div`
@@ -42,12 +54,14 @@ const JobDate = styled.div`
 `;
 
 function JobInfo({ job }) {
-  const date = new Date(Number(job.date)).toString();
+  const isHH = job.link.indexOf("hh.uz") !== -1;
+
   return (
     <Col8>
       <JobTitle>{job.title}</JobTitle>
-      <JobSalary className="job-page-salary">{`от  
-        $${job.salaryFrom} до $${job.salaryTo} в месяц`}</JobSalary>
+      <JobSalary className="job-page-salary">
+        {renderSalary(job.salaryFrom, job.salaryTo)}
+      </JobSalary>
 
       <JobCardBadges
         partTime={job.partTime}
@@ -55,12 +69,13 @@ function JobInfo({ job }) {
         teen={job.teen}
         accessible={job.accessible}
       />
-      <JobDescription>{job.description}</JobDescription>
-      <JobDate>
+      <JobDescription>{ReactHtmlParser(job.description)}</JobDescription>
+      <JobDate className="text-muted">
         <FontAwesomeIcon icon={faClock} color="#6c757d" className="mr-2" />
-        <Moment locale="ru" fromNow className="text-muted">
-          {new Date(date)}
+        <Moment locale="ru" fromNow className="text-muted mr-1">
+          {new Date(job.date)}
         </Moment>
+        {isHH ? "с HeadHunter" : "с Rabota.uz"}
       </JobDate>
       <JobApplication job={job} />
     </Col8>

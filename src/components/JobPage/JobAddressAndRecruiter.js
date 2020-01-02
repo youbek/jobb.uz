@@ -48,11 +48,12 @@ function JobAddressAndRecruiter({ location, address }) {
           <StaticGoogleMap
             size="300x120"
             apiKey="AIzaSyATyzWeCcSuG_szpR2IjHm79kq9YcSUQh0"
+            zoom={location === "41.311081, 69.240562" ? "11" : "15"}
           >
             <Marker location={location} />
           </StaticGoogleMap>
           <JobAddressAndEmployer>
-            Местоположение<p>{address}</p>
+            Местоположение<p>{address ? address : "г. Ташкент"}</p>
           </JobAddressAndEmployer>
         </JobLocationMap>
       </JobLocation>

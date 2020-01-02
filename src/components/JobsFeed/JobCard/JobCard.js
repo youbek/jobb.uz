@@ -9,6 +9,7 @@ import Moment from "react-moment";
 import styled from "styled-components";
 
 import "moment-timezone";
+import renderSalary from "../../../helpers/renderSalary";
 
 const JobCardJobTitle = styled.div`
   font-size: 20px;
@@ -69,23 +70,30 @@ const JobCardLink = styled(Link)`
   z-index: 1;
 `;
 
+const JobCardSalary = styled.div`
+  font-size: 14px;
+`;
+
 const JobCard = ({ job }) => {
-  const date = new Date(Number(job.date)).toString();
   return (
     <JobCardWrapper>
       <div>
         <JobCardDate>
           <Moment locale="ru" fromNow>
-            {new Date(date)}
+            {new Date(job.date)}
           </Moment>
         </JobCardDate>
         <JobCardJobTitle>{job.title}</JobCardJobTitle>
+
+        {renderSalary(job.salaryFrom, job.salaryTo)}
       </div>
       <JobDescription description={job.description} />
       <JobCardBadges noExperience={job.noExperience} partTime={job.partTime} />
       <JobCardViewCompanyName>{job.companyName}</JobCardViewCompanyName>
       <JobCardViewFooter>
-        <JobCardViewAddress>{job.address.name}</JobCardViewAddress>
+        <JobCardViewAddress>
+          {job.address.name ? job.address.name : "г. Ташкент"}
+        </JobCardViewAddress>
       </JobCardViewFooter>
       <JobCardLink to={`/vacancy/${job.hashId}`} />
     </JobCardWrapper>
