@@ -34,7 +34,7 @@ module.exports = {
 
         const jobs = await JobModel.find(searchQuery)
           .sort({ date: -1, _id: -1 })
-          .limit(20);
+          .limit(2);
 
         return jobs;
       } catch (err) {
