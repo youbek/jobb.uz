@@ -22,16 +22,8 @@ export const JOB_CATEGORIES = gql`
 `;
 
 export const GET_LATEST_JOBS = gql`
-  query GetLatestJobs(
-    $cursor: ID
-    $categoryName: String
-    $subCategoryName: String
-  ) {
-    getLatestJobs(
-      cursor: $cursor
-      categoryName: $categoryName
-      subCategoryName: $subCategoryName
-    ) {
+  query GetLatestJobs($options: JobSearchArgs) {
+    getLatestJobs(options: $options) {
       _id
       title
       date

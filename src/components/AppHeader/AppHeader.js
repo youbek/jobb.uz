@@ -38,7 +38,7 @@ function AppHeader({ appHeaderState }) {
           <NavbarNav>
             {isMobileAndIsTablet && (
               <React.Fragment>
-                <a className="mobile-search" onClick={toggleSearchMobile}>
+                <a className="mr-2" onClick={toggleSearchMobile}>
                   <FontAwesomeIcon icon={faSearch} color="#fff" />
                 </a>
                 {searchMobile && (

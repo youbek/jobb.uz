@@ -22,9 +22,10 @@ const JobSchema = new mongoose.Schema({
     default: "Active",
   },
   address: {
-    name: { type: String, required: true },
-    lat: { type: Number, required: true },
-    long: { type: Number, required: true },
+    name: { type: String, required: false },
+    lat: { type: Number, required: false },
+    long: { type: Number, required: false },
+    district: { type: String, required: false },
   },
   companyName: {
     type: String,

@@ -1,5 +1,4 @@
 const JobModel = require("./model");
-const UserModel = require("../user/model");
 const { AuthenticationError } = require("apollo-server");
 const { JobCategories } = require("../../constant");
 const { escapeRegex } = require("../../helpers");
@@ -17,7 +16,15 @@ module.exports = {
     },
     getLatestJobs: async (_, args) => {
       try {
-        const { cursor, categoryName, subCategoryName } = args;
+        const {
+          cursor,
+          categoryName,
+          subCategoryName,
+          district,
+          partTime,
+          noExperience,
+        } = args && args.options ? args.options : {};
+
         const searchQuery = {};
 
         if (cursor) {
@@ -32,11 +39,23 @@ module.exports = {
           searchQuery.title = { $regex: subCategoryName, $options: "i" };
         }
 
+        if (district) {
+          searchQuery["address.district"] = district;
+        }
+
+        if (partTime) {
+          searchQuery.partTime = partTime;
+        }
+
+        if (noExperience) {
+          searchQuery.noExperience = noExperience;
+        }
+
         console.log(searchQuery);
 
         const jobs = await JobModel.find(searchQuery)
           .sort({ date: -1, _id: -1 })
-          .limit(2);
+          .limit(20);
 
         return jobs;
       } catch (err) {

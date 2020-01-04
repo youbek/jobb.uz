@@ -17,7 +17,7 @@ function FilterActions({ isMobile, handleResetFilter, handleFilterSubmit }) {
     <ButtonWrapper>
       <Button
         secondary
-        className={`mr-2 ${isMobile && "mt-4"}`}
+        className="mr-2"
         block={isMobile}
         onClick={handleFilterSubmit}
       >

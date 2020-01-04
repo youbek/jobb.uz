@@ -15,12 +15,16 @@ import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 
 import { GET_LATEST_JOBS, GET_POPULAR_JOB_TITLES } from "../graphql/queries";
 import Spinner from "../components/Spinner/Spinner";
+import { Helmet } from "react-helmet";
+import { createJobsFeedPageTitle } from "../helpers";
 
 function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
   const jobsQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
-      categoryName,
-      subCategoryName,
+      options: {
+        categoryName,
+        subCategoryName,
+      },
     },
   });
   const getPopularJobTitlesQueryStatus = useQuery(GET_POPULAR_JOB_TITLES, {
@@ -29,8 +33,16 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     },
   });
 
+  const [filters, setFilters] = useState({
+    district: "",
+    categoryName: "",
+    partTime: false,
+    noExperience: false,
+  });
+
   const [allJobFetched, setAllJobFetched] = useState(false);
   const [refetching, setRefetching] = useState(false);
+  const url = window.location.href;
 
   useEffect(() => {
     document.addEventListener("scroll", trackFeedBottom);
@@ -46,10 +58,13 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     }
 
     jobsQuery.refetch({
-      categoryName,
-      subCategoryName,
+      options: {
+        categoryName,
+        subCategoryName,
+        ...filters,
+      },
     });
-  }, [categoryName, subCategoryName]);
+  }, [categoryName, subCategoryName, filters]);
 
   useEffect(() => {
     if (!refetching) {
@@ -58,6 +73,20 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 
     refetchJobs();
   }, [refetching]);
+
+  useEffect(() => {
+    if (refetching || jobsQuery.loading) {
+      return;
+    }
+
+    jobsQuery.refetch({
+      options: {
+        categoryName,
+        subCategoryName,
+        ...filters,
+      },
+    });
+  }, [filters]);
 
   function trackFeedBottom() {
     if (jobsQuery.loading || allJobFetched || refetching) {
@@ -80,13 +109,14 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     const lastJob =
       jobsQuery.data.getLatestJobs[jobsQuery.data.getLatestJobs.length - 1];
 
-    console.log(lastJob);
-
     jobsQuery.fetchMore({
       variables: {
-        cursor: lastJob._id,
-        categoryName,
-        subCategoryName,
+        options: {
+          cursor: lastJob && lastJob._id,
+          categoryName,
+          subCategoryName,
+          ...filters,
+        },
       },
       updateQuery: (prev, { fetchMoreResult }) => {
         setRefetching(false);
@@ -108,6 +138,10 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>{createJobsFeedPageTitle(categoryName, subCategoryName)}</title>
+        <link rel="canonical" href={url} />
+      </Helmet>
       <nav>
         <Breadcrumb>
           <BreadcrumbContainer>
@@ -129,7 +163,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
           </Row>
         )}
 
-        <Row className="jobsQuery.data-feed-page">
+        <Row className="jobs-feed-page">
           <Col id="feed-page" lg="8">
             {categoryName && !subCategoryName && (
               <PopularJobTitles
@@ -143,7 +177,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
               />
             )}
             {jobsQuery.loading && <Spinner />}
-            {jobsQuery.data !== undefined && (
+            {jobsQuery.data !== undefined && !jobsQuery.loading && (
               <JobsFeed
                 jobs={jobsQuery.data.getLatestJobs}
                 loading={refetching}
@@ -151,7 +185,11 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
             )}
           </Col>
           <Col md="4" className="d-none d-lg-block d-xl-block">
-            <JobsFilter />
+            <JobsFilter
+              filters={filters}
+              setFilters={setFilters}
+              loading={jobsQuery.loading}
+            />
           </Col>
         </Row>
       </JobsFeedContainer>

@@ -13,11 +13,11 @@ function renderSalary(salaryFrom, salaryTo) {
     }
     return `до ${formatSalary.format(salaryTo)} сум за месяц `;
   }
-  if (salaryTo && salaryFrom === salaryTo) {
+  if ((salaryTo && salaryFrom === salaryTo) || (salaryFrom && !salaryTo)) {
     if (salaryTo === "USD") {
-      return `от $${formatSalary.format(salaryTo)} сум за месяц `;
+      return `от $${formatSalary.format(salaryFrom)} сум за месяц `;
     }
-    return `от ${formatSalary.format(salaryTo)} сум за месяц `;
+    return `от ${formatSalary.format(salaryFrom)} сум за месяц `;
   }
   if (!salaryFrom && !salaryTo) {
     return "з/п не указана";

@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import arrowLeft from "../../../icons/arrowLeft.svg";
 
 const OverlayContainerWrapper = styled.div`
   display: flex;
@@ -21,6 +20,7 @@ const OverlayContainerHeader = styled.div`
   padding: 0.5rem 1rem;
   height: 55px;
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   color: #fff;
   background-color: #2c3038;
@@ -66,7 +66,7 @@ function OverlayContainer({ isOpen, toggle, children, title }) {
       <OverlayContainerWrapper>
         <OverlayContainerHeader>
           <BackButton onClick={toggle}>
-            <FontAwesomeIcon icon={faChevronLeft} />
+            <img src={arrowLeft} />
           </BackButton>
           <HeaderTitle>{title}</HeaderTitle>
         </OverlayContainerHeader>

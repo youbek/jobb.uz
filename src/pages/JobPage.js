@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Helmet } from "react-helmet";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { Redirect, Link } from "react-router-dom";
@@ -17,6 +18,8 @@ import { AppHeaderContext } from "../context/AppHeaderContext";
 import { GET_JOB } from "../graphql/queries/index";
 import JobAddressAndRecruiter from "../components/JobPage/JobAddressAndRecruiter";
 import JobPageSpinner from "../components/JobPage/JobPageSpinner";
+import { formatCityName, createSEOVacancyScript } from "../helpers";
+import { createJobPageTitle } from "../helpers";
 
 function JobPage({ hashId }) {
   const getJobQuery = useQuery(GET_JOB, {
@@ -24,6 +27,7 @@ function JobPage({ hashId }) {
   });
 
   const [job, setJob] = useState(undefined);
+  const url = window.location.href;
 
   const { appHeaderState, setAppHeaderState } = useContext(AppHeaderContext);
 
@@ -49,6 +53,13 @@ function JobPage({ hashId }) {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title> {createJobPageTitle(job.title, job.companyName)} </title>
+        <script type="application/ld+json">
+          {createSEOVacancyScript(job)}
+        </script>
+        <link rel="canonical" href={url} />
+      </Helmet>
       <Breadcrumb>
         <BreadcrumbContainer>
           <BreadcrumbItem>
@@ -70,9 +81,9 @@ function JobPage({ hashId }) {
             location={
               job.address.lat && job.address.long
                 ? `${job.address.lat},${job.address.long}`
-                : "41.311081, 69.240562"
+                : job.address.name
             }
-            address={job.address.name}
+            address={formatCityName(job.address.name)}
           />
         </Row>
         <Row>

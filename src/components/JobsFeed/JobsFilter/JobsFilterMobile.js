@@ -8,7 +8,7 @@ function JobsFilterMobile({ searchMobile, toggleSearchMobile }) {
     <OverlayContainer
       isOpen={searchMobile}
       toggle={toggleSearchMobile}
-      title="Search jobs"
+      title="Поиск работы"
     >
       <JobsFilter />
     </OverlayContainer>

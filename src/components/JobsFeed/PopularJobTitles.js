@@ -36,7 +36,7 @@ const JobTitle = styled(ButtonLink)`
 function PopularJobTitles({ popularProfessions, currentUrl }) {
   return (
     <Wrapper>
-      <Title>Popular job titles</Title>
+      {popularProfessions > 0 && <Title>Популярные профессии</Title>}
       <Container>
         {popularProfessions.map(profession => (
           <JobTitle

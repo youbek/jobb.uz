@@ -10,6 +10,7 @@ import styled from "styled-components";
 
 import "moment-timezone";
 import renderSalary from "../../../helpers/renderSalary";
+import { formatCityName } from "../../../helpers";
 
 const JobCardJobTitle = styled.div`
   font-size: 20px;
@@ -92,7 +93,7 @@ const JobCard = ({ job }) => {
       <JobCardViewCompanyName>{job.companyName}</JobCardViewCompanyName>
       <JobCardViewFooter>
         <JobCardViewAddress>
-          {job.address.name ? job.address.name : "г. Ташкент"}
+          {formatCityName(job.address.name)}
         </JobCardViewAddress>
       </JobCardViewFooter>
       <JobCardLink to={`/vacancy/${job.hashId}`} />

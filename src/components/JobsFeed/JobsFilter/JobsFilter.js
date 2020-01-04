@@ -21,44 +21,14 @@ const customStyles = {
   }),
 };
 
-function JobsFilter() {
+function JobsFilter({ filters, setFilters, loading }) {
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
   // CONTROLLING FILTER INPUTS LOCATION , RADIUS, CATEGORY
-  const [jobFilter, setJobFilter] = useState({
-    district: "",
-    category: "",
-    partTime: false,
-    noExperience: false,
-  });
-
-  const [fetching, setFetching] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
-
-  useEffect(() => {
-    setFirstLoad(false);
-  }, []);
-
-  useEffect(() => {
-    if (firstLoad) {
-      return;
-    }
-
-    setFetching(true);
-  }, [jobFilter]);
-
-  useEffect(() => {
-    if (!fetching || firstLoad) return;
-
-    setTimeout(() => {
-      console.log("fetched");
-      setFetching(false);
-    }, 2000);
-  }, [fetching]);
 
   function handleJobFilterChange(event) {
     const { name, value, checked, type } = event.target;
-    setJobFilter({
-      ...jobFilter,
+    setFilters({
+      ...filters,
       [name]: type === "checkbox" ? checked : value,
     });
   }
@@ -68,7 +38,7 @@ function JobsFilter() {
   }
 
   function handleResetFilter() {
-    setJobFilter({
+    setFilters({
       district: "",
       category: "",
       partTime: false,
@@ -91,8 +61,10 @@ function JobsFilter() {
   ];
 
   function handleDistrictChange(selectedDistrict) {
-    setJobFilter({ ...jobFilter, district: selectedDistrict.value });
+    setFilters({ ...filters, district: selectedDistrict.value });
   }
+
+  console.log(filters);
 
   return (
     <div>
@@ -109,12 +81,12 @@ function JobsFilter() {
             id="location"
             placeholder="Введите район поиска"
             name="jobDistrict"
-            value={{ value: jobFilter.district, label: jobFilter.district }}
+            value={{ value: filters.district, label: filters.district }}
             options={districts}
-            disabled={fetching}
+            disabled={loading}
             onChange={handleDistrictChange}
             styles={customStyles}
-            isLoading={fetching}
+            isLoading={loading}
           />
         </div>
         <div>
@@ -122,8 +94,8 @@ function JobsFilter() {
           <Select
             id="category"
             placeholder="Select a category"
-            value={jobFilter.category}
-            disabled={fetching}
+            value={filters.category}
+            disabled={loading}
             type="select"
             onChange={handleJobFilterChange}
           >
@@ -134,9 +106,9 @@ function JobsFilter() {
           <div className="mb-2">
             <CustomCheckbox
               name="partTime"
-              checked={jobFilter.partTime}
+              checked={filters.partTime}
               onChange={handleJobFilterChange}
-              disabled={fetching}
+              disabled={loading}
               id="partTime"
             />
             <Label for="partTime">Неполный рабочий день</Label>
@@ -144,9 +116,9 @@ function JobsFilter() {
           <div className="mb-2">
             <CustomCheckbox
               name="noExperience"
-              checked={jobFilter.noExperience}
+              checked={filters.noExperience}
               onChange={handleJobFilterChange}
-              disabled={fetching}
+              disabled={loading}
               id="noExperience"
             />
             <Label for="noExperience">Без опыта</Label>

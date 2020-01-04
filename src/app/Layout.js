@@ -4,10 +4,10 @@ import { useMediaQuery } from "react-responsive";
 
 import jobCategories from "../constant/jobCategories";
 
+import ScrollToTop from "../components/ScrollToTop";
 import AppHeaderContextProvider from "../context/AppHeaderContext";
 import JobsFeedPage from "../pages/JobsFeedPage";
 import JobPage from "../pages/JobPage";
-
 import Footer from "../components/Footer/index";
 
 import _ from "lodash";
@@ -17,6 +17,7 @@ function Layout() {
   return (
     <Fragment>
       <AppHeaderContextProvider>
+        <ScrollToTop />
         <Switch>
           <Route
             exact

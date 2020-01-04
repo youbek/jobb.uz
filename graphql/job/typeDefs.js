@@ -3,11 +3,7 @@ const { gql } = require("apollo-server");
 module.exports = gql`
   extend type Query {
     job(hashId: String!): Job
-    getLatestJobs(
-      cursor: ID
-      categoryName: String
-      subCategoryName: String
-    ): [Job]
+    getLatestJobs(options: JobSearchArgs): [Job]
     jobCategories: [JobCategory]
     getPopularJobTitles(categoryName: String): [PopularJobTitle]
     searchJob(keyword: String!): [String]!
@@ -62,6 +58,7 @@ module.exports = gql`
     name: String
     lat: Float
     long: Float
+    district: String
   }
 
   type PopularJobTitle {
@@ -73,5 +70,14 @@ module.exports = gql`
     name: String!
     lat: Float!
     long: Float!
+  }
+
+  input JobSearchArgs {
+    cursor: ID
+    categoryName: String
+    subCategoryName: String
+    district: String
+    partTime: Boolean
+    noExperience: Boolean
   }
 `;

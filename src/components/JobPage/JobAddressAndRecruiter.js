@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import { StaticGoogleMap, Marker } from "react-static-google-map";
 
 import Col4 from "../Layout/Col4";
@@ -41,6 +40,7 @@ const JobAddressAndEmployer = styled.div`
 `;
 
 function JobAddressAndRecruiter({ location, address }) {
+  console.log(location);
   return (
     <Col4>
       <JobLocation>
@@ -48,12 +48,21 @@ function JobAddressAndRecruiter({ location, address }) {
           <StaticGoogleMap
             size="300x120"
             apiKey="AIzaSyATyzWeCcSuG_szpR2IjHm79kq9YcSUQh0"
-            zoom={location === "41.311081, 69.240562" ? "11" : "15"}
+            zoom={
+              !location || location.replace(/ /g, "") === "г.Ташкент"
+                ? "11"
+                : "15"
+            }
           >
-            <Marker location={location} />
+            <Marker
+              location={
+                address === "г. Ташкент" ? "41.311081, 69.240562" : location
+              }
+            />
           </StaticGoogleMap>
           <JobAddressAndEmployer>
-            Местоположение<p>{address ? address : "г. Ташкент"}</p>
+            Местоположение
+            <p>{address}</p>
           </JobAddressAndEmployer>
         </JobLocationMap>
       </JobLocation>
