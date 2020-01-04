@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-const SlideButton = styled(Link)`
+const SlideButton = styled.button`
   padding-top: 0.7rem;
   display: flex;
   flex-direction: column;

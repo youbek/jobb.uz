@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
 import { useMediaQuery } from "react-responsive";
+import { useJobFilter } from "../../../hooks";
+
+import { Link } from "react-router-dom";
 import SlideButton from "./SlideButton";
 import NextButton from "./NextButton";
 import PrevButton from "./PrevButton";
@@ -30,7 +31,9 @@ import {
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-function JobCategories() {
+function JobCategories({ redirect }) {
+  const jobReFilter = useJobFilter(redirect);
+
   const [showAllCategories, setShowAllCategories] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
   const isTablet = useMediaQuery({ query: "(max-device-width: 1024px )" });
@@ -77,7 +80,11 @@ function JobCategories() {
           )}
           {categories.map((category, index) => (
             <Slide className="carousel-slide-item" index={index} key={index}>
-              <SlideButton to={category.transliteratedName}>
+              <SlideButton
+                onClick={() =>
+                  jobReFilter({ categoryName: category.transliteratedName })
+                }
+              >
                 <img src={category.icon}></img>
                 <span>{category.name}</span>
               </SlideButton>

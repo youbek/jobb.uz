@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import queryString from "query-string";
 
 import jobCategories from "../constant/jobCategories";
 
@@ -30,24 +31,30 @@ function Layout() {
 
           <Route
             exact
-            path="/:categoryName?/:subCategoryName?"
+            path="/"
             render={routerProps => {
+              const jobSearchQueryStr = routerProps.location.search;
+              const searchFilters = queryString.parse(jobSearchQueryStr, {
+                parseBooleans: true,
+                parseNumbers: true,
+              });
+
               const categoryName = jobCategories.find(category =>
-                category.transliteratedName ===
-                routerProps.match.params.categoryName
+                category.transliteratedName === searchFilters.categoryName
                   ? category
                   : null,
               );
-              const subCategoryName = _.startCase(
-                _.toLower(routerProps.match.params.subCategoryName),
-              );
+
+              searchFilters.categoryName = categoryName
+                ? categoryName.name
+                : null;
+
+              console.log(searchFilters);
 
               return (
                 <JobsFeedPage
-                  match={routerProps.match}
-                  categoryName={categoryName && categoryName.name}
-                  subCategoryName={subCategoryName}
-                  currentUrl={routerProps.match.url}
+                  searchFilters={searchFilters}
+                  redirect={routerProps.history.push}
                 />
               );
             }}

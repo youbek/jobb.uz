@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useMediaQuery } from "react-responsive";
+import PropTypes from "prop-types";
+
 import Label from "../../Form/Label";
 import Input from "../../Form/Input";
 import Select from "../../Form/Select";
@@ -7,6 +9,8 @@ import CustomCheckbox from "../../Form/CustomCheckbox";
 import FilterActions from "../../JobsFeed/JobsFilter/FilterActions";
 
 import { default as ReactSelect } from "react-select";
+
+import { useJobFilter } from "../../../hooks";
 
 // REACT SELECT CUSTOM STYLE
 const customStyles = {
@@ -21,16 +25,22 @@ const customStyles = {
   }),
 };
 
-function JobsFilter({ filters, setFilters, loading }) {
+function JobsFilter({ filters, loading }) {
+  const jobReFilter = useJobFilter();
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
-  // CONTROLLING FILTER INPUTS LOCATION , RADIUS, CATEGORY
 
   function handleJobFilterChange(event) {
     const { name, value, checked, type } = event.target;
-    setFilters({
+    const newFilters = {
       ...filters,
       [name]: type === "checkbox" ? checked : value,
-    });
+    };
+
+    jobReFilter(newFilters);
+  }
+
+  function handleDistrictChange(selectedDistrict) {
+    jobReFilter({ ...filters, district: selectedDistrict.value });
   }
 
   function handleFilterSubmit(event) {
@@ -38,12 +48,8 @@ function JobsFilter({ filters, setFilters, loading }) {
   }
 
   function handleResetFilter() {
-    setFilters({
-      district: "",
-      category: "",
-      partTime: false,
-      noExperience: false,
-    });
+    debugger;
+    jobReFilter();
   }
 
   const districts = [
@@ -60,18 +66,12 @@ function JobsFilter({ filters, setFilters, loading }) {
     { value: "Яшнабадский район", label: "Яшнабадский район" },
   ];
 
-  function handleDistrictChange(selectedDistrict) {
-    setFilters({ ...filters, district: selectedDistrict.value });
-  }
-
-  console.log(filters);
-
   return (
     <div>
       <form>
         {isMobile && (
           <div className="mb-4">
-            <Label for="search">Поиск</Label>
+            <Label htmlFor="search">Поиск</Label>
             <Input placeholder="Enter job title" />
           </div>
         )}
@@ -94,7 +94,7 @@ function JobsFilter({ filters, setFilters, loading }) {
           <Select
             id="category"
             placeholder="Select a category"
-            value={filters.category}
+            value={!filters.categoryName ? "" : filters.categoryName}
             disabled={loading}
             type="select"
             onChange={handleJobFilterChange}
@@ -133,5 +133,15 @@ function JobsFilter({ filters, setFilters, loading }) {
     </div>
   );
 }
+
+JobsFilter.propTypes = {
+  filters: PropTypes.shape({
+    categoryName: PropTypes.string,
+    district: PropTypes.string,
+    partTime: PropTypes.bool,
+    noExperience: PropTypes.bool,
+  }).isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 
 export default JobsFilter;

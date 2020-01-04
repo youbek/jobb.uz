@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
 import JobsFeed from "../components/JobsFeed/JobsFeed";
 import JobsFilter from "../components/JobsFeed/JobsFilter/JobsFilter";
-import PopularJobTitles from "../components/JobsFeed/PopularJobTitles";
 
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
@@ -13,31 +12,16 @@ import JobsFeedContainer from "../components/JobsFeed/JobsFeedContainer";
 import { Row, Col } from "reactstrap";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 
-import { GET_LATEST_JOBS, GET_POPULAR_JOB_TITLES } from "../graphql/queries";
+import { GET_LATEST_JOBS } from "../graphql/queries";
 import Spinner from "../components/Spinner/Spinner";
 import { Helmet } from "react-helmet";
 import { createJobsFeedPageTitle } from "../helpers";
 
-function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
+function JobsFeedPage({ searchFilters, redirect }) {
   const jobsQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
-      options: {
-        categoryName,
-        subCategoryName,
-      },
+      options: searchFilters,
     },
-  });
-  const getPopularJobTitlesQueryStatus = useQuery(GET_POPULAR_JOB_TITLES, {
-    variables: {
-      categoryName,
-    },
-  });
-
-  const [filters, setFilters] = useState({
-    district: "",
-    categoryName: "",
-    partTime: false,
-    noExperience: false,
   });
 
   const [allJobFetched, setAllJobFetched] = useState(false);
@@ -58,13 +42,9 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
     }
 
     jobsQuery.refetch({
-      options: {
-        categoryName,
-        subCategoryName,
-        ...filters,
-      },
+      options: searchFilters,
     });
-  }, [categoryName, subCategoryName, filters]);
+  }, [searchFilters]);
 
   useEffect(() => {
     if (!refetching) {
@@ -73,20 +53,6 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 
     refetchJobs();
   }, [refetching]);
-
-  useEffect(() => {
-    if (refetching || jobsQuery.loading) {
-      return;
-    }
-
-    jobsQuery.refetch({
-      options: {
-        categoryName,
-        subCategoryName,
-        ...filters,
-      },
-    });
-  }, [filters]);
 
   function trackFeedBottom() {
     if (jobsQuery.loading || allJobFetched || refetching) {
@@ -113,9 +79,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
       variables: {
         options: {
           cursor: lastJob && lastJob._id,
-          categoryName,
-          subCategoryName,
-          ...filters,
+          ...searchFilters,
         },
       },
       updateQuery: (prev, { fetchMoreResult }) => {
@@ -139,43 +103,39 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
   return (
     <React.Fragment>
       <Helmet>
-        <title>{createJobsFeedPageTitle(categoryName, subCategoryName)}</title>
+        <title>
+          {createJobsFeedPageTitle(
+            searchFilters.categoryName,
+            searchFilters.subCategoryName,
+          )}
+        </title>
         <link rel="canonical" href={url} />
       </Helmet>
       <nav>
         <Breadcrumb>
           <BreadcrumbContainer>
             <BreadcrumbItem>Работа в Ташкенте</BreadcrumbItem>
-            {categoryName && <BreadcrumbItem>{categoryName}</BreadcrumbItem>}
-            {subCategoryName && (
-              <BreadcrumbItem>{subCategoryName}</BreadcrumbItem>
+            {searchFilters.categoryName && (
+              <BreadcrumbItem>{searchFilters.categoryName}</BreadcrumbItem>
+            )}
+            {searchFilters.subCategoryName && (
+              <BreadcrumbItem>{searchFilters.subCategoryName}</BreadcrumbItem>
             )}
           </BreadcrumbContainer>
         </Breadcrumb>
       </nav>
 
       <JobsFeedContainer>
-        {!categoryName && (
+        {!searchFilters.categoryName && (
           <Row>
             <Col md="12">
-              <JobCategories />
+              <JobCategories redirect={redirect} />
             </Col>
           </Row>
         )}
 
         <Row className="jobs-feed-page">
           <Col id="feed-page" lg="8">
-            {categoryName && !subCategoryName && (
-              <PopularJobTitles
-                categoryName={categoryName}
-                popularProfessions={
-                  getPopularJobTitlesQueryStatus.data
-                    ? getPopularJobTitlesQueryStatus.data.getPopularJobTitles
-                    : []
-                }
-                currentUrl={currentUrl}
-              />
-            )}
             {jobsQuery.loading && <Spinner />}
             {jobsQuery.data !== undefined && !jobsQuery.loading && (
               <JobsFeed
@@ -185,11 +145,7 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
             )}
           </Col>
           <Col md="4" className="d-none d-lg-block d-xl-block">
-            <JobsFilter
-              filters={filters}
-              setFilters={setFilters}
-              loading={jobsQuery.loading}
-            />
+            <JobsFilter filters={searchFilters} loading={jobsQuery.loading} />
           </Col>
         </Row>
       </JobsFeedContainer>
@@ -198,9 +154,13 @@ function JobsFeedPage({ categoryName, subCategoryName, currentUrl, match }) {
 }
 
 JobsFeedPage.propTypes = {
-  categoryName: PropTypes.string,
-  subCategoryName: PropTypes.string,
-  currentUrl: PropTypes.string.isRequired,
+  searchFilters: PropTypes.shape({
+    categoryName: PropTypes.string,
+    subCategoryName: PropTypes.string,
+    district: PropTypes.string,
+    partTime: PropTypes.bool,
+    noExperience: PropTypes.bool,
+  }),
 };
 
 export default JobsFeedPage;

@@ -12,17 +12,9 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-function FilterActions({ isMobile, handleResetFilter, handleFilterSubmit }) {
+function FilterActions({ isMobile, handleResetFilter }) {
   return (
     <ButtonWrapper>
-      <Button
-        secondary
-        className="mr-2"
-        block={isMobile}
-        onClick={handleFilterSubmit}
-      >
-        Применить
-      </Button>
       <Button grey block={isMobile} onClick={handleResetFilter}>
         Сбросить Фильтр
       </Button>
