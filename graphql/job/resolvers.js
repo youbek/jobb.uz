@@ -23,12 +23,26 @@ module.exports = {
           district,
           partTime,
           noExperience,
+          title,
         } = args && args.options ? args.options : {};
 
         const searchQuery = {};
+        const sortQuery = { date: -1 };
+
+        if (title) {
+          const textSearch = {
+            $search: title.replace(/по|в|c|на|к|от|для|до/gi, ""),
+          };
+
+          searchQuery.$text = textSearch;
+          sortQuery.score = {
+            $meta: "textScore",
+          };
+        }
 
         if (cursor) {
           searchQuery._id = { $lt: cursor };
+          sortQuery._id = -1;
         }
 
         if (categoryName) {
@@ -51,10 +65,12 @@ module.exports = {
           searchQuery.noExperience = noExperience;
         }
 
-        console.log(searchQuery);
-
-        const jobs = await JobModel.find(searchQuery)
-          .sort({ date: -1, _id: -1 })
+        const jobs = await JobModel.find(searchQuery, {
+          score: {
+            $meta: "textScore",
+          },
+        })
+          .sort(sortQuery)
           .limit(20);
 
         return jobs;

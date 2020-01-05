@@ -12,6 +12,8 @@ import { default as ReactSelect } from "react-select";
 
 import { useJobFilter } from "../../../hooks";
 
+import jobCategories from "../../../constant/jobCategories";
+
 // REACT SELECT CUSTOM STYLE
 const customStyles = {
   control: provided => ({
@@ -41,6 +43,10 @@ function JobsFilter({ filters, loading }) {
 
   function handleDistrictChange(selectedDistrict) {
     jobReFilter({ ...filters, district: selectedDistrict.value });
+  }
+
+  function handleCategoryChange(newCategory) {
+    jobReFilter({ ...filters, categoryName: newCategory.value });
   }
 
   function handleFilterSubmit(event) {
@@ -79,8 +85,6 @@ function JobsFilter({ filters, loading }) {
           <Label for="location">Район поиска</Label>
           <ReactSelect
             id="location"
-            placeholder="Введите район поиска"
-            name="jobDistrict"
             value={{ value: filters.district, label: filters.district }}
             options={districts}
             disabled={loading}
@@ -91,16 +95,17 @@ function JobsFilter({ filters, loading }) {
         </div>
         <div>
           <Label for="category">Категория</Label>
-          <Select
+          <ReactSelect
             id="category"
-            placeholder="Select a category"
             value={!filters.categoryName ? "" : filters.categoryName}
+            options={jobCategories.map(category => ({
+              value: category.transliteratedName,
+              label: category.name,
+            }))}
+            styles={customStyles}
             disabled={loading}
-            type="select"
-            onChange={handleJobFilterChange}
-          >
-            <option></option>
-          </Select>
+            onChange={handleCategoryChange}
+          />
         </div>
         <div className="mt-3">
           <div className="mb-2">

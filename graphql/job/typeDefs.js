@@ -74,6 +74,7 @@ module.exports = gql`
 
   input JobSearchArgs {
     cursor: ID
+    title: String
     categoryName: String
     subCategoryName: String
     district: String
