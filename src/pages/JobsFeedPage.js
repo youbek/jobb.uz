@@ -17,10 +17,20 @@ import Spinner from "../components/Spinner/Spinner";
 import { Helmet } from "react-helmet";
 import { createJobsFeedPageTitle } from "../helpers";
 
-function JobsFeedPage({ searchFilters, redirect }) {
+import jobCategories from "../constant/jobCategories";
+
+function JobsFeedPage({ searchFilters }) {
+  const category = jobCategories.find(category =>
+    category.transliteratedName === searchFilters.categoryName
+      ? category
+      : null,
+  );
+
+  const filters = { ...searchFilters, categoryName: category && category.name };
+
   const jobsQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
-      options: searchFilters,
+      options: filters,
     },
   });
 
@@ -40,9 +50,9 @@ function JobsFeedPage({ searchFilters, redirect }) {
     if (jobsQuery.loading || !jobsQuery.data) {
       return;
     }
-
+    setAllJobFetched(false);
     jobsQuery.refetch({
-      options: searchFilters,
+      options: filters,
     });
   }, [searchFilters]);
 
@@ -79,7 +89,7 @@ function JobsFeedPage({ searchFilters, redirect }) {
       variables: {
         options: {
           cursor: lastJob && lastJob._id,
-          ...searchFilters,
+          ...filters,
         },
       },
       updateQuery: (prev, { fetchMoreResult }) => {
@@ -100,6 +110,8 @@ function JobsFeedPage({ searchFilters, redirect }) {
     });
   }
 
+  console.log(searchFilters);
+
   return (
     <React.Fragment>
       <Helmet>
@@ -116,7 +128,7 @@ function JobsFeedPage({ searchFilters, redirect }) {
           <BreadcrumbContainer>
             <BreadcrumbItem>Работа в Ташкенте</BreadcrumbItem>
             {searchFilters.categoryName && (
-              <BreadcrumbItem>{searchFilters.categoryName}</BreadcrumbItem>
+              <BreadcrumbItem>{filters.categoryName}</BreadcrumbItem>
             )}
             {searchFilters.subCategoryName && (
               <BreadcrumbItem>{searchFilters.subCategoryName}</BreadcrumbItem>
@@ -129,7 +141,7 @@ function JobsFeedPage({ searchFilters, redirect }) {
         {!searchFilters.categoryName && (
           <Row>
             <Col md="12">
-              <JobCategories redirect={redirect} />
+              <JobCategories />
             </Col>
           </Row>
         )}

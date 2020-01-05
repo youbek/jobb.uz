@@ -47,8 +47,8 @@ function JobsFilter({ filters, loading }) {
     event.preventDefault();
   }
 
-  function handleResetFilter() {
-    debugger;
+  function handleResetFilter(e) {
+    e.preventDefault();
     jobReFilter();
   }
 

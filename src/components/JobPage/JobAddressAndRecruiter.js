@@ -9,20 +9,24 @@ const JobLocation = styled.div`
 `;
 
 const JobLocationMap = styled.div`
+  box-shadow: inset 0px 0px 0px 1px #eee;
+  box-sizing: border-box;
+  border-radius: 3px;
   img {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 3px;
   }
 `;
 
 const JobAddressAndEmployer = styled.div`
   font-weight: 600;
   color: #6c757d;
-  margin-top: 0.5rem;
+  padding: 0.5rem;
 
   p {
     font-weight: 400;
     color: #383c43;
+    margin-bottom: 0;
     span {
       display: inline-block;
       width: 10px;

@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 
-function useJobFilter(redirect) {
+function useJobFilter() {
   const history = useHistory();
 
   function redirector(filters) {
