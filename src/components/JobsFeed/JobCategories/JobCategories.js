@@ -9,30 +9,16 @@ import PrevButton from "./PrevButton";
 import JobCategoriesContainer from "./JobCategoriesContainer";
 import JobCategoriesMobile from "./JobCategoriesMobile";
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
-import "pure-react-carousel/dist/react-carousel.es.css";
-import categories from "../../../constant/jobCategories";
+
+import { jobCategories } from "constants/index";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUmbrellaBeach,
-  faShoppingCart,
-  faIndustry,
-  faTruck,
-  faPaintRoller,
-  faCoins,
-  faLandmark,
-  faTractor,
-  faBalanceScale,
-  faGuitar,
-  faLaptopCode,
-  faBrush,
-  faBriefcaseMedical,
-  faArrowRight,
-  faArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-function JobCategories({ redirect }) {
-  const jobReFilter = useJobFilter(redirect);
+import "pure-react-carousel/dist/react-carousel.es.css";
+
+function JobCategories() {
+  const [jobReFilter] = useJobFilter();
 
   const [showAllCategories, setShowAllCategories] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
@@ -57,7 +43,7 @@ function JobCategories({ redirect }) {
       <CarouselProvider
         naturalSlideWidth={12}
         naturalSlideHeight={8}
-        totalSlides={isMobile ? categories.length + 1 : categories.length}
+        totalSlides={isMobile ? jobCategories.length + 1 : jobCategories.length}
         visibleSlides={isMobile ? 2 : isTablet ? 4 : 6}
         step={3}
         dragEnabled={isMobile}
@@ -78,7 +64,7 @@ function JobCategories({ redirect }) {
               </Link>
             </Slide>
           )}
-          {categories.map((category, index) => (
+          {jobCategories.map((category, index) => (
             <Slide className="carousel-slide-item" index={index} key={index}>
               <SlideButton
                 onClick={() =>
@@ -102,7 +88,7 @@ function JobCategories({ redirect }) {
         <JobCategoriesMobile
           showAllCategories={showAllCategories}
           toggleAllCategories={toggleAllCategories}
-          categories={categories}
+          categories={jobCategories}
         />
       )}
     </JobCategoriesContainer>

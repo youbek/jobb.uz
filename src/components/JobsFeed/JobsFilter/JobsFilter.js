@@ -4,15 +4,14 @@ import PropTypes from "prop-types";
 
 import Label from "../../Form/Label";
 import Input from "../../Form/Input";
-import Select from "../../Form/Select";
 import CustomCheckbox from "../../Form/CustomCheckbox";
 import FilterActions from "../../JobsFeed/JobsFilter/FilterActions";
 
 import { default as ReactSelect } from "react-select";
 
-import { useJobFilter } from "../../../hooks";
+import { useJobFilter } from "hooks";
 
-import jobCategories from "../../../constant/jobCategories";
+import { jobCategories } from "constants/index";
 
 // REACT SELECT CUSTOM STYLE
 const customStyles = {
@@ -28,7 +27,7 @@ const customStyles = {
 };
 
 function JobsFilter({ filters, loading }) {
-  const jobReFilter = useJobFilter();
+  const [jobReFilter] = useJobFilter();
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
 
   function handleJobFilterChange(event) {

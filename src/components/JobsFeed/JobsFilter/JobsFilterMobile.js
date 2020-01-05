@@ -3,14 +3,18 @@ import PropTypes from "prop-types";
 import OverlayContainer from "../../Layout/OverlayContainer/OverlayContainer";
 import JobsFilter from "./JobsFilter";
 
+import { useJobFilter } from "hooks";
+
 function JobsFilterMobile({ searchMobile, toggleSearchMobile }) {
+  const filters = useJobFilter()[2];
+
   return (
     <OverlayContainer
       isOpen={searchMobile}
       toggle={toggleSearchMobile}
       title="Поиск работы"
     >
-      <JobsFilter />
+      <JobsFilter filters={filters} />
     </OverlayContainer>
   );
 }

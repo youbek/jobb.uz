@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
-import PropTypes from "prop-types";
 
 import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
 import JobsFeed from "../components/JobsFeed/JobsFeed";
@@ -17,16 +16,10 @@ import Spinner from "../components/Spinner/Spinner";
 import { Helmet } from "react-helmet";
 import { createJobsFeedPageTitle } from "../helpers";
 
-import jobCategories from "../constant/jobCategories";
+import { useJobFilter } from "hooks";
 
-function JobsFeedPage({ searchFilters }) {
-  const category = jobCategories.find(category =>
-    category.transliteratedName === searchFilters.categoryName
-      ? category
-      : null,
-  );
-
-  const filters = { ...searchFilters, categoryName: category && category.name };
+function JobsFeedPage() {
+  const [jobReFilter, searchFilters, filters] = useJobFilter();
 
   const jobsQuery = useQuery(GET_LATEST_JOBS, {
     variables: {
@@ -61,7 +54,7 @@ function JobsFeedPage({ searchFilters }) {
       return;
     }
 
-    refetchJobs();
+    fetchMoreJobs();
   }, [refetching]);
 
   function trackFeedBottom() {
@@ -81,7 +74,7 @@ function JobsFeedPage({ searchFilters }) {
     }
   }
 
-  function refetchJobs() {
+  function fetchMoreJobs() {
     const lastJob =
       jobsQuery.data.getLatestJobs[jobsQuery.data.getLatestJobs.length - 1];
 
@@ -109,8 +102,6 @@ function JobsFeedPage({ searchFilters }) {
       },
     });
   }
-
-  console.log(searchFilters);
 
   return (
     <React.Fragment>
@@ -164,15 +155,5 @@ function JobsFeedPage({ searchFilters }) {
     </React.Fragment>
   );
 }
-
-JobsFeedPage.propTypes = {
-  searchFilters: PropTypes.shape({
-    categoryName: PropTypes.string,
-    subCategoryName: PropTypes.string,
-    district: PropTypes.string,
-    partTime: PropTypes.bool,
-    noExperience: PropTypes.bool,
-  }),
-};
 
 export default JobsFeedPage;

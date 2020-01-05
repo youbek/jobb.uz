@@ -19,7 +19,6 @@ module.exports = {
         const {
           cursor,
           categoryName,
-          subCategoryName,
           district,
           partTime,
           noExperience,
@@ -27,30 +26,18 @@ module.exports = {
         } = args && args.options ? args.options : {};
 
         const searchQuery = {};
-        const sortQuery = { date: -1 };
+        const sortQuery = { _id: -1 };
 
         if (title) {
-          const textSearch = {
-            $search: title.replace(/по|в|c|на|к|от|для|до/gi, ""),
-          };
-
-          searchQuery.$text = textSearch;
-          sortQuery.score = {
-            $meta: "textScore",
-          };
+          searchQuery.title = { $regex: `.*${title}.*`, $options: "i" };
         }
 
         if (cursor) {
           searchQuery._id = { $lt: cursor };
-          sortQuery._id = -1;
         }
 
         if (categoryName) {
           searchQuery.category = { $regex: categoryName, $options: "i" };
-        }
-
-        if (subCategoryName) {
-          searchQuery.title = { $regex: subCategoryName, $options: "i" };
         }
 
         if (district) {
@@ -65,11 +52,9 @@ module.exports = {
           searchQuery.noExperience = noExperience;
         }
 
-        const jobs = await JobModel.find(searchQuery, {
-          score: {
-            $meta: "textScore",
-          },
-        })
+        console.log(sortQuery);
+
+        const jobs = await JobModel.find(searchQuery)
           .sort(sortQuery)
           .limit(20);
 

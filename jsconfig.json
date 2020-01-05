@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src"
+  },
+  "paths": [
+    "./src/constants",
+    "./src/components",
+    "./src/graphql",
+    "./src/pages",
+    "./src/contexts"
+  ]
+}

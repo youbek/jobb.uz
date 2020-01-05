@@ -25,24 +25,7 @@ function Layout() {
             }}
           />
 
-          <Route
-            exact
-            path="/"
-            render={routerProps => {
-              const jobSearchQueryStr = routerProps.location.search;
-              const searchFilters = queryString.parse(jobSearchQueryStr, {
-                parseBooleans: true,
-                parseNumbers: true,
-              });
-
-              return (
-                <JobsFeedPage
-                  searchFilters={searchFilters}
-                  redirect={routerProps.history.push}
-                />
-              );
-            }}
-          />
+          <Route exact path="/" component={JobsFeedPage} />
           <Route render={() => <Redirect to="/404" />} />
         </Switch>
       </AppHeaderContextProvider>
