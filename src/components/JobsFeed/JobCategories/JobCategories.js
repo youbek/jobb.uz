@@ -51,7 +51,7 @@ function JobCategories() {
       >
         <PrevButton
           onClick={handleBack}
-          className={`${currentSlide === 0 && "btn-hidden"}`}
+          className={`${currentSlide === 0 ? "btn-hidden" : undefined} `}
         >
           <FontAwesomeIcon icon={faArrowLeft} />
         </PrevButton>

@@ -38,6 +38,7 @@ const EllipsisSpinner = styled.div`
   position: relative;
   width: ${p => `${p.size}${p.sizeUnit}`};
   height: ${p => `${p.size}${p.sizeUnit}`};
+  margin-top: -25px;
   div {
     position: absolute;
     top: 27px;

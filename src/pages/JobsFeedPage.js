@@ -32,14 +32,6 @@ function JobsFeedPage() {
   const url = window.location.href;
 
   useEffect(() => {
-    document.addEventListener("scroll", trackFeedBottom);
-
-    return () => {
-      document.removeEventListener("scroll", trackFeedBottom);
-    };
-  });
-
-  useEffect(() => {
     if (jobsQuery.loading || !jobsQuery.data) {
       return;
     }
@@ -50,29 +42,13 @@ function JobsFeedPage() {
   }, [searchFilters]);
 
   useEffect(() => {
+    console.log(refetching);
     if (!refetching) {
       return;
     }
 
     fetchMoreJobs();
   }, [refetching]);
-
-  function trackFeedBottom() {
-    if (jobsQuery.loading || allJobFetched || refetching) {
-      return;
-    }
-
-    const feedEl = document.getElementById("feed-page");
-
-    const bottomPoint = Math.floor(feedEl.getBoundingClientRect().bottom);
-    const windowHeight = Math.floor(window.innerHeight);
-
-    const isBottom = bottomPoint <= windowHeight;
-
-    if (isBottom) {
-      setRefetching(true);
-    }
-  }
 
   function fetchMoreJobs() {
     const lastJob =
@@ -90,7 +66,7 @@ function JobsFeedPage() {
 
         if (!fetchMoreResult || !fetchMoreResult.getLatestJobs.length) {
           setAllJobFetched(true);
-          return;
+          return prev;
         }
 
         fetchMoreResult.getLatestJobs = [
@@ -137,13 +113,14 @@ function JobsFeedPage() {
           </Row>
         )}
 
-        <Row className="jobs-feed-page">
+        <Row className="jobs-feed-page pb-4">
           <Col id="feed-page" lg="8">
             {jobsQuery.loading && <Spinner />}
             {jobsQuery.data !== undefined && !jobsQuery.loading && (
               <JobsFeed
                 jobs={jobsQuery.data.getLatestJobs}
                 loading={refetching}
+                setRefetching={!allJobFetched ? setRefetching : () => {}}
               />
             )}
           </Col>

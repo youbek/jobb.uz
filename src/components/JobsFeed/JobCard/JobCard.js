@@ -109,9 +109,9 @@ JobCard.propTypes = {
     noExperience: PropTypes.bool.isRequired,
     partTime: PropTypes.bool.isRequired,
     address: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      lat: PropTypes.number.isRequired,
-      long: PropTypes.number.isRequired,
+      name: PropTypes.string,
+      lat: PropTypes.number,
+      long: PropTypes.number,
     }).isRequired,
     hashId: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,

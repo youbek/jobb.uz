@@ -25,7 +25,14 @@ function Layout() {
             }}
           />
 
-          <Route exact path="/" component={JobsFeedPage} />
+          <Route
+            exact
+            path="/"
+            render={() => {
+              console.log("RERENDERED!");
+              return <JobsFeedPage />;
+            }}
+          />
           <Route render={() => <Redirect to="/404" />} />
         </Switch>
       </AppHeaderContextProvider>

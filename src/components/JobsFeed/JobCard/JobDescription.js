@@ -46,9 +46,9 @@ function JobDescription({ description }) {
 
   return (
     <JobCardDescription>
-      <p className="mb-0">
+      <div className="mb-0">
         {expand ? ReactHtmlParser(description) : ReactHtmlParser(shortForm)}
-      </p>
+      </div>
       {!expand && (
         <ShowMore onClick={handleExpandButton}>
           <strong>Подробнее ↓</strong>

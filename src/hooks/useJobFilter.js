@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
@@ -5,19 +6,30 @@ import { jobCategories } from "constants/index";
 
 function useJobFilter() {
   const location = useLocation();
-  const jobSearchQueryStr = location.search;
-  const searchFilters = queryString.parse(jobSearchQueryStr, {
-    parseBooleans: true,
-    parseNumbers: true,
-  });
+  const [searchFilters, setSearchFilters] = useState({});
+  const [filters, setFilters] = useState({});
 
-  const category = jobCategories.find(category =>
-    category.transliteratedName === searchFilters.categoryName
-      ? category
-      : null,
-  );
+  useEffect(() => {
+    const jobSearchQueryStr = location.search;
+    const newSearchFilters = queryString.parse(jobSearchQueryStr, {
+      parseBooleans: true,
+      parseNumbers: true,
+    });
 
-  const filters = { ...searchFilters, categoryName: category && category.name };
+    const category = jobCategories.find(category =>
+      category.transliteratedName === searchFilters.categoryName
+        ? category
+        : null,
+    );
+
+    const newFilters = {
+      ...searchFilters,
+      categoryName: category && category.name,
+    };
+
+    setSearchFilters(newSearchFilters);
+    setFilters(newFilters);
+  }, [location]);
 
   const history = useHistory();
 

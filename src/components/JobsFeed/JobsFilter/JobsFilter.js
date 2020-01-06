@@ -81,21 +81,27 @@ function JobsFilter({ filters, loading }) {
           </div>
         )}
         <div className="mb-4">
-          <Label for="location">Район поиска</Label>
+          <Label htmlFor="location">Район поиска</Label>
           <ReactSelect
             id="location"
-            value={{ value: filters.district, label: filters.district }}
+            value={
+              filters.district
+                ? { value: filters.district, label: filters.district }
+                : ""
+            }
             options={districts}
             disabled={loading}
             onChange={handleDistrictChange}
             styles={customStyles}
             isLoading={loading}
+            placeholder="Все районы"
           />
         </div>
         <div>
-          <Label for="category">Категория</Label>
+          <Label htmlFor="category">Категория</Label>
           <ReactSelect
             id="category"
+            placeholder="Все категории"
             value={!filters.categoryName ? "" : filters.categoryName}
             options={jobCategories.map(category => ({
               value: category.transliteratedName,
@@ -115,7 +121,7 @@ function JobsFilter({ filters, loading }) {
               disabled={loading}
               id="partTime"
             />
-            <Label for="partTime">Неполный рабочий день</Label>
+            <Label htmlFor="partTime">Неполный рабочий день</Label>
           </div>
           <div className="mb-2">
             <CustomCheckbox
@@ -125,7 +131,7 @@ function JobsFilter({ filters, loading }) {
               disabled={loading}
               id="noExperience"
             />
-            <Label for="noExperience">Без опыта</Label>
+            <Label htmlFor="noExperience">Без опыта</Label>
           </div>
         </div>
         <FilterActions
