@@ -52,8 +52,6 @@ module.exports = {
           searchQuery.noExperience = noExperience;
         }
 
-        console.log(sortQuery);
-
         const jobs = await JobModel.find(searchQuery)
           .sort(sortQuery)
           .limit(20);

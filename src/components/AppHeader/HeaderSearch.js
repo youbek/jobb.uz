@@ -29,8 +29,6 @@ function HeaderSearch() {
     };
 
     jobReFilter(filter, true);
-
-    setSearchKeyword("");
   }
 
   return (

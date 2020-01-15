@@ -17,7 +17,8 @@ const SlideButton = styled.button`
   font-size: 14px;
   transition: box-shadow 0.2s ease-in-out;
   margin-top: 2px;
-
+  background-color: #fff;
+  text-align: left;
   img {
     width: 35px;
   }

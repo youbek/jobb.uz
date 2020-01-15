@@ -49,10 +49,7 @@ function JobCategories() {
         dragEnabled={isMobile}
         dragStep={2}
       >
-        <PrevButton
-          onClick={handleBack}
-          className={`${currentSlide === 0 ? "btn-hidden" : undefined} `}
-        >
+        <PrevButton onClick={handleBack}>
           <FontAwesomeIcon icon={faArrowLeft} />
         </PrevButton>
         <Slider className="carousel-slide">
@@ -77,10 +74,7 @@ function JobCategories() {
             </Slide>
           ))}
         </Slider>
-        <NextButton
-          onClick={handleNext}
-          className={`${currentSlide === 16 && "btn-hidden"}`}
-        >
+        <NextButton onClick={handleNext}>
           <FontAwesomeIcon icon={faArrowRight} />
         </NextButton>
       </CarouselProvider>

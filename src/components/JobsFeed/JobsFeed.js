@@ -6,12 +6,13 @@ import Spinner from "../Spinner/Spinner";
 import JobCard from "./JobCard/JobCard";
 import JobsEmpty from "./JobsEmpty";
 
-function JobsFeed({ jobs, loading, setRefetching }) {
-  console.log(jobs);
+function JobsFeed({ jobs, loading, setRefetching, searchTitle }) {
   return (
-    <div>
+    <React.Fragment>
       {// IF NO JOBS FOUND
-      Array.isArray(jobs) && jobs.length === 0 && <JobsEmpty />}
+      Array.isArray(jobs) && jobs.length === 0 && (
+        <JobsEmpty searchTitle={searchTitle} />
+      )}
       {// ELSE
       Array.isArray(jobs) &&
         jobs.length > 0 &&
@@ -27,7 +28,7 @@ function JobsFeed({ jobs, loading, setRefetching }) {
       {loading && jobs.length !== 0 && (
         <Spinner size="12" color="#f64f64" className="mr-2" />
       )}
-    </div>
+    </React.Fragment>
   );
 }
 

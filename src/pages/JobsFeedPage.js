@@ -10,6 +10,7 @@ import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
 import JobsFeedContainer from "../components/JobsFeed/JobsFeedContainer";
 import { Row, Col } from "reactstrap";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 import { GET_LATEST_JOBS } from "../graphql/queries";
 import Spinner from "../components/Spinner/Spinner";
@@ -32,21 +33,21 @@ function JobsFeedPage() {
   const url = window.location.href;
 
   useEffect(() => {
-    if (jobsQuery.loading || !jobsQuery.data) {
+    if (jobsQuery.loading) {
       return;
     }
+
     setAllJobFetched(false);
     jobsQuery.refetch({
       options: filters,
     });
-  }, [searchFilters]);
+  }, [filters]);
 
   useEffect(() => {
-    console.log(refetching);
-    if (!refetching) {
+    if (!refetching || jobsQuery.loading) {
       return;
     }
-
+    console.log("Fetching more jobs");
     fetchMoreJobs();
   }, [refetching]);
 
@@ -94,11 +95,8 @@ function JobsFeedPage() {
         <Breadcrumb>
           <BreadcrumbContainer>
             <BreadcrumbItem>Работа в Ташкенте</BreadcrumbItem>
-            {searchFilters.categoryName && (
+            {filters.categoryName && (
               <BreadcrumbItem>{filters.categoryName}</BreadcrumbItem>
-            )}
-            {searchFilters.subCategoryName && (
-              <BreadcrumbItem>{searchFilters.subCategoryName}</BreadcrumbItem>
             )}
           </BreadcrumbContainer>
         </Breadcrumb>
@@ -115,12 +113,20 @@ function JobsFeedPage() {
 
         <Row className="jobs-feed-page pb-4">
           <Col id="feed-page" lg="8">
+            {filters.title &&
+            jobsQuery.data &&
+            jobsQuery.data.getLatestJobs.length ? (
+              <div className="mb-2">
+                {`Вакансии по запросу "${filters.title}"`}
+              </div>
+            ) : null}
             {jobsQuery.loading && <Spinner />}
             {jobsQuery.data !== undefined && !jobsQuery.loading && (
               <JobsFeed
                 jobs={jobsQuery.data.getLatestJobs}
                 loading={refetching}
                 setRefetching={!allJobFetched ? setRefetching : () => {}}
+                searchTitle={filters.title}
               />
             )}
           </Col>
@@ -128,6 +134,7 @@ function JobsFeedPage() {
             <JobsFilter filters={searchFilters} loading={jobsQuery.loading} />
           </Col>
         </Row>
+        <ScrollToTopButton />
       </JobsFeedContainer>
     </React.Fragment>
   );

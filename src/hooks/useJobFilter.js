@@ -16,14 +16,12 @@ function useJobFilter() {
       parseNumbers: true,
     });
 
-    const category = jobCategories.find(category =>
-      category.transliteratedName === searchFilters.categoryName
-        ? category
-        : null,
+    const category = jobCategories.find(
+      category => category.transliteratedName === newSearchFilters.categoryName,
     );
 
     const newFilters = {
-      ...searchFilters,
+      ...newSearchFilters,
       categoryName: category && category.name,
     };
 
@@ -54,6 +52,7 @@ function useJobFilter() {
     }
   }
 
+  console.log(filters);
   return [redirector, searchFilters, filters];
 }
 

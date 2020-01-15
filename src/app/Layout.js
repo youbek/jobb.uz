@@ -29,7 +29,6 @@ function Layout() {
             exact
             path="/"
             render={() => {
-              console.log("RERENDERED!");
               return <JobsFeedPage />;
             }}
           />
