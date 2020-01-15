@@ -136,7 +136,16 @@ module.exports = {
       };
     },
   },
+  Job: {
+    similarJobs: async job => {
+      const similarJobs = await JobModel.find({
+        $text: { $search: job.title.replace(/по|в|на|для|к/gi, "") },
+        _id: { $ne: job._id },
+      }).limit(5);
 
+      return similarJobs;
+    },
+  },
   Mutation: {
     postJob: async (parent, args, context) => {
       if (!context.loggedIn) {

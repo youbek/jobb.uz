@@ -19,7 +19,7 @@ const NoSimilarJobs = styled.div`
 function SimilarJobsFeed({ similarJobs, loading }) {
   console.log(similarJobs);
   return (
-    <Col8>
+    <Col8 className="mt-4">
       {// IF NO JOBS FOUND
       Array.isArray(similarJobs) && similarJobs.length === 0 && (
         <NoSimilarJobs>Похожих вакансий не найдено </NoSimilarJobs>
@@ -28,7 +28,7 @@ function SimilarJobsFeed({ similarJobs, loading }) {
       {// ELSE
       Array.isArray(similarJobs) && similarJobs.length > 0 && (
         <React.Fragment>
-          <div>Похожие вакансии</div>
+          <div className="mt-4 mb-2">Похожие вакансии</div>
           {similarJobs.map((job, index) => (
             <JobCard key={index} job={job}></JobCard>
           ))}

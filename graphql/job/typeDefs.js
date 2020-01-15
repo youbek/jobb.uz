@@ -41,6 +41,7 @@ module.exports = gql`
     date: Float!
     link: String!
     salaryCurrency: String
+    similarJobs: [Job]!
   }
 
   type JobAuthor {

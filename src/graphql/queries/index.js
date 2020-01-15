@@ -75,6 +75,24 @@ export const GET_JOB = gql`
       category
       link
       salaryCurrency
+      similarJobs {
+        _id
+        title
+        date
+        description
+        address {
+          name
+          lat
+          long
+        }
+        noExperience
+        hashId
+        companyName
+        noExperience
+        salaryFrom
+        salaryTo
+        partTime
+      }
     }
   }
 `;

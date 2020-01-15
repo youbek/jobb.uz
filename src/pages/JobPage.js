@@ -22,18 +22,15 @@ import { formatCityName, createSEOVacancyScript } from "../helpers";
 import { createJobPageTitle } from "../helpers";
 
 function JobPage({ hashId }) {
+  const { appHeaderState, setAppHeaderState } = useContext(AppHeaderContext);
   const getJobQuery = useQuery(GET_JOB, {
     variables: { hashId },
   });
 
-  const [job, setJob] = useState(undefined);
   const url = window.location.href;
-
-  const { appHeaderState, setAppHeaderState } = useContext(AppHeaderContext);
 
   useEffect(() => {
     if (getJobQuery.data) {
-      setJob(getJobQuery.data.job);
       setAppHeaderState({
         ...appHeaderState,
         title: getJobQuery.data.job.title,
@@ -43,13 +40,13 @@ function JobPage({ hashId }) {
 
   if (getJobQuery.error) throw new Error(`Error ${getJobQuery.error.message}`);
 
-  if (getJobQuery.loading || job === undefined) return <JobPageSpinner />;
+  if (getJobQuery.loading) return <JobPageSpinner />;
 
   if (!getJobQuery.data || !getJobQuery.data.job) {
     return <Redirect to="/404" />;
   }
 
-  const similarJobs = [];
+  const { job } = getJobQuery.data;
 
   return (
     <React.Fragment>
@@ -87,7 +84,7 @@ function JobPage({ hashId }) {
           />
         </Row>
         <Row>
-          <SimilarJobsFeed similarJobs={similarJobs} />
+          <SimilarJobsFeed similarJobs={job.similarJobs} />
         </Row>
       </JobPageContainer>
     </React.Fragment>
