@@ -19,7 +19,7 @@ function Root() {
   const authContext = useRef();
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    uri: "http://localhost:8080/",
+    uri: process.env.REACT_BACK_END_URI,
     request: operation => {
       const token = localStorage.getItem("userToken");
       operation.setContext({

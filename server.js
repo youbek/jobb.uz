@@ -4,7 +4,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const db = require("./db");
-const socketIO = require("./socket.io");
 const { createApolloServer } = require("./apolloServer");
 
 const app = express();
@@ -18,15 +17,13 @@ db.connect(process.env.DB_URL)
   .then(() => {
     const apolloServer = createApolloServer();
 
-    apolloServer.applyMiddleware({ app, path: "/" });
-
-    const server = socketIO.initialize(app);
+    apolloServer.applyMiddleware({ app, path: "/graphql" });
 
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname + "/build/index.html"));
     });
 
-    server.listen(port, err => {
+    app.listen(port, err => {
       if (err) {
         console.log(err);
         return;
