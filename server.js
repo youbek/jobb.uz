@@ -15,9 +15,9 @@ app.use(cookieParser());
 
 db.connect(process.env.DB_URL)
   .then(() => {
-    const apolloServer = createApolloServer();
+    // const apolloServer = createApolloServer();
 
-    apolloServer.applyMiddleware({ app, path: "/graphql" });
+    // apolloServer.applyMiddleware({ app, path: "/graphql" });
 
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "./build/index.html"));
