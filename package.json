@@ -16,6 +16,8 @@
     "apollo-server-express": "^2.9.13",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
     "draft-js": "^0.11.3",
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
@@ -58,12 +60,12 @@
     "styled-components": "^4.4.0"
   },
   "scripts": {
+    "start": "env-cmd -f ./.env node server.js",
     "start:back-end": "env-cmd -f ./.env nodemon server.js",
     "start:front-end": "react-scripts start",
     "dev": "npm-run-all -p start:back-end start:front-end",
     "build": "react-scripts build",
-    "test": "env-cmd -f ./test.env jest",
-    "eject": "react-scripts eject"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install && npm run build-client"
   },
   "resolutions": {
     "@babel/runtime": "7.0.0-beta.46"
