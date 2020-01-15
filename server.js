@@ -20,7 +20,7 @@ db.connect(process.env.DB_URL)
     apolloServer.applyMiddleware({ app, path: "/graphql" });
 
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname + "/build/index.html"));
+      res.sendFile(path.join(__dirname, "./build/index.html"));
     });
 
     app.listen(port, err => {
