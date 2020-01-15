@@ -65,7 +65,7 @@
     "start:front-end": "react-scripts start",
     "dev": "npm-run-all -p start:back-end start:front-end",
     "build": "react-scripts build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install && npm run build-client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install && npm run build"
   },
   "resolutions": {
     "@babel/runtime": "7.0.0-beta.46"
