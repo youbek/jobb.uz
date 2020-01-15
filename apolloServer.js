@@ -5,6 +5,9 @@ const { checkJWT } = require("./helpers");
 
 function createApolloServer() {
   const apolloServer = new ApolloServer({
+    playground: true,
+    cors: true,
+    introspection: true,
     modules: graphQLModules,
     context: async ({ req }) => {
       const token = req.headers.authorization || "";
@@ -27,7 +30,6 @@ function createApolloServer() {
         };
       }
     },
-    cors: true,
   });
 
   return apolloServer;
