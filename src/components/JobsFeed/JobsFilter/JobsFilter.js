@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useJobFilter } from "hooks";
 import PropTypes from "prop-types";
 
 import Label from "../../Form/Label";
@@ -8,8 +9,6 @@ import CustomCheckbox from "../../Form/CustomCheckbox";
 import FilterActions from "../../JobsFeed/JobsFilter/FilterActions";
 
 import { default as ReactSelect } from "react-select";
-
-import { useJobFilter } from "hooks";
 
 import { jobCategories } from "constants/index";
 
@@ -26,9 +25,11 @@ const customStyles = {
   }),
 };
 
-function JobsFilter({ filters, loading }) {
+function JobsFilter({ filters, loading, toggleSearchMobile }) {
   const [jobReFilter] = useJobFilter();
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
+
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   function handleJobFilterChange(event) {
     const { name, value, checked, type } = event.target;
@@ -50,11 +51,21 @@ function JobsFilter({ filters, loading }) {
 
   function handleFilterSubmit(event) {
     event.preventDefault();
+    const filter = {
+      ...filters,
+    };
+    if (searchKeyword.length > 0) {
+      filter.title = searchKeyword;
+    }
+
+    jobReFilter(filter);
+    toggleSearchMobile();
   }
 
   function handleResetFilter(e) {
     e.preventDefault();
     jobReFilter();
+    toggleSearchMobile();
   }
 
   const districts = [
@@ -83,7 +94,11 @@ function JobsFilter({ filters, loading }) {
         {isMobile && (
           <div className="mb-4">
             <Label htmlFor="search">Поиск</Label>
-            <Input placeholder="Enter job title" />
+            <Input
+              value={searchKeyword}
+              onChange={e => setSearchKeyword(e.target.value)}
+              placeholder="Поиск работы"
+            />
           </div>
         )}
         <div className="mb-4">

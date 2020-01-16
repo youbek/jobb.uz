@@ -14,7 +14,7 @@ function JobsFilterMobile({ searchMobile, toggleSearchMobile }) {
       toggle={toggleSearchMobile}
       title="Поиск работы"
     >
-      <JobsFilter filters={filters} />
+      <JobsFilter filters={filters} toggleSearchMobile={toggleSearchMobile} />
     </OverlayContainer>
   );
 }
