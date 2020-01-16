@@ -71,6 +71,12 @@ function JobsFilter({ filters, loading }) {
     { value: "Яшнабадский район", label: "Яшнабадский район" },
   ];
 
+  const selectedCategory = filters.categoryName
+    ? jobCategories.find(
+        category => category.transliteratedName === filters.categoryName,
+      )
+    : undefined;
+
   return (
     <div>
       <form>
@@ -102,7 +108,14 @@ function JobsFilter({ filters, loading }) {
           <ReactSelect
             id="category"
             placeholder="Все категории"
-            value={!filters.categoryName ? "" : filters.categoryName}
+            value={
+              selectedCategory
+                ? {
+                    value: selectedCategory.transliteratedName,
+                    label: selectedCategory.name,
+                  }
+                : undefined
+            }
             options={jobCategories.map(category => ({
               value: category.transliteratedName,
               label: category.name,

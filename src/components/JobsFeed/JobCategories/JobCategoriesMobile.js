@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import OverlayContainer from "../../Layout/OverlayContainer/OverlayContainer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { useJobFilter } from "../../../hooks";
 
 const AllCategoryContainer = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const AllCategoryContainer = styled.div`
   padding: 0 !important;
 `;
 
-const Category = styled(Link)`
+const Category = styled.button`
   width: 33.33%;
   height: 100px;
   display: flex;
@@ -24,6 +24,7 @@ const Category = styled(Link)`
   border-bottom: 1px solid #e8e8e8;
   text-decoration: none;
   color: #555;
+  background-color: #fff;
 
   img {
     width: 30px;
@@ -39,6 +40,8 @@ function JobCategoriesMobile({
   toggleAllCategories,
   categories,
 }) {
+  const [jobReFilter] = useJobFilter();
+
   return (
     <OverlayContainer
       isOpen={showAllCategories}
@@ -47,7 +50,13 @@ function JobCategoriesMobile({
     >
       <AllCategoryContainer>
         {categories.map((category, index) => (
-          <Category key={index} to={category.transliteratedName}>
+          <Category
+            key={index}
+            to={category.transliteratedName}
+            onClick={() =>
+              jobReFilter({ categoryName: category.transliteratedName })
+            }
+          >
             <img src={category.icon} />
             <span>{category.name}</span>
           </Category>

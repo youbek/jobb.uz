@@ -6,7 +6,8 @@ const ToTopButton = styled(Button)`
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
   bottom: 50px;
-  right: 30%;
+  right: 0;
+  margin-right: 20px;
   position: fixed;
 
   @media screen and (max-width: 992px) {

@@ -14,7 +14,7 @@ const PrevButton = styled(ButtonBack)`
   margin: 0;
   background-color: #fff;
   z-index: 2;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     display: none;
   }
 `;

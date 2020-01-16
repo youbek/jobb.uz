@@ -6,12 +6,8 @@ import "moment/locale/ru";
 
 import App from "./app/App";
 
-import AuthContextProvider from "./context/AuthContext";
-import SocketContextProvider from "./context/SocketContext";
-
 import * as serviceWorker from "./serviceWorker";
 
-import "./index.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles/main.scss";
 
@@ -19,7 +15,7 @@ function Root() {
   const authContext = useRef();
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    uri: process.env.REACT_BACK_END_URI,
+    uri: process.env.REACT_APP_BACK_END_URI,
     request: operation => {
       const token = localStorage.getItem("userToken");
       operation.setContext({
@@ -45,15 +41,9 @@ function Root() {
     },
   });
 
-  console.log(1);
-
   return (
     <ApolloProvider client={client}>
-      <SocketContextProvider>
-        <AuthContextProvider ref={authContext}>
-          <App />
-        </AuthContextProvider>
-      </SocketContextProvider>
+      <App />
     </ApolloProvider>
   );
 }

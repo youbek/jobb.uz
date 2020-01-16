@@ -22,7 +22,7 @@ function JobCategories() {
 
   const [showAllCategories, setShowAllCategories] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
-  const isTablet = useMediaQuery({ query: "(max-device-width: 1024px )" });
+  const isTablet = useMediaQuery({ query: "(max-device-width: 1023px )" });
 
   const [currentSlide, setCurrentSlide] = useState(0);
 

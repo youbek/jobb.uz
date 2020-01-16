@@ -19,8 +19,13 @@ const SlideButton = styled.button`
   margin-top: 2px;
   background-color: #fff;
   text-align: left;
+
   img {
     width: 35px;
+
+    @media screen and (max-width: 1024px) {
+      width: 50px;
+    }
   }
 
   &:hover {

@@ -11,7 +11,7 @@ import { useJobFilter } from "hooks";
 const SearchIcon = styled(FontAwesomeIcon)`
   color: #222;
   position: absolute;
-  z-index: 100;
+  z-index: 1000;
   top: 13.5px;
   left: 10px;
 `;
