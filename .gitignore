@@ -13,7 +13,9 @@
 
 # misc
 .env
+app.yaml
 test.env
+.gcloudignore
 npm
 -debug.log*
 yarn-debug.log*

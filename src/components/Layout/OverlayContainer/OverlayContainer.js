@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM, { createPortal } from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import arrowLeft from "../../../icons/arrowLeft.svg";
@@ -13,7 +14,11 @@ const OverlayContainerWrapper = styled.div`
   left: 0;
   background-color: #fff;
   z-index: 200;
-  overflow-y: scroll;
+`;
+
+const PreventScroll = styled.div`
+  height: 100%;
+  overflow: scroll;
 `;
 
 const OverlayContainerHeader = styled.div`
@@ -62,19 +67,22 @@ const OverlayContainerContent = styled.div`
 
 function OverlayContainer({ isOpen, toggle, children, title }) {
   if (isOpen)
-    return (
+    return createPortal(
       <OverlayContainerWrapper>
-        <OverlayContainerHeader>
-          <BackButton onClick={toggle}>
-            <img src={arrowLeft} />
-          </BackButton>
-          <HeaderTitle>{title}</HeaderTitle>
-        </OverlayContainerHeader>
-        <OverlayContainerContent>{children}</OverlayContainerContent>
-      </OverlayContainerWrapper>
+        <PreventScroll>
+          <OverlayContainerHeader>
+            <BackButton onClick={toggle}>
+              <img src={arrowLeft} />
+            </BackButton>
+            <HeaderTitle>{title}</HeaderTitle>
+          </OverlayContainerHeader>
+          <OverlayContainerContent>{children}</OverlayContainerContent>
+        </PreventScroll>
+      </OverlayContainerWrapper>,
+      document.querySelector("#overlay"),
     );
 
-  return;
+  return null;
 }
 
 OverlayContainer.propTypes = {
