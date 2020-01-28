@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
-    "@brainhubeu/react-carousel": "^1.10.30",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "^0.1.7",
@@ -18,10 +17,8 @@
     "bootstrap": "^4.3.1",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
-    "draft-js": "^0.11.3",
     "env-cmd": "^10.0.1",
     "express": "^4.17.1",
-    "formik": "^2.0.6",
     "graphql": "^14.5.8",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
@@ -34,29 +31,16 @@
     "prop-types": "^15.7.2",
     "pure-react-carousel": "^1.23.3",
     "react": "^16.10.2",
-    "react-alice-carousel": "^1.15.3",
-    "react-collapsible": "^2.6.2",
     "react-dom": "^16.10.2",
-    "react-google-autocomplete": "^1.1.2",
     "react-helmet": "^5.2.1",
-    "react-horizontal-scrolling-menu": "^0.7.3",
     "react-html-parser": "^2.0.2",
     "react-moment": "^0.9.6",
-    "react-onclickoutside": "^6.9.0",
-    "react-outside-click-handler": "^1.3.0",
-    "react-phone-number-input": "^2.5.1",
-    "react-places-autocomplete": "^7.2.1",
     "react-responsive": "^8.0.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0",
     "react-select": "^3.0.8",
-    "react-slick": "^0.25.2",
     "react-static-google-map": "^0.5.3",
     "react-waypoint": "^9.0.2",
     "reactstrap": "^8.1.1",
-    "slick-carousel": "^1.8.1",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
     "styled-components": "^4.4.0"
   },
   "scripts": {
@@ -64,8 +48,7 @@
     "start:back-end": "env-cmd -f ./.env nodemon server.js",
     "start:front-end": "react-scripts start",
     "dev": "npm-run-all -p start:back-end start:front-end",
-    "build": "react-scripts build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=true npm install && npm run build"
+    "build": "react-scripts build"
   },
   "resolutions": {
     "@babel/runtime": "7.0.0-beta.46"
@@ -90,10 +73,8 @@
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.7.2",
     "eslint-plugin-react": "^7.17.0",
-    "jest": "^24.9.0",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",
-    "query-string": "^6.9.0",
-    "relay-config": "^7.1.0"
+    "query-string": "^6.9.0"
   }
 }

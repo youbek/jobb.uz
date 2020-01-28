@@ -52,7 +52,6 @@ function useJobFilter() {
     }
   }
 
-  console.log(filters);
   return [redirector, searchFilters, filters];
 }
 

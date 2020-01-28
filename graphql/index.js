@@ -1,1 +1,1 @@
-module.exports = [require('./job'), require('./user')];
+module.exports = [require("./job")];

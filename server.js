@@ -13,6 +13,8 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(cors());
 app.use(cookieParser());
 
+console.log(process.env.DB_URL);
+
 db.connect(process.env.DB_URL)
   .then(() => {
     const apolloServer = createApolloServer();

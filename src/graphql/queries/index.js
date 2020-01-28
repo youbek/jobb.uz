@@ -12,15 +12,6 @@ export const CHECK_TOKEN = gql`
   }
 `;
 
-export const JOB_CATEGORIES = gql`
-  query JobCategories {
-    jobCategories {
-      name
-      subCategories
-    }
-  }
-`;
-
 export const GET_LATEST_JOBS = gql`
   query GetLatestJobs($options: JobSearchArgs) {
     getLatestJobs(options: $options) {
@@ -40,15 +31,6 @@ export const GET_LATEST_JOBS = gql`
       salaryFrom
       salaryTo
       partTime
-    }
-  }
-`;
-
-export const GET_POPULAR_JOB_TITLES = gql`
-  query GetPopularJobTitles($categoryName: String) {
-    getPopularJobTitles(categoryName: $categoryName) {
-      name
-      amount
     }
   }
 `;
