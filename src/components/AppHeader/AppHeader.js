@@ -58,4 +58,8 @@ function AppHeader({ appHeaderState }) {
   );
 }
 
+AppHeader.propTypes = {
+  appHeaderState: PropTypes.object,
+};
+
 export default AppHeader;
