@@ -15,7 +15,10 @@ function Root() {
   const authContext = useRef();
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    uri: process.env.REACT_APP_BACK_END_URI,
+    uri:
+      window.location.href === "http://localhost:3000"
+        ? "http://www.jobb.uz/graphql"
+        : "http://localhost:8080/graphql",
     request: operation => {
       const token = localStorage.getItem("userToken");
       operation.setContext({

@@ -1,21 +1,21 @@
-function renderSalary(salaryFrom, salaryTo) {
+function renderSalary(salaryFrom, salaryTo, salaryCurrency) {
   const formatSalary = new Intl.NumberFormat("en-US", {});
 
-  if (salaryFrom === "USD") {
+  if (salaryCurrency === "USD") {
     return `от  
         $${formatSalary.format(salaryFrom)} до $${formatSalary.format(
       salaryTo,
     )} за месяц`;
   }
   if (!salaryFrom && salaryTo) {
-    if (salaryTo === "USD") {
+    if (salaryCurrency === "USD") {
       return `до $${formatSalary.format(salaryTo)} за месяц `;
     }
     return `до ${formatSalary.format(salaryTo)} сум за месяц `;
   }
   if ((salaryTo && salaryFrom === salaryTo) || (salaryFrom && !salaryTo)) {
-    if (salaryTo === "USD") {
-      return `от $${formatSalary.format(salaryFrom)} сум за месяц `;
+    if (salaryCurrency === "USD") {
+      return `от $${formatSalary.format(salaryFrom)} за месяц `;
     }
     return `от ${formatSalary.format(salaryFrom)} сум за месяц `;
   }

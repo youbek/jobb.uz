@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { useMediaQuery } from "react-responsive";
+import { useWindowDimensions } from "hooks";
+
+import {
+  Navbar,
+  NavbarNav,
+  NavBrand,
+  NavContainer,
+  JobsFilterMobile,
+} from "components";
+
+import MobileHeader from "./MobileHeader";
+import HeaderSearch from "./HeaderSearch";
+
+import Logo from "../../icons/Logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import JobsFilterMobile from "../JobsFeed/JobsFilter/JobsFilterMobile";
-import MobileHeader from "./MobileHeader";
-import Logo from "../../icons/Logo.svg";
-import HeaderSearch from "./HeaderSearch";
-import Navbar from "../Navbar/Navbar";
-import NavContainer from "../Navbar/NavContainer";
-import NavBrand from "../Navbar/NavBrand";
-import NavbarNav from "../Navbar/NavbarNav";
-
 function AppHeader({ appHeaderState }) {
-  const isMobileAndIsTablet = useMediaQuery({
-    query: "(max-device-width: 992px )",
-  });
-  const isDesktop = useMediaQuery({ query: "(min-device-width: 992px )" });
+  const isTablet = useWindowDimensions();
+
   const [searchMobile, setSearchMobile] = useState(false);
+  const isMobileHeader =
+    isTablet && window.location.pathname.split("/")[1] === "vacancy";
+
   function toggleSearchMobile() {
     setSearchMobile(!searchMobile);
   }
 
-  const isMobileHeader =
-    isMobileAndIsTablet && window.location.pathname.split("/")[1] === "vacancy";
   if (isMobileHeader) return <MobileHeader title={appHeaderState.title} />;
 
   return (
@@ -36,7 +39,7 @@ function AppHeader({ appHeaderState }) {
             <img src={Logo} alt="joblink-logo" />
           </NavBrand>
           <NavbarNav>
-            {isMobileAndIsTablet && (
+            {isTablet ? (
               <React.Fragment>
                 <a className="mr-2" onClick={toggleSearchMobile}>
                   <FontAwesomeIcon icon={faSearch} color="#fff" />
@@ -48,9 +51,9 @@ function AppHeader({ appHeaderState }) {
                   />
                 )}
               </React.Fragment>
+            ) : (
+              <HeaderSearch />
             )}
-
-            {isDesktop && <HeaderSearch />}
           </NavbarNav>
         </NavContainer>
       </Navbar>

@@ -46,7 +46,7 @@ const MobileHeaderTitle = styled.div`
   font-size: 1.25rem;
 `;
 
-function MobileHeader({ title, backHandler, history }) {
+function MobileHeader({ title, history }) {
   return (
     <MobileHeaderWrapper>
       <MobileHeaderOffset />
@@ -61,5 +61,10 @@ function MobileHeader({ title, backHandler, history }) {
     </MobileHeaderWrapper>
   );
 }
+
+MobileHeader.propTypes = {
+  title: PropTypes.string,
+  history: PropTypes.object,
+};
 
 export default withRouter(MobileHeader);

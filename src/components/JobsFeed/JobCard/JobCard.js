@@ -1,16 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
-
-import { Link } from "react-router-dom";
-import JobDescription from "./JobDescription";
-import JobCardBadges from "./JobCardBadges";
-import Moment from "react-moment";
-
 import styled from "styled-components";
-
+import PropTypes from "prop-types";
+import Moment from "react-moment";
 import "moment-timezone";
-import renderSalary from "../../../helpers/renderSalary";
-import { formatCityName } from "../../../helpers";
+import { Link } from "react-router-dom";
+
+import { JobDescription, JobCardBadges } from "components";
+
+import { formatCityName, renderSalary } from "helpers";
 
 const JobCardJobTitle = styled.div`
   font-size: 20px;
@@ -71,10 +68,6 @@ const JobCardLink = styled(Link)`
   z-index: 1;
 `;
 
-const JobCardSalary = styled.div`
-  font-size: 14px;
-`;
-
 const JobCard = ({ job }) => {
   return (
     <JobCardWrapper>
@@ -106,6 +99,8 @@ JobCard.propTypes = {
     companyName: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    salaryFrom: PropTypes.string,
+    salaryTo: PropTypes.string,
     noExperience: PropTypes.bool.isRequired,
     partTime: PropTypes.bool.isRequired,
     address: PropTypes.shape({

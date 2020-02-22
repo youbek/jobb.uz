@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { StaticGoogleMap, Marker } from "react-static-google-map";
+import PropTypes from "prop-types";
 
-import Col4 from "../Layout/Col4";
+import { StaticGoogleMap, Marker } from "react-static-google-map";
+import { Col4 } from "components";
 
 const JobLocation = styled.div`
   margin-left: 0.5rem;
@@ -44,7 +45,6 @@ const JobAddressAndEmployer = styled.div`
 `;
 
 function JobAddressAndRecruiter({ location, address }) {
-  console.log(location);
   return (
     <Col4>
       <JobLocation>
@@ -73,5 +73,10 @@ function JobAddressAndRecruiter({ location, address }) {
     </Col4>
   );
 }
+
+JobAddressAndRecruiter.propTypes = {
+  location: PropTypes.string,
+  address: PropTypes.string,
+};
 
 export default JobAddressAndRecruiter;

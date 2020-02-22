@@ -1,25 +1,10 @@
 import React from "react";
-import ReactDOM, { createPortal } from "react-dom";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import Modal from "styled-react-modal";
 import arrowLeft from "../../../icons/arrowLeft.svg";
 
-const OverlayContainerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: #fff;
-  z-index: 200;
-`;
-
-const PreventScroll = styled.div`
-  height: 100%;
-  overflow: scroll;
-`;
+const StyledModal = styled(Modal)``;
 
 const OverlayContainerHeader = styled.div`
   padding: 0.5rem 1rem;
@@ -65,24 +50,25 @@ const OverlayContainerContent = styled.div`
   }
 `;
 
-function OverlayContainer({ isOpen, toggle, children, title }) {
-  if (isOpen)
-    return createPortal(
-      <OverlayContainerWrapper>
-        <PreventScroll>
-          <OverlayContainerHeader>
-            <BackButton onClick={toggle}>
-              <img src={arrowLeft} />
-            </BackButton>
-            <HeaderTitle>{title}</HeaderTitle>
-          </OverlayContainerHeader>
-          <OverlayContainerContent>{children}</OverlayContainerContent>
-        </PreventScroll>
-      </OverlayContainerWrapper>,
-      document.querySelector("#overlay"),
-    );
+const Some = styled.div`
+  width: 500px;
+  height: 500px;
+  background-color: #000;
+`;
 
-  return null;
+function OverlayContainer({ isOpen, toggle, children, title }) {
+  console.log(isOpen);
+  return (
+    <StyledModal isOpen={isOpen} opacity={100} toggle={toggle}>
+      <OverlayContainerHeader>
+        <BackButton onClick={toggle}>
+          <img src={arrowLeft} />
+        </BackButton>
+        <HeaderTitle>{title}</HeaderTitle>
+      </OverlayContainerHeader>
+      <OverlayContainerContent>{children}</OverlayContainerContent>
+    </StyledModal>
+  );
 }
 
 OverlayContainer.propTypes = {

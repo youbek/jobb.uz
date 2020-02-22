@@ -93,21 +93,6 @@ span.invalid-feedback {
 
 // CAROUSEL BUTTON (JOB CATEGORIES) && JOB CATEGORIES MOBILE
 
-.carousel-slide {
-  padding-bottom: 15px;
-
-  outline: none !important;
-  * {
-    outline: none !important;
-  }
-
-  .carousel-slide-item {
-    & > div {
-      padding: 0 3px;
-    }
-  }
-}
-
 .btn-carousel {
   padding-top: 0.7rem;
   display: flex;

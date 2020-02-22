@@ -1,16 +1,20 @@
 import React, { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
-import queryString from "query-string";
 
-import ScrollToTop from "../components/ScrollToTop";
 import AppHeaderContextProvider from "../context/AppHeaderContext";
+
 import JobsFeedPage from "../pages/JobsFeedPage";
 import JobPage from "../pages/JobPage";
+
+import ScrollToTop from "../components/ScrollToTop";
 import Footer from "../components/Footer/index";
 
+import { useWindowDimensions } from "hooks";
+
 function Layout() {
-  const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
+  const isMobile = useWindowDimensions();
+
+  console.log(isMobile);
   return (
     <Fragment>
       <AppHeaderContextProvider>

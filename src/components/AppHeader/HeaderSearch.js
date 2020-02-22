@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import InputGroup from "../Form/InputGroup";
-import Input from "../Form/Input";
-import Button from "../Buttons/Button";
 
 import { useJobFilter } from "hooks";
+
+import { Button, InputGroup, Input } from "components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const SearchIcon = styled(FontAwesomeIcon)`
   color: #222;

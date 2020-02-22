@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useJobFilter } from "../../../hooks";
 
-import { Link } from "react-router-dom";
 import SlideButton from "./SlideButton";
 import NextButton from "./NextButton";
 import PrevButton from "./PrevButton";
+import Slider from "./Slider";
+import Slide from "./Slide";
 import JobCategoriesContainer from "./JobCategoriesContainer";
 import JobCategoriesMobile from "./JobCategoriesMobile";
-import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
+import { CarouselProvider } from "pure-react-carousel";
 
 import { jobCategories } from "constants/index";
 
@@ -52,17 +53,21 @@ function JobCategories() {
         <PrevButton onClick={handleBack}>
           <FontAwesomeIcon icon={faArrowLeft} />
         </PrevButton>
-        <Slider className="carousel-slide">
+        <Slider>
           {isMobile && (
-            <Slide className="carousel-slide-item">
-              <Link className="btn-carousel" onClick={toggleAllCategories}>
-                <FontAwesomeIcon icon={faArrowRight} size="lg" />
-                <span>All Categories</span>
-              </Link>
+            <Slide>
+              <SlideButton onClick={toggleAllCategories}>
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  size="2x"
+                  color="#5B5E64"
+                />
+                <span>Все Категории</span>
+              </SlideButton>
             </Slide>
           )}
           {jobCategories.map((category, index) => (
-            <Slide className="carousel-slide-item" index={index} key={index}>
+            <Slide index={index} key={index}>
               <SlideButton
                 onClick={() =>
                   jobReFilter({ categoryName: category.transliteratedName })

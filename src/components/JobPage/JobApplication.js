@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import ButtonLink from "../Buttons/ButtonLink";
 
 function JobApplication({ job }) {
   // VALIDATING WHETHER JOB EXPIRED OR NOT
-  console.log(job);
+
   const dateFrom = moment()
     .subtract(30, "d")
     .format("YYYY-MM-DD");
@@ -22,5 +23,9 @@ function JobApplication({ job }) {
     </div>
   );
 }
+
+JobApplication.propTypes = {
+  job: PropTypes.object.isRequired,
+};
 
 export default JobApplication;

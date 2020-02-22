@@ -47,7 +47,7 @@ function JobsFeedPage() {
     if (!refetching || jobsQuery.loading) {
       return;
     }
-    console.log("Fetching more jobs");
+
     fetchMoreJobs();
   }, [refetching]);
 

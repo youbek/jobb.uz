@@ -17,7 +17,6 @@ const NoSimilarJobs = styled.div`
 `;
 
 function SimilarJobsFeed({ similarJobs, loading }) {
-  console.log(similarJobs);
   return (
     <Col8 className="mt-4">
       {// IF NO JOBS FOUND

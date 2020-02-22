@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const BadgeWrapper = styled.div`
@@ -37,5 +38,10 @@ function JobCardBadges({ noExperience, partTime }) {
     </BadgeWrapper>
   );
 }
+
+JobCardBadges.propTypes = {
+  noExperience: PropTypes.bool,
+  partTime: PropTypes.bool,
+};
 
 export default JobCardBadges;

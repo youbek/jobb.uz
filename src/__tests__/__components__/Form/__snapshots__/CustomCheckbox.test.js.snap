@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomCheckbox rendering 1`] = `
+<input
+  checked=""
+  class="CustomCheckbox-sc-19rzvd-0 hrgxbd"
+  type="checkbox"
+/>
+`;

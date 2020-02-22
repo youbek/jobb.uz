@@ -5,12 +5,11 @@ import "moment-timezone";
 import Moment from "react-moment";
 import ReactHtmlParser from "react-html-parser";
 
-import JobCardBadges from "../JobsFeed/JobCard/JobCardBadges";
-import JobApplication from "./JobApplication";
-import Col8 from "../Layout/Col8";
-
+import { Col8, JobCardBadges, JobApplication } from "components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+
 import renderSalary from "../../helpers/renderSalary";
 
 // STYLED COMPONENTS
@@ -56,11 +55,13 @@ const JobDate = styled.div`
 function JobInfo({ job }) {
   const isHH = job.link.indexOf("hh.uz") !== -1;
 
+  console.log(job);
+
   return (
     <Col8>
       <JobTitle>{job.title}</JobTitle>
-      <JobSalary className="job-page-salary">
-        {renderSalary(job.salaryFrom, job.salaryTo)}
+      <JobSalary>
+        {renderSalary(job.salaryFrom, job.salaryTo, job.salaryCurrency)}
       </JobSalary>
 
       <JobCardBadges

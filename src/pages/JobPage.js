@@ -1,23 +1,26 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import { Redirect, Link } from "react-router-dom";
 
+import { AppHeaderContext } from "../context/AppHeaderContext";
+
 import JobInfo from "../components/JobPage/JobInfo";
+import JobPageContainer from "../components/JobPage/JobPageContainer";
+import JobAddressAndRecruiter from "../components/JobPage/JobAddressAndRecruiter";
+import JobPageSpinner from "../components/JobPage/JobPageSpinner";
+
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
-import JobPageContainer from "../components/JobPage/JobPageContainer";
-import Row from "../components/Layout/Row";
 
 import SimilarJobsFeed from "../components/JobsFeed/SimilarJobsFeed";
 
-import { AppHeaderContext } from "../context/AppHeaderContext";
+import Row from "../components/Layout/Row";
 
 import { GET_JOB } from "../graphql/queries/index";
-import JobAddressAndRecruiter from "../components/JobPage/JobAddressAndRecruiter";
-import JobPageSpinner from "../components/JobPage/JobPageSpinner";
+
 import { formatCityName, createSEOVacancyScript } from "../helpers";
 import { createJobPageTitle } from "../helpers";
 
