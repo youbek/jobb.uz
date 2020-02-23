@@ -1,6 +1,5 @@
 // LAYOUT
-export { default as Col4 } from "./Layout/Col4";
-export { default as Col8 } from "./Layout/Col8";
+export { default as Col } from "./Layout/Col";
 export { default as Container } from "./Layout/Container";
 export { default as Row } from "./Layout/Row";
 export { default as OverlayContainer } from "./Layout/OverlayContainer/OverlayContainer";

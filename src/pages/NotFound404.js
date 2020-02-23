@@ -1,8 +1,8 @@
 import React from "react";
-import { Container } from "reactstrap";
+import { Container } from "components";
 
 function NotFound404() {
-  return <Container className="align-text-center">Page Not Found</Container>;
+  return <Container className="text-center">Page Not Found</Container>;
 }
 
 export default NotFound404;

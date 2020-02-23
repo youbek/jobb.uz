@@ -15,7 +15,6 @@
     "apollo-server": "^2.9.12",
     "apollo-server-express": "^2.9.13",
     "bcryptjs": "^2.4.3",
-    "bootstrap": "^4.3.1",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "env-cmd": "^10.0.1",
@@ -42,7 +41,6 @@
     "react-select": "^3.0.8",
     "react-static-google-map": "^0.5.3",
     "react-waypoint": "^9.0.2",
-    "reactstrap": "^8.1.1",
     "styled-components": "^5.0.1",
     "styled-react-modal": "^2.0.0"
   },

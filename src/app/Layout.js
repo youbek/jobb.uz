@@ -39,8 +39,6 @@ function Layout() {
           <Route render={() => <Redirect to="/404" />} />
         </Switch>
       </AppHeaderContextProvider>
-
-      {!isMobile && <Footer />}
     </Fragment>
   );
 }

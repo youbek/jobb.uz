@@ -8,7 +8,6 @@ import App from "./app/App";
 
 import * as serviceWorker from "./serviceWorker";
 
-import "bootstrap/dist/css/bootstrap.css";
 import "./styles/main.scss";
 
 function Root() {

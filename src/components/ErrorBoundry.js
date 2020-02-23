@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container } from "reactstrap";
+import { Container } from "components";
 
 class ErrorBoundry extends Component {
   constructor(props) {

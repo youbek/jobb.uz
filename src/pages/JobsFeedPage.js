@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
 import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
@@ -8,7 +9,7 @@ import JobsFilter from "../components/JobsFeed/JobsFilter/JobsFilter";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
 import JobsFeedContainer from "../components/JobsFeed/JobsFeedContainer";
-import { Row, Col } from "reactstrap";
+import { Row, Col } from "components";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 
@@ -105,14 +106,14 @@ function JobsFeedPage() {
       <JobsFeedContainer>
         {!searchFilters.categoryName && (
           <Row>
-            <Col md="12">
+            <Col col12>
               <JobCategories />
             </Col>
           </Row>
         )}
 
-        <Row className="jobs-feed-page pb-4">
-          <Col id="feed-page" lg="8">
+        <Row className="mt-4 pb-4">
+          <Col col8>
             {filters.title &&
             jobsQuery.data &&
             jobsQuery.data.getLatestJobs.length ? (
@@ -130,7 +131,7 @@ function JobsFeedPage() {
               />
             )}
           </Col>
-          <Col md="4" className="d-none d-lg-block d-xl-block">
+          <Col col4 className="d-none d-lg-block d-xl-block">
             <JobsFilter filters={searchFilters} loading={jobsQuery.loading} />
           </Col>
         </Row>

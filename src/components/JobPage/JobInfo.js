@@ -5,7 +5,7 @@ import "moment-timezone";
 import Moment from "react-moment";
 import ReactHtmlParser from "react-html-parser";
 
-import { Col8, JobCardBadges, JobApplication } from "components";
+import { Col, JobCardBadges, JobApplication } from "components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faClock } from "@fortawesome/free-solid-svg-icons";
@@ -58,7 +58,7 @@ function JobInfo({ job }) {
   console.log(job);
 
   return (
-    <Col8>
+    <Col col8>
       <JobTitle>{job.title}</JobTitle>
       <JobSalary>
         {renderSalary(job.salaryFrom, job.salaryTo, job.salaryCurrency)}
@@ -79,7 +79,7 @@ function JobInfo({ job }) {
         {isHH ? "с HeadHunter" : "с Rabota.uz"}
       </JobDate>
       <JobApplication job={job} />
-    </Col8>
+    </Col>
   );
 }
 

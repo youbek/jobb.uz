@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { StaticGoogleMap, Marker } from "react-static-google-map";
-import { Col4 } from "components";
+import { Col } from "components";
 
 const JobLocation = styled.div`
   margin-left: 0.5rem;
@@ -46,7 +46,7 @@ const JobAddressAndEmployer = styled.div`
 
 function JobAddressAndRecruiter({ location, address }) {
   return (
-    <Col4>
+    <Col col4>
       <JobLocation>
         <JobLocationMap>
           <StaticGoogleMap
@@ -70,7 +70,7 @@ function JobAddressAndRecruiter({ location, address }) {
           </JobAddressAndEmployer>
         </JobLocationMap>
       </JobLocation>
-    </Col4>
+    </Col>
   );
 }
 

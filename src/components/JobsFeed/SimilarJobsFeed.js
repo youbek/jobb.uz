@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Col8 from "../Layout/Col8";
+import { Col } from "components";
 import Spinner from "../Spinner/Spinner";
 import JobCard from "./JobCard/JobCard";
 
@@ -18,7 +18,7 @@ const NoSimilarJobs = styled.div`
 
 function SimilarJobsFeed({ similarJobs, loading }) {
   return (
-    <Col8 className="mt-4">
+    <Col col8 className="mt-4">
       {// IF NO JOBS FOUND
       Array.isArray(similarJobs) && similarJobs.length === 0 && (
         <NoSimilarJobs>Похожих вакансий не найдено </NoSimilarJobs>
@@ -35,7 +35,7 @@ function SimilarJobsFeed({ similarJobs, loading }) {
       )}
 
       {loading && similarJobs.length !== 0 && <Spinner className="mr-2" />}
-    </Col8>
+    </Col>
   );
 }
 
