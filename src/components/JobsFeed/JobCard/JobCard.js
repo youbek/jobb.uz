@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { JobDescription, JobCardBadges } from "components";
 
 import { formatCityName, renderSalary } from "helpers";
+import { useWindowDimensions } from "hooks";
 
 const JobCardJobTitle = styled.div`
   font-size: 20px;
@@ -17,7 +18,7 @@ const JobCardJobTitle = styled.div`
   color: #383c43;
 `;
 
-const JobCardWrapper = styled.div`
+const JobCardWrapper = styled(Link)`
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -67,10 +68,23 @@ const JobCardLink = styled(Link)`
   display: block;
   z-index: 1;
 `;
+const JobCardLinkNewTab = styled(Link)`
+  bottom: 0px;
+  left: 0px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  display: block;
+  z-index: 1;
+`;
 
 const JobCard = ({ job }) => {
+  const isMobile = useWindowDimensions();
+
+  const vacancyLink = `/vacancy/${job.hashId}`;
+
   return (
-    <JobCardWrapper>
+    <JobCardWrapper to={vacancyLink} target="_blank">
       <div>
         <JobCardDate>
           <Moment locale="ru" fromNow>
@@ -89,7 +103,16 @@ const JobCard = ({ job }) => {
           {formatCityName(job.address.name)}
         </JobCardViewAddress>
       </JobCardViewFooter>
-      <JobCardLink to={`/vacancy/${job.hashId}`} />
+      {isMobile ? (
+        <JobCardLink to={vacancyLink} />
+      ) : (
+        <JobCardLinkNewTab
+          to={vacancyLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={event => event.stopPropagation()}
+        />
+      )}
     </JobCardWrapper>
   );
 };

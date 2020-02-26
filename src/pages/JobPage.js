@@ -30,6 +30,8 @@ function JobPage({ hashId }) {
     variables: { hashId },
   });
 
+  console.log(getJobQuery);
+
   const url = window.location.href;
 
   useEffect(() => {

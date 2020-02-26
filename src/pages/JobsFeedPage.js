@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
 import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
@@ -84,12 +83,7 @@ function JobsFeedPage() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>
-          {createJobsFeedPageTitle(
-            searchFilters.categoryName,
-            searchFilters.subCategoryName,
-          )}
-        </title>
+        <title>{createJobsFeedPageTitle(filters.categoryName)}</title>
         <link rel="canonical" href={url} />
       </Helmet>
       <nav>

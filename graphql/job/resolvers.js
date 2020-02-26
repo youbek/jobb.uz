@@ -8,6 +8,7 @@ module.exports = {
         const foundJob = await JobModel.findOne({ hashId: args.hashId });
         return foundJob;
       } catch (err) {
+        console.log(err);
         throw new Error(err);
       }
     },

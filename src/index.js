@@ -15,7 +15,7 @@ function Root() {
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     uri:
-      window.location.href === "http://localhost:3000/"
+      window.location.origin === "http://localhost:3000"
         ? "http://localhost:8080/graphql"
         : "http://www.jobb.uz/graphql",
     request: operation => {
