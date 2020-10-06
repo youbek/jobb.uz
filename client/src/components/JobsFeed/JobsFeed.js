@@ -9,12 +9,13 @@ import JobsEmpty from "./JobsEmpty";
 function JobsFeed({ jobs, loading, setRefetching, searchTitle }) {
   return (
     <React.Fragment>
-      {// IF NO JOBS FOUND
-      Array.isArray(jobs) && jobs.length === 0 && (
-        <JobsEmpty searchTitle={searchTitle} />
-      )}
-      {// ELSE
-      Array.isArray(jobs) &&
+      {
+        // IF NO JOBS FOUND
+        Array.isArray(jobs) && jobs.length === 0 && (
+          <JobsEmpty searchTitle={searchTitle} />
+        )
+      }
+      {Array.isArray(jobs) &&
         jobs.length > 0 &&
         jobs.map((job, index) => (
           <React.Fragment key={index}>

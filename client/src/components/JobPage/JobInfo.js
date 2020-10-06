@@ -55,8 +55,6 @@ const JobDate = styled.div`
 function JobInfo({ job }) {
   const isHH = job.link.indexOf("hh.uz") !== -1;
 
-  console.log(job);
-
   return (
     <Col col8>
       <JobTitle>{job.title}</JobTitle>

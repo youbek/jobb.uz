@@ -86,16 +86,14 @@ function JobsFeedPage() {
         <title>{createJobsFeedPageTitle(filters.categoryName)}</title>
         <link rel="canonical" href={url} />
       </Helmet>
-      <nav>
-        <Breadcrumb>
-          <BreadcrumbContainer>
-            <BreadcrumbItem>Работа в Ташкенте</BreadcrumbItem>
-            {filters.categoryName && (
-              <BreadcrumbItem>{filters.categoryName}</BreadcrumbItem>
-            )}
-          </BreadcrumbContainer>
-        </Breadcrumb>
-      </nav>
+      <Breadcrumb>
+        <BreadcrumbContainer>
+          <BreadcrumbItem>Работа в Ташкенте</BreadcrumbItem>
+          {filters.categoryName && (
+            <BreadcrumbItem>{filters.categoryName}</BreadcrumbItem>
+          )}
+        </BreadcrumbContainer>
+      </Breadcrumb>
 
       <JobsFeedContainer>
         {!searchFilters.categoryName && (

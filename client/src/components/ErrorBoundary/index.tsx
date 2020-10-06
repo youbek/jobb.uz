@@ -1,17 +1,23 @@
-import React, { Component } from "react";
+import React, { Component, ErrorInfo } from "react";
 import { Container } from "components";
 
-class ErrorBoundry extends Component {
-  constructor(props) {
+interface Props extends React.ComponentClass {}
+
+interface State {
+  hasError: boolean;
+}
+
+class ErrorBoundry extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.log(error, errorInfo);
   }
 

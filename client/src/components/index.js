@@ -4,6 +4,7 @@ export { default as Container } from "./Layout/Container";
 export { default as Row } from "./Layout/Row";
 export { default as OverlayContainer } from "./Layout/OverlayContainer/OverlayContainer";
 export { default as OverlayContainerFooter } from "./Layout/OverlayContainer/OverlayContainerFooter";
+export { default as Breadcrumb } from "./Breadcrumb";
 
 // BUTTONS
 export { default as Button } from "./Buttons/Button";
@@ -35,3 +36,5 @@ export { default as NavBrand } from "./Navbar/NavBrand";
 export { default as NavItem } from "./Navbar/NavItem";
 export { default as NavLink } from "./Navbar/NavLink";
 export { default as Navbar } from "./Navbar/Navbar";
+
+export { default as ErrorBoundary } from "./ErrorBoundary";

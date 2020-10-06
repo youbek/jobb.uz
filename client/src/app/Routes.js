@@ -21,8 +21,26 @@ function Routes() {
     <Router>
       <Switch>
         <ModalProvider backgroundComponent={Overlay}>
+          <ScrollToTop />
           <Route exact path="/404" component={NotFound404} />
           <Route path="/" component={Layout} />
+          <Route
+            exact
+            path="/vacancy/:hashId"
+            render={(routerProps) => {
+              const hashId = routerProps.match.params.hashId;
+              return <JobPage hashId={hashId} />;
+            }}
+          />
+
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return <JobsFeedPage />;
+            }}
+          />
+          <Route render={() => <Redirect to="/404" />} />
         </ModalProvider>
       </Switch>
     </Router>

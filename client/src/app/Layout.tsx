@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import AppHeaderContextProvider from "../context/AppHeaderContext";
-
 import JobsFeedPage from "../pages/JobsFeedPage";
 import JobPage from "../pages/JobPage";
 
@@ -14,7 +12,6 @@ import { useWindowDimensions } from "hooks";
 function Layout() {
   const isMobile = useWindowDimensions();
 
-  console.log(isMobile);
   return (
     <Fragment>
       <AppHeaderContextProvider>
@@ -23,7 +20,7 @@ function Layout() {
           <Route
             exact
             path="/vacancy/:hashId"
-            render={routerProps => {
+            render={(routerProps) => {
               const hashId = routerProps.match.params.hashId;
               return <JobPage hashId={hashId} />;
             }}
