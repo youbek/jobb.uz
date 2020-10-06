@@ -2,11 +2,11 @@ import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
-    job(hashId: String!): Job
-    latestJobs(options: JobSearchInput!): [Job]!
+    vacancy(hashId: String!): Vacancy
+    latestVacancy(options: VacancySearchInput!): [Vacancy]!
   }
 
-  type Job {
+  type Vacancy {
     _id: ID!
     hashId: ID!
     title: String!
@@ -16,29 +16,28 @@ export default gql`
     description: String!
     date: Float!
     link: String!
-    similarJobs: [Job]!
+    similarVacancies: [Job]!
     contactPhone: String
-    state: String
+    salary: String
     noExperience: Boolean
-    salaryFrom: Float
-    salaryTo: Float
-    salaryCurrency: String
     partTime: Boolean
+    remote: Boolean
   }
 
-  type JobAddress {
+  type VacancyAddress {
     name: String
     lat: Float
     long: Float
     district: String
   }
 
-  input JobSearchInput {
+  input VacancySearchInput {
     cursor: ID
     title: String
     category: String
     district: String
     partTime: Boolean
     noExperience: Boolean
+    remote: Boolean
   }
 `;
