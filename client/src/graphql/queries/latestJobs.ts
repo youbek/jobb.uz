@@ -12,11 +12,11 @@ export interface IVacancySearchArgs {
   remote?: boolean;
 }
 
-export interface LATEST_JOBS_RESULT {
+export interface LATEST_VACANCIES_RESULT {
   latestVacancies: IVacancy[];
 }
 
-export interface LATEST_JOBS_VARS {
+export interface LATEST_VACANCIES_VARS {
   options: IVacancySearchArgs;
 }
 

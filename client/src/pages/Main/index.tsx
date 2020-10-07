@@ -2,22 +2,20 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
-import JobCategories from "../components/JobsFeed/JobCategories/JobCategories";
-
 import VacancyCategories from "./VacancyCategories";
 import { VacancyFeed, Spinner, Container, Row, Col, Helmet } from "components";
 
 import JobsFilter from "../components/JobsFeed/JobsFilter/JobsFilter";
 
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
-import BreadcrumbItem from "../components/Breadcrumb/BreadcrumbItem";
-import JobsFeedContainer from "../components/JobsFeed/JobsFeedContainer";
 
 import ScrollToTopButton from "../components/ScrollToTopButton";
 
-import { LATEST_JOBS } from "graphql/queries/latestJobs";
-
-import { createJobsFeedPageTitle } from "../helpers";
+import {
+  LATEST_VACANCIES_RESULT,
+  LATEST_VACANCIES_VARS,
+  LATEST_VACANCIES,
+} from "graphql/queries";
 
 import { useJobFilter } from "hooks";
 
@@ -27,68 +25,44 @@ const StyledContainer = styled(Container)`
 `;
 
 function JobsFeedPage() {
-  const [jobReFilter, searchFilters, filters] = useJobFilter();
-
-  const jobsQuery = useQuery(LATEST_JOBS, {
-    variables: {
-      options: filters,
-    },
-  });
+  const { loading, data, fetchMore } = useQuery<
+    LATEST_VACANCIES_RESULT,
+    LATEST_VACANCIES_VARS
+  >(LATEST_VACANCIES);
 
   const [allJobFetched, setAllJobFetched] = useState(false);
-  const [refetching, setRefetching] = useState(false);
-  const url = window.location.href;
 
   useEffect(() => {
-    if (jobsQuery.loading) {
+    if (!loading) {
       return;
     }
 
-    setAllJobFetched(false);
-    jobsQuery.refetch({
-      options: filters,
-    });
-  }, [filters]);
+    handleFetchMore();
+  }, [loading]);
 
-  useEffect(() => {
-    if (!refetching || jobsQuery.loading) {
+  function handleFetchMore() {
+    if (!data) {
       return;
     }
 
-    fetchMoreJobs();
-  }, [refetching]);
+    const lastVacancy = data.latestVacancies[data.latestVacancies.length - 1];
 
-  function fetchMoreJobs() {
-    const lastJob =
-      jobsQuery.data.getLatestJobs[jobsQuery.data.getLatestJobs.length - 1];
-
-    jobsQuery.fetchMore({
+    fetchMore({
       variables: {
         options: {
-          cursor: lastJob && lastJob._id,
-          ...filters,
+          cursor: lastVacancy._id,
         },
       },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        setRefetching(false);
-
-        if (!fetchMoreResult || !fetchMoreResult.getLatestJobs.length) {
-          setAllJobFetched(true);
-          return prev;
+      updateQuery: (prev, {}) => {
+        if (!latestVacancies) {
+          return;
         }
-
-        fetchMoreResult.getLatestJobs = [
-          ...prev.getLatestJobs,
-          ...fetchMoreResult.getLatestJobs,
-        ];
-
-        return fetchMoreResult;
       },
     });
   }
 
   return (
-    <React.Fragment>
+    <div>
       <Helmet categoryName={filters.categoryName} />
       <Breadcrumb />
 
@@ -96,7 +70,7 @@ function JobsFeedPage() {
         {!searchFilters.categoryName && (
           <Row>
             <Col col12>
-              <JobCategories />
+              <VacancyCategories />
             </Col>
           </Row>
         )}
@@ -129,7 +103,7 @@ function JobsFeedPage() {
         </Row>
         <ScrollToTopButton />
       </StyledContainer>
-    </React.Fragment>
+    </div>
   );
 }
 

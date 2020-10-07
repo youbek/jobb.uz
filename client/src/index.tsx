@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
@@ -18,11 +18,7 @@ function Root() {
       : "http://www.jobb.uz/graphql",
   });
 
-  return (
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  );
+  return <ApolloProvider client={client}>{/* <App /> */}</ApolloProvider>;
 }
 
 ReactDOM.render(<Root />, document.getElementById("root"));
