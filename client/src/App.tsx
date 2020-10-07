@@ -6,7 +6,9 @@ import { ModalProvider } from "styled-react-modal";
 function App() {
   return (
     <ErrorBoundary>
-      <ModalProvider>{/* <Routes /> */}</ModalProvider>
+      <ModalProvider>
+        <Routes />
+      </ModalProvider>
     </ErrorBoundary>
   );
 }

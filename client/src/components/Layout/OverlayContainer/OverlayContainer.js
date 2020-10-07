@@ -57,7 +57,6 @@ const Some = styled.div`
 `;
 
 function OverlayContainer({ isOpen, toggle, children, title }) {
-  console.log(isOpen);
   return (
     <StyledModal isOpen={isOpen} opacity={100} toggle={toggle}>
       <OverlayContainerHeader>

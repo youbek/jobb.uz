@@ -17,6 +17,8 @@ export default gql`
     date: Float!
     link: String!
     similarVacancies: [Vacancy]!
+    sourceText: String!
+    expired: Boolean!
     contactPhone: String
     salary: String
     noExperience: Boolean
@@ -27,7 +29,7 @@ export default gql`
   type VacancyAddress {
     name: String
     lat: Float
-    long: Float
+    lng: Float
     district: String
   }
 

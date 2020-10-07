@@ -35,17 +35,15 @@ const Category = styled.button`
   }
 `;
 
-function JobCategoriesMobile({
-  showAllCategories,
-  toggleAllCategories,
-  categories,
-}) {
+interface Props {}
+
+function JobCategoriesMobile({ showAllCategories, onClose, categories }) {
   const [jobReFilter] = useJobFilter();
 
   return (
     <OverlayContainer
       isOpen={showAllCategories}
-      toggle={toggleAllCategories}
+      toggle={onClose}
       title="Категории"
     >
       <AllCategoryContainer>
@@ -65,11 +63,5 @@ function JobCategoriesMobile({
     </OverlayContainer>
   );
 }
-
-JobCategoriesMobile.propTypes = {
-  showAllCategories: PropTypes.bool.isRequired,
-  toggleAllCategories: PropTypes.func.isRequired,
-  categories: PropTypes.object.isRequired,
-};
 
 export default JobCategoriesMobile;

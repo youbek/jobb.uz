@@ -1,37 +1,26 @@
 import gql from "graphql-tag";
-import { JOB_FRAGMENT } from "../fragments";
+import { VACANCY_FRAGMENT } from "graphql/fragments";
+import { IVacancy } from "types";
 
-export interface JOB_RESULT {}
+export interface VACANCY_RESULT {
+  vacancy: IVacancy;
+}
 
-export interface JOB_VARS {}
+export interface VACANCY_VARS {
+  hashId: string;
+}
 
-export const JOB = gql`
-  query Job($hashId: String!) {
-    job(hashId: $hashId) {
-      ...jobFragment
-      date
-      category
+export const VACANCY = gql`
+  query Vacancy($hashId: String!) {
+    vacancy(hashId: $hashId) {
+      ...vacancyFragment
+      expired
       link
-      salaryCurrency
+      category
       similarJobs {
-        _id
-        title
-        date
-        description
-        address {
-          name
-          lat
-          long
-        }
-        noExperience
-        hashId
-        companyName
-        noExperience
-        salaryFrom
-        salaryTo
-        partTime
+        ...vacancyFragment
       }
     }
   }
-  ${JOB_FRAGMENT}
+  ${VACANCY_FRAGMENT}
 `;

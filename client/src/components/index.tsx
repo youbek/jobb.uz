@@ -6,6 +6,15 @@ export { default as OverlayContainer } from "./Layout/OverlayContainer/OverlayCo
 export { default as OverlayContainerFooter } from "./Layout/OverlayContainer/OverlayContainerFooter";
 export { default as Breadcrumb } from "./Breadcrumb";
 
+export { default as VacancyFeed } from "./VacancyFeed";
+
+export { default as Badge } from "./Badge";
+export { default as Spinner } from "./Spinner";
+
+export { default as Alert } from "./Alert";
+
+export { default as Helmet } from "./Helmet";
+
 // BUTTONS
 export { default as Button } from "./Buttons/Button";
 export { default as ButtonLink } from "./Buttons/ButtonLink";
@@ -20,8 +29,7 @@ export { default as Select } from "./Form/Select";
 
 // JOB RELATED
 export { default as VacancyCard } from "./VacancyCard";
-export { default as JobCardBadges } from "./JobsFeed/JobCard/JobCardBadges";
-export { default as JobDescription } from "./JobsFeed/JobCard/JobDescription";
+
 export { default as JobsFilterMobile } from "./JobsFeed/JobsFilter/JobsFilterMobile";
 
 // HEADER

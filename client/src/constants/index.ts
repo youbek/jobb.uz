@@ -27,7 +27,7 @@ import {
   iconConsulting,
 } from "../icons/categoryIcons";
 
-export default [
+export const vacancyCategories = [
   {
     name: "Автомобильный бизнес",
     transliteratedName: "avtomobilnyj-biznes",

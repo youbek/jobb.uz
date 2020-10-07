@@ -10,11 +10,11 @@ import FilterActions from "../../JobsFeed/JobsFilter/FilterActions";
 
 import { default as ReactSelect } from "react-select";
 
-import { jobCategories } from "constants/index";
+import { jobCategories } from "constants";
 
 // REACT SELECT CUSTOM STYLE
 const customStyles = {
-  control: provided => ({
+  control: (provided) => ({
     ...provided,
     borderColor: "#ced4da",
     minHeight: "45px",
@@ -84,7 +84,7 @@ function JobsFilter({ filters, loading, toggleSearchMobile }) {
 
   const selectedCategory = filters.categoryName
     ? jobCategories.find(
-        category => category.transliteratedName === filters.categoryName,
+        (category) => category.transliteratedName === filters.categoryName
       )
     : undefined;
 
@@ -96,7 +96,7 @@ function JobsFilter({ filters, loading, toggleSearchMobile }) {
             <Label htmlFor="search">Поиск</Label>
             <Input
               value={searchKeyword}
-              onChange={e => setSearchKeyword(e.target.value)}
+              onChange={(e) => setSearchKeyword(e.target.value)}
               placeholder="Поиск работы"
             />
           </div>
@@ -131,7 +131,7 @@ function JobsFilter({ filters, loading, toggleSearchMobile }) {
                   }
                 : undefined
             }
-            options={jobCategories.map(category => ({
+            options={jobCategories.map((category) => ({
               value: category.transliteratedName,
               label: category.name,
             }))}

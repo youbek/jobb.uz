@@ -1,15 +1,30 @@
 import gql from "graphql-tag";
-import { JOB_FRAGMENT } from "../fragments";
+import { VACANCY_FRAGMENT } from "graphql/fragments";
+import { IVacancy } from "types";
 
-export interface LATEST_JOBS_RESULT {}
+export interface IVacancySearchArgs {
+  cursor?: string;
+  title?: string;
+  category?: string;
+  district?: string;
+  partTime?: boolean;
+  noExperience?: boolean;
+  remote?: boolean;
+}
 
-export interface LATEST_JOBS_VARS {}
+export interface LATEST_JOBS_RESULT {
+  latestVacancies: IVacancy[];
+}
 
-export const LATEST_JOBS = gql`
-  query LatestJobs($options: JobSearchArgs) {
-    latestJobs(options: $options) {
-      ...jobFragment
+export interface LATEST_JOBS_VARS {
+  options: IVacancySearchArgs;
+}
+
+export const LATEST_VACANCIES = gql`
+  query LatestVacancies($options: VacancySearchArgs) {
+    latestVacancies(options: $options) {
+      ...vacancyFragment
     }
   }
-  ${JOB_FRAGMENT}
+  ${VACANCY_FRAGMENT}
 `;

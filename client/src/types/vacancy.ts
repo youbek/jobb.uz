@@ -1,4 +1,4 @@
-type Vacancy = {
+export interface IVacancy {
   _id: string;
   hashId: string;
   title: string;
@@ -8,14 +8,19 @@ type Vacancy = {
   description: string;
   date: Date;
   link: string;
-  similarVacancies: Vacancy[];
-  contactPhone: string;
-  salary: string;
-  noExperience: boolean;
-  partTime: boolean;
-  remote: boolean;
-};
+  sourceText: string;
+  expired: boolean;
+  similarVacancies?: IVacancy[];
+  contactPhone?: string;
+  salary?: string;
+  noExperience?: boolean;
+  partTime?: boolean;
+  remote?: boolean;
+}
 
-type VacancyAddress = {};
-
-export { Vacancy, VacancyAddress };
+export interface IVacancyAddress {
+  name?: string;
+  lat?: number;
+  lng?: number;
+  district?: string;
+}

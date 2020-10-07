@@ -2,6 +2,8 @@ import { IVacancyDocument, IVacancySchema, VacancyModel } from "db";
 import { MongooseFilterQuery } from "mongoose";
 import { IVacancySearchInput } from "./types";
 
+import moment from "moment";
+
 export default {
   Query: {
     vacancy: async (
@@ -76,6 +78,23 @@ export default {
       } else {
         return `от ${from} до ${to} ${currency}`;
       }
+    },
+    sourceText: (vacancy: IVacancyDocument) => {
+      const { link, date } = vacancy;
+
+      const dateText = moment(date).locale("ru").fromNow();
+
+      if (link.includes("hh.uz")) {
+        return `${dateText} с HeadHunter`;
+      } else {
+        return `${dateText} с Rabota.uz`;
+      }
+    },
+    expired: (vacancy: IVacancyDocument) => {
+      const today = moment();
+      const expirationDate = moment(vacancy.date).add(30, "days");
+
+      return today.isAfter(expirationDate);
     },
   },
 };
