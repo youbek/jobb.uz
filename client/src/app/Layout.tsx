@@ -14,28 +14,26 @@ function Layout() {
 
   return (
     <Fragment>
-      <AppHeaderContextProvider>
-        <ScrollToTop />
-        <Switch>
-          <Route
-            exact
-            path="/vacancy/:hashId"
-            render={(routerProps) => {
-              const hashId = routerProps.match.params.hashId;
-              return <JobPage hashId={hashId} />;
-            }}
-          />
+      <ScrollToTop />
+      <Switch>
+        <Route
+          exact
+          path="/vacancy/:hashId"
+          render={(routerProps) => {
+            const hashId = routerProps.match.params.hashId;
+            return <JobPage hashId={hashId} />;
+          }}
+        />
 
-          <Route
-            exact
-            path="/"
-            render={() => {
-              return <JobsFeedPage />;
-            }}
-          />
-          <Route render={() => <Redirect to="/404" />} />
-        </Switch>
-      </AppHeaderContextProvider>
+        <Route
+          exact
+          path="/"
+          render={() => {
+            return <JobsFeedPage />;
+          }}
+        />
+        <Route render={() => <Redirect to="/404" />} />
+      </Switch>
     </Fragment>
   );
 }

@@ -4,7 +4,7 @@ import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import "moment/locale/ru";
 
-import App from "./app/App";
+import App from "./App";
 
 import * as serviceWorker from "./serviceWorker";
 
@@ -15,10 +15,10 @@ function Root() {
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     uri:
-      window.location.origin === "http://localhost:3000"
+      window.location.origin === "http://localhost:8080"
         ? "http://localhost:8080/graphql"
         : "http://www.jobb.uz/graphql",
-    request: operation => {
+    request: (operation) => {
       const token = localStorage.getItem("userToken");
       operation.setContext({
         headers: {

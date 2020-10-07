@@ -19,15 +19,10 @@ export { default as Label } from "./Form/Label";
 export { default as Select } from "./Form/Select";
 
 // JOB RELATED
-export { default as JobCard } from "./JobsFeed/JobCard/JobCard";
+export { default as VacancyCard } from "./VacancyCard";
 export { default as JobCardBadges } from "./JobsFeed/JobCard/JobCardBadges";
 export { default as JobDescription } from "./JobsFeed/JobCard/JobDescription";
 export { default as JobsFilterMobile } from "./JobsFeed/JobsFilter/JobsFilterMobile";
-export { default as JobApplication } from "./JobPage/JobApplication";
-export { default as JobAddressAndRecruiter } from "./JobPage/JobAddressAndRecruiter";
-export { default as JobInfo } from "./JobPage/JobInfo";
-export { default as JobPageContainer } from "./JobPage/JobPageContainer";
-export { default as JobPageSpinner } from "./JobPage/JobPageSpinner";
 
 // HEADER
 export { default as NavbarNav } from "./Navbar/NavbarNav";
@@ -38,3 +33,5 @@ export { default as NavLink } from "./Navbar/NavLink";
 export { default as Navbar } from "./Navbar/Navbar";
 
 export { default as ErrorBoundary } from "./ErrorBoundary";
+
+// Job Page

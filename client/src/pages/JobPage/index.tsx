@@ -5,20 +5,20 @@ import PropTypes from "prop-types";
 import { Redirect, Link } from "react-router-dom";
 
 import { Breadcrumb } from "components";
+import {
+  VacancyInfo,
+  VacancyPageContainer,
+  VacancyAddressAndRecruiter,
+  VacancyPageSpinner,
+} from "components/JobPage";
 
-import JobInfo from "../components/JobPage/JobInfo";
-import JobPageContainer from "../components/JobPage/JobPageContainer";
-import JobAddressAndRecruiter from "../components/JobPage/JobAddressAndRecruiter";
-import JobPageSpinner from "../components/JobPage/JobPageSpinner";
+import SimilarJobsFeed from "../../components/JobsFeed/SimilarJobsFeed";
+import Row from "../../components/Layout/Row";
 
-import SimilarJobsFeed from "../components/JobsFeed/SimilarJobsFeed";
+import { JOB } from "graphql/queries/job";
 
-import Row from "../components/Layout/Row";
-
-import { JOB } from "../graphql/queries/index";
-
-import { formatCityName, createSEOVacancyScript } from "../helpers";
-import { createJobPageTitle } from "../helpers";
+import { formatCityName, createSEOVacancyScript } from "../../helpers";
+import { createJobPageTitle } from "../../helpers";
 
 interface Props {
   hashId: string;
@@ -33,7 +33,7 @@ function JobPage({ hashId }: Props) {
 
   if (getJobQuery.error) throw new Error(`Error ${getJobQuery.error.message}`);
 
-  if (getJobQuery.loading) return <JobPageSpinner />;
+  if (getJobQuery.loading) return <VacancyPageSpinner />;
 
   if (!getJobQuery.data || !getJobQuery.data.job) {
     return <Redirect to="/404" />;
@@ -52,10 +52,10 @@ function JobPage({ hashId }: Props) {
       </Helmet>
       <Breadcrumb categoryName={job.category} />
 
-      <JobPageContainer>
+      <VacancyPageContainer>
         <Row>
-          <JobInfo job={job} />
-          <JobAddressAndRecruiter
+          <VacancyInfo job={job} />
+          <VacancyAddressAndRecruiter
             location={
               job.address.lat && job.address.long
                 ? `${job.address.lat},${job.address.long}`
@@ -65,9 +65,12 @@ function JobPage({ hashId }: Props) {
           />
         </Row>
         <Row>
-          <SimilarJobsFeed similarJobs={job.similarJobs} />
+          <SimilarJobsFeed
+            similarJobs={job.similarJobs}
+            loading={getJobQuery.loading}
+          />
         </Row>
-      </JobPageContainer>
+      </VacancyPageContainer>
     </React.Fragment>
   );
 }

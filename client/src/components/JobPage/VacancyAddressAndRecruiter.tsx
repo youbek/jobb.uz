@@ -44,7 +44,12 @@ const JobAddressAndEmployer = styled.div`
   }
 `;
 
-function JobAddressAndRecruiter({ location, address }) {
+interface Props {
+  location: string;
+  address: string;
+}
+
+function JobAddressAndRecruiter({ location, address }: Props) {
   return (
     <Col col4>
       <JobLocation>
@@ -73,10 +78,5 @@ function JobAddressAndRecruiter({ location, address }) {
     </Col>
   );
 }
-
-JobAddressAndRecruiter.propTypes = {
-  location: PropTypes.string,
-  address: PropTypes.string,
-};
 
 export default JobAddressAndRecruiter;

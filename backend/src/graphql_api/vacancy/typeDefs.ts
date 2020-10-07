@@ -11,12 +11,12 @@ export default gql`
     hashId: ID!
     title: String!
     category: String!
-    address: JobAddress!
+    address: VacancyAddress!
     companyName: String!
     description: String!
     date: Float!
     link: String!
-    similarVacancies: [Job]!
+    similarVacancies: [Vacancy]!
     contactPhone: String
     salary: String
     noExperience: Boolean

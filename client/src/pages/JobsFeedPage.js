@@ -12,7 +12,7 @@ import { Row, Col } from "components";
 import BreadcrumbContainer from "../components/Breadcrumb/BreadcrumbContainer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 
-import { GET_LATEST_JOBS } from "../graphql/queries";
+import { LATEST_JOBS } from "graphql/queries/latestJobs";
 import Spinner from "../components/Spinner/Spinner";
 import { Helmet } from "react-helmet";
 import { createJobsFeedPageTitle } from "../helpers";
@@ -22,7 +22,7 @@ import { useJobFilter } from "hooks";
 function JobsFeedPage() {
   const [jobReFilter, searchFilters, filters] = useJobFilter();
 
-  const jobsQuery = useQuery(GET_LATEST_JOBS, {
+  const jobsQuery = useQuery(LATEST_JOBS, {
     variables: {
       options: filters,
     },

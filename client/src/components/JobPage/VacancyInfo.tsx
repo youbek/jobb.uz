@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import "moment-timezone";
 import Moment from "react-moment";
 import ReactHtmlParser from "react-html-parser";
 
-import { Col, JobCardBadges, JobApplication } from "components";
+import { Col, JobCardBadges } from "components";
+import { VacancyApplication } from "components/JobPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faClock } from "@fortawesome/free-solid-svg-icons";
@@ -76,14 +76,13 @@ function JobInfo({ job }) {
         </Moment>
         {isHH ? "с HeadHunter" : "с Rabota.uz"}
       </JobDate>
-      <JobApplication job={job} />
+      <VacancyApplication job={job} />
     </Col>
   );
 }
 
 JobInfo.propTypes = {
   job: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
 };
 
 export default JobInfo;
