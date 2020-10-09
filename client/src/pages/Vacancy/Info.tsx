@@ -73,8 +73,6 @@ function Info({ vacancy }: Props) {
     remote,
   } = vacancy;
 
-  console.log(formattedSalary);
-
   return (
     <Col size="col8">
       <Title>{title}</Title>

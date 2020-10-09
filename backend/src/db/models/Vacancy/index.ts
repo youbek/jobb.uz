@@ -1,6 +1,6 @@
 import { Schema, Document, Model, Types, model } from "mongoose";
 
-import { getSimilarVacancies, formatSalary } from "./instanceMethods";
+import { getSimilarVacancies, getFormattedSalary, getSourceText, checkExpired } from "./instanceMethods";
 import { getVacancies } from "./statics";
 
 export type VacancyCategory =
@@ -63,7 +63,9 @@ export interface IVacancySchema {
 export interface IVacancyDocument extends IVacancySchema, Document {
   _id: Types.ObjectId;
   getSimilarVacancies: typeof getSimilarVacancies;
-  formattedSalary: string;
+  getFormattedSalary: typeof getFormattedSalary;
+  getSourceText: typeof getSourceText;
+  checkExpired: typeof checkExpired;
 }
 
 const VacancyAddress = new Schema(
@@ -99,12 +101,14 @@ export const VacancySchema = new Schema({
   address: { type: VacancyAddress, required: false },
   noExperience: { type: Boolean, required: false },
   salary: { type: VacancySalary, required: false },
-  formattedSalary: { type: String, get: formatSalary },
   partTime: { type: Boolean, required: false },
   remote: { type: Boolean, required: false },
 });
 
 VacancySchema.methods.getSimilarVacancies = getSimilarVacancies;
+VacancySchema.methods.getFormattedSalary = getFormattedSalary;
+VacancySchema.methods.getSourceText = getSourceText;
+VacancySchema.methods.checkExpired = checkExpired;
 
 VacancySchema.statics.get = getVacancies;
 

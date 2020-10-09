@@ -1,15 +1,15 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./routes";
 import { ErrorBoundary, Header } from "components";
 
 function App() {
   return (
     <ErrorBoundary>
-      <BrowserRouter>
+      <Router>
         <Header />
         <Routes />
-      </BrowserRouter>
+      </Router>
     </ErrorBoundary>
   );
 }

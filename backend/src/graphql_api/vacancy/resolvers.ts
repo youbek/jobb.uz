@@ -1,13 +1,9 @@
 import {
   IVacancyDocument,
-  IVacancySchema,
-  VacancyModel,
-  VacancySchema,
+  VacancyModel,  
 } from "db";
-import { MongooseFilterQuery } from "mongoose";
 import { IVacancySearchInput } from "./types";
 
-import moment from "moment";
 
 export default {
   Query: {
@@ -22,7 +18,7 @@ export default {
     latestVacancies: async (
       _parent: any,
       args: { options?: IVacancySearchInput }
-    ) => {
+    ): Promise<IVacancyDocument[]> => {
       const vacancies = await VacancyModel.get({}, args.options, null, {
         limit: 20,
         sort: { _id: -1 },
@@ -32,27 +28,19 @@ export default {
     },
   },
   Vacancy: {
-    similarVacancies: async (vacancy: IVacancyDocument) => {
+    similarVacancies: async (vacancy: IVacancyDocument): Promise<IVacancyDocument[]> => {
       const vacancies = await vacancy.getSimilarVacancies();
 
       return vacancies;
     },
-    sourceText: (vacancy: IVacancyDocument) => {
-      const { link, date } = vacancy;
-
-      const dateText = moment(date).locale("ru").fromNow();
-
-      if (link.includes("hh.uz")) {
-        return `${dateText} с HeadHunter`;
-      } else {
-        return `${dateText} с Rabota.uz`;
-      }
+    formattedSalary: (vacancy: IVacancyDocument): string => {
+      return vacancy.getFormattedSalary();
     },
-    expired: (vacancy: IVacancyDocument) => {
-      const today = moment();
-      const expirationDate = moment(vacancy.date).add(30, "days");
-
-      return today.isAfter(expirationDate);
+    sourceText: (vacancy: IVacancyDocument): string => {
+      return vacancy.getSourceText();
+    },
+    expired: (vacancy: IVacancyDocument): boolean => {
+      return vacancy.checkExpired();
     },
   },
 };

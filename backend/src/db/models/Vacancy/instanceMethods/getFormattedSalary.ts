@@ -1,6 +1,6 @@
-import { IVacancyDocument } from "..";
+import { IVacancyDocument } from "db";
 
-export function formatSalary(this: IVacancyDocument) {
+export function getFormattedSalary(this: IVacancyDocument): string {
   const salary = this.salary;
   if (!salary) {
     return "з/п не указана";

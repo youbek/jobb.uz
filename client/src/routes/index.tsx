@@ -1,16 +1,14 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Vacancy, Main, NotFound404 } from "pages";
 
 function Routes() {
   return (
-    <Router>
       <Switch>
-        <Route exact path="/vacancy/:hashId" component={Vacancy} />
         <Route exact path="/" component={Main} />
+        <Route exact path="/vacancy/:hashId" component={Vacancy} />
         <Route component={NotFound404} />
       </Switch>
-    </Router>
   );
 }
 

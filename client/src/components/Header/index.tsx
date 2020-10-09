@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useWindowDimensions } from "hooks";
+import { Link, withRouter } from "react-router-dom";
 
 import Search from "./Search";
 
@@ -52,4 +51,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default withRouter(Header);

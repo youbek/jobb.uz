@@ -11,7 +11,7 @@ export async function getSimilarVacancies(
 ) {
   const { hashId, title, category } = this;
 
-  const vacancies = VacancyModel.get(
+  const vacancies = await VacancyModel.get(
     {
       hashId: { $ne: hashId },
       title: {

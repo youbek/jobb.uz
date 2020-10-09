@@ -1,2 +1,4 @@
 export * from "./getSimilarVacancies";
-export * from "./formatSalary";
+export * from "./getFormattedSalary";
+export * from "./getSourceText"
+export * from "./checkExpired"

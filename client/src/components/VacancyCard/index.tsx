@@ -136,7 +136,6 @@ function VacancyCard({ vacancy }: Props) {
   } = vacancy;
 
   const [expandedDescription, setExpandedDescription] = useState(false);
-  const isMobile = useWindowDimensions();
   const vacancyLink = `/vacancy/${hashId}`;
   const shortDescription =
     description.length > 101 ? description.slice(0, 300) + "..." : description;
@@ -146,8 +145,6 @@ function VacancyCard({ vacancy }: Props) {
     e.stopPropagation();
     setExpandedDescription(true);
   }
-
-  console.log(address);
 
   return (
     <Wrapper href={vacancyLink} target="_blank">
@@ -171,12 +168,6 @@ function VacancyCard({ vacancy }: Props) {
 
       <VacancyCompanyName>{companyName}</VacancyCompanyName>
       <VacancyAddress>{address.name}</VacancyAddress>
-      <VacancyLink
-        to={vacancyLink}
-        target={isMobile ? "_self" : "_blank"}
-        rel="noopener noreferrer"
-        onClick={(event) => event.stopPropagation()}
-      />
     </Wrapper>
   );
 }

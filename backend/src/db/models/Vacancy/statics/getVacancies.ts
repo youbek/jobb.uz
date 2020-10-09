@@ -1,5 +1,6 @@
 import { MongooseFilterQuery, QueryFindOptions } from "mongoose";
-import { VacancyModel, IVacancyAddress, IVacancySchema } from "db/models";
+import { VacancyModel, IVacancySchema } from "db/models";
+import { IVacancyDocument } from "..";
 
 export interface IVacancySearchInput {
   cursor?: string;
@@ -17,7 +18,7 @@ export async function getVacancies(
   args?: IVacancySearchInput,
   projection?: any,
   options?: QueryFindOptions
-) {
+): Promise<IVacancyDocument[]> {
   const search = { ...query };
 
   if (args) {
@@ -49,8 +50,6 @@ export async function getVacancies(
   }
 
   const vacancies = await this.find(search, projection, options);
-
-  console.log(vacancies[0].formattedSalary);
 
   return vacancies;
 }
