@@ -4,5 +4,5 @@ import "moment/locale/ru";
 
 (async function main() {
   await connectDB();
-  startServer();
+  await startServer();
 })();

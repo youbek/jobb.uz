@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import "styled-components/macro";
 import ReactHtmlParser from "react-html-parser";
 
-import { Col, Badge } from "components";
+import { Col, Badge, Button } from "components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faClock } from "@fortawesome/free-solid-svg-icons";
@@ -46,6 +47,7 @@ const Source = styled.div`
   justify-content: flex-end;
   margin-top: 0.5rem;
   margin-bottom: 1.5rem;
+  color: #6c757d;
 `;
 
 const VacancyBadges = styled.div`
@@ -64,33 +66,39 @@ function Info({ vacancy }: Props) {
     description,
     link,
     sourceText,
-    salary,
-    isExpired,
+    formattedSalary,
+    expired,
     partTime,
     noExperience,
     remote,
   } = vacancy;
 
+  console.log(formattedSalary);
+
   return (
-    <Col col8>
+    <Col size="col8">
       <Title>{title}</Title>
-      <Salary>{salary}</Salary>
+      <Salary>{formattedSalary}</Salary>
       <VacancyBadges>
         {partTime && <Badge color="green">Неполный день</Badge>}
         {noExperience && <Badge color="blue">Без опыта</Badge>}
         {remote && <Badge color="blue">Удаленная работа</Badge>}
       </VacancyBadges>
       <Description>{ReactHtmlParser(description)}</Description>
-      <Source className="text-muted">
-        <FontAwesomeIcon icon={faClock} color="#6c757d" className="mr-2" />{" "}
+      <Source>
+        <FontAwesomeIcon
+          icon={faClock}
+          color="#6c757d"
+          css="margin-right: 0.5rem"
+        />
         {sourceText}
       </Source>
-      {!isExpired ? (
-        <ButtonLink as="a" href={link} target="_blank">
+      {!expired ? (
+        <Button as="a" href={link} target="_blank">
           Откликнуться
-        </ButtonLink>
+        </Button>
       ) : (
-        <ButtonLink disabled>Вакансия недоступна</ButtonLink>
+        <Button disabled>Вакансия недоступна</Button>
       )}
     </Col>
   );

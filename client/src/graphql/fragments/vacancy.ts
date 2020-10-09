@@ -8,13 +8,13 @@ export const VACANCY_FRAGMENT = gql`
     address {
       name
       lat
-      long
+      lng
       district
     }
     companyName
     description
     contactPhone
-    salary
+    formattedSalary
     noExperience
     partTime
     remote

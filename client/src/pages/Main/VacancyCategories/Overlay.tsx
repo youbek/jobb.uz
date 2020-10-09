@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import OverlayContainer from "../../Layout/OverlayContainer/OverlayContainer";
+import { Link } from "react-router-dom";
 
-import { useJobFilter } from "../../../hooks";
+import { Overlay } from "components";
+
+import { useFilters } from "hooks";
+import { VacancyCategory } from "types";
 
 const AllCategoryContainer = styled.div`
   display: flex;
@@ -11,7 +14,7 @@ const AllCategoryContainer = styled.div`
   padding: 0 !important;
 `;
 
-const Category = styled.button`
+const CategoryButton = styled(Link)`
   width: 33.33%;
   height: 100px;
   display: flex;
@@ -35,32 +38,30 @@ const Category = styled.button`
   }
 `;
 
-interface Props {}
+interface Props {
+  isOpen: boolean;
+  toggle: () => void;
+  vacancyCategories: VacancyCategory[];
+}
 
-function JobCategoriesMobile({ showAllCategories, onClose, categories }) {
-  const [jobReFilter] = useJobFilter();
+function JobCategoriesMobile({ isOpen, toggle, vacancyCategories }: Props) {
+  const { setNewQuery } = useFilters();
 
   return (
-    <OverlayContainer
-      isOpen={showAllCategories}
-      toggle={onClose}
-      title="Категории"
-    >
+    <Overlay isOpen={isOpen} toggle={toggle} title="Категории">
       <AllCategoryContainer>
-        {categories.map((category, index) => (
-          <Category
+        {vacancyCategories.map((category, index) => (
+          <CategoryButton
             key={index}
-            to={category.transliteratedName}
-            onClick={() =>
-              jobReFilter({ categoryName: category.transliteratedName })
-            }
+            to={category.name}
+            onClick={() => setNewQuery({ category: category.name })}
           >
             <img src={category.icon} />
             <span>{category.name}</span>
-          </Category>
+          </CategoryButton>
         ))}
       </AllCategoryContainer>
-    </OverlayContainer>
+    </Overlay>
   );
 }
 

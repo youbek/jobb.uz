@@ -3,7 +3,7 @@ import { gql } from "apollo-server-express";
 export default gql`
   extend type Query {
     vacancy(hashId: String!): Vacancy
-    latestVacancy(options: VacancySearchInput!): [Vacancy]!
+    latestVacancies(options: VacancySearchInput): [Vacancy]!
   }
 
   type Vacancy {
@@ -19,8 +19,8 @@ export default gql`
     similarVacancies: [Vacancy]!
     sourceText: String!
     expired: Boolean!
+    formattedSalary: String!
     contactPhone: String
-    salary: String
     noExperience: Boolean
     partTime: Boolean
     remote: Boolean

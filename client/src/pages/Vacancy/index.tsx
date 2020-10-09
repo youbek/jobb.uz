@@ -1,14 +1,21 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import styled from "styled-components";
+import "styled-components/macro";
+import { useQuery } from "@apollo/client";
 
 import { Redirect, useParams } from "react-router-dom";
-import { Breadcrumb, Helmet, Row } from "components";
-import { VacancyPageContainer, VacancyPageSpinner } from "components/JobPage";
+import { Breadcrumb, Helmet, Row, Container, Spinner } from "components";
+
 import Info from "./Info";
 import Address from "./Address";
 import VacancyFeed from "components/VacancyFeed";
 
 import { VACANCY, VACANCY_RESULT, VACANCY_VARS } from "graphql/queries";
+
+const PageContainer = styled(Container)`
+  min-height: calc(100vh - 260px);
+  display: block;
+`;
 
 interface Props {
   hashId: string;
@@ -25,7 +32,7 @@ function Vacancy() {
 
   if (error) throw new Error(`Error ${error.message}`);
 
-  if (loading) return <VacancyPageSpinner />;
+  if (loading) return <Spinner />;
 
   if (!data || !data.vacancy) {
     return <Redirect to="/404" />;
@@ -34,19 +41,19 @@ function Vacancy() {
   const { vacancy } = data;
 
   return (
-    <React.Fragment>
+    <>
       <Helmet vacancy={vacancy} />
       <Breadcrumb categoryName={vacancy.category} />
-      <VacancyPageContainer>
-        <Row>
+      <PageContainer>
+        <Row css="margin-bottom: 1.5rem">
           <Info vacancy={vacancy} />
           <Address address={vacancy.address} />
         </Row>
         <Row>
           <VacancyFeed vacancies={vacancy.similarVacancies!} />
         </Row>
-      </VacancyPageContainer>
-    </React.Fragment>
+      </PageContainer>
+    </>
   );
 }
 

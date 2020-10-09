@@ -1,14 +1,15 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import Routes from "./routes";
-import { ErrorBoundary } from "components";
-import { ModalProvider } from "styled-react-modal";
+import { ErrorBoundary, Header } from "components";
 
 function App() {
   return (
     <ErrorBoundary>
-      <ModalProvider>
+      <BrowserRouter>
+        <Header />
         <Routes />
-      </ModalProvider>
+      </BrowserRouter>
     </ErrorBoundary>
   );
 }

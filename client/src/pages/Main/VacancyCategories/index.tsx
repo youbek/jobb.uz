@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Carousel from "./Carousel";
 import Overlay from "./Overlay";
 
-import { vacancyCategories } from "../../../constants";
+import { vacancyCategories } from "data";
 
 function VacancyCategories() {
   const [overlay, showOverlay] = useState<boolean>(false);
@@ -13,8 +13,13 @@ function VacancyCategories() {
   }
 
   if (overlay) {
-    // <Overlay onClose={toggleOverlay} />
-    return <div>Here will be overlay</div>;
+    return (
+      <Overlay
+        isOpen={overlay}
+        toggle={toggleOverlay}
+        vacancyCategories={vacancyCategories}
+      />
+    );
   }
 
   return (

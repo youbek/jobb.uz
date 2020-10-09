@@ -1,8 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ApolloClient, { InMemoryCache } from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
+import {
+  ApolloClient,
+  InMemoryCache,
+  HttpLink,
+  ApolloProvider,
+  concat,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+
 import "moment/locale/ru";
+
+import * as types from "styled-components/cssprop"; // don't remove it or don't change import
 
 import App from "./App";
 
@@ -11,14 +20,29 @@ import * as serviceWorker from "./serviceWorker";
 import "./styles/main.scss";
 
 function Root() {
-  const client = new ApolloClient({
-    cache: new InMemoryCache(),
+  const httpLink = new HttpLink({
     uri: window.location.origin.includes("localhost")
       ? "http://localhost:8080/graphql"
       : "http://www.jobb.uz/graphql",
   });
 
-  return <ApolloProvider client={client}>{/* <App /> */}</ApolloProvider>;
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, locations, path }) =>
+        console.error(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+        )
+      );
+
+    if (networkError) console.error(`[Network error]: ${networkError}`);
+  });
+
+  const client = new ApolloClient({
+    cache: new InMemoryCache(),
+    link: concat(errorLink, httpLink),
+  });
+
+  return <ApolloProvider client={client}>{<App />}</ApolloProvider>;
 }
 
 ReactDOM.render(<Root />, document.getElementById("root"));

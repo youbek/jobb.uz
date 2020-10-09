@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
+import "styled-components/macro";
 
 import VacancyCategories from "./VacancyCategories";
-import { VacancyFeed, Spinner, Container, Row, Col, Helmet } from "components";
-
-import JobsFilter from "../components/JobsFeed/JobsFilter/JobsFilter";
-
-import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
-
-import ScrollToTopButton from "../components/ScrollToTopButton";
+import {
+  VacancyFeed,
+  Container,
+  Row,
+  Col,
+  Helmet,
+  Breadcrumb,
+} from "components";
 
 import {
   LATEST_VACANCIES_RESULT,
@@ -17,30 +19,44 @@ import {
   LATEST_VACANCIES,
 } from "graphql/queries";
 
-import { useJobFilter } from "hooks";
+import { useFilters, useWindowDimensions } from "hooks";
+import { IFilters } from "hooks/useFilters";
 
 const StyledContainer = styled(Container)`
   display: block;
   min-height: calc(100vh - 260px);
 `;
 
-function JobsFeedPage() {
-  const { loading, data, fetchMore } = useQuery<
+function Main() {
+  const { loading, data, fetchMore, refetch } = useQuery<
     LATEST_VACANCIES_RESULT,
     LATEST_VACANCIES_VARS
   >(LATEST_VACANCIES);
+  const { isTablet } = useWindowDimensions();
 
-  const [allJobFetched, setAllJobFetched] = useState(false);
+  const { filters } = useFilters(handleFiltersChange);
+
+  const [allFetched, setAllFetched] = useState(false);
 
   useEffect(() => {
     if (!loading) {
       return;
     }
 
-    handleFetchMore();
+    handleLoadMore();
   }, [loading]);
 
-  function handleFetchMore() {
+  function handleFiltersChange(newFilters: IFilters) {
+    if (loading) {
+      return;
+    }
+
+    refetch({
+      options: newFilters,
+    });
+  }
+
+  function handleLoadMore() {
     if (!data) {
       return;
     }
@@ -53,58 +69,59 @@ function JobsFeedPage() {
           cursor: lastVacancy._id,
         },
       },
-      updateQuery: (prev, {}) => {
-        if (!latestVacancies) {
-          return;
+      updateQuery: (prev, options) => {
+        if (
+          !options.fetchMoreResult ||
+          !options.fetchMoreResult.latestVacancies.length
+        ) {
+          setAllFetched(true);
+          return prev;
         }
+
+        const {
+          fetchMoreResult: { latestVacancies },
+        } = options;
+
+        return {
+          latestVacancies: [...prev.latestVacancies, ...latestVacancies],
+        };
       },
     });
   }
 
   return (
     <div>
-      <Helmet categoryName={filters.categoryName} />
+      <Helmet categoryName={filters.category} />
       <Breadcrumb />
 
       <StyledContainer>
-        {!searchFilters.categoryName && (
+        {!filters.category && (
           <Row>
-            <Col col12>
+            <Col size="col12">
               <VacancyCategories />
             </Col>
           </Row>
         )}
 
-        <Row className="mt-4 pb-4">
-          <Col col8>
-            {filters.title &&
-            jobsQuery.data &&
-            jobsQuery.data.getLatestJobs.length ? (
-              <div className="mb-2">
-                {`Вакансии по запросу "${filters.title}"`}
-              </div>
-            ) : null}
-            {jobsQuery.loading && <Spinner />}
-            {jobsQuery.data !== undefined && !jobsQuery.loading && (
-              <VacancyFeed
-                jobs={jobsQuery.data.getLatestJobs}
-                loading={refetching}
-                setRefetching={!allJobFetched ? setRefetching : () => {}}
-                searchTitle={filters.title}
-              />
-            )}
-            {loading && jobs.length && (
-              <Spinner size="12" color="#f64f64" className="mr-2" />
-            )}
+        <Row css="margin-top: 1.5rem">
+          <Col size="col8">
+            <VacancyFeed
+              vacancies={data ? data.latestVacancies : []}
+              isLoading={loading}
+              onLoadMore={handleLoadMore}
+              searchText={filters.title}
+            />
           </Col>
-          <Col col4 className="d-none d-lg-block d-xl-block">
-            <JobsFilter filters={searchFilters} loading={jobsQuery.loading} />
-          </Col>
+          {!isTablet && (
+            <Col size="col4">
+              {/* <JobsFilter filters={searchFilters} loading={jobsQuery.loading} /> */}
+            </Col>
+          )}
         </Row>
-        <ScrollToTopButton />
+        {/* <ScrollToTopButton /> */}
       </StyledContainer>
     </div>
   );
 }
 
-export default JobsFeedPage;
+export default Main;

@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Container from "components/Layout/Container";
 
-const StyledBreadcrumb = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   background-color: #2c3038;
@@ -18,7 +19,7 @@ const StyledBreadcrumb = styled.div`
   list-style: none;
 `;
 
-const StyledBreadcrumb__Item = styled.div`
+const BreadcrumbItem = styled.div`
   display: inline-block;
   position: relative;
   padding-bottom: 10px;
@@ -51,14 +52,14 @@ interface Props {
 
 function Breadcrumb({ categoryName }: Props) {
   return (
-    <StyledBreadcrumb>
-      <StyledBreadcrumb__Item>
+    <Wrapper>
+      <BreadcrumbItem>
         <Link to="/">Работа в Ташкенте</Link>
-      </StyledBreadcrumb__Item>
-      <StyledBreadcrumb__Item>
+      </BreadcrumbItem>
+      <BreadcrumbItem>
         <Link to="/">{categoryName}</Link>
-      </StyledBreadcrumb__Item>
-    </StyledBreadcrumb>
+      </BreadcrumbItem>
+    </Wrapper>
   );
 }
 

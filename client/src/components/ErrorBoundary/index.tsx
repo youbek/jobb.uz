@@ -1,5 +1,11 @@
 import React, { Component, ErrorInfo } from "react";
+import styled from "styled-components";
 import { Container } from "components";
+
+const StyledContainer = styled(Container)`
+  text-align: center;
+  margin-top: 1.5rem;
+`;
 
 interface Props extends React.ComponentClass {}
 
@@ -24,10 +30,10 @@ class ErrorBoundry extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <Container className="text-center mt-4">
+        <StyledContainer>
           <h3>Something Went Wrong</h3>
           <a href="/">Return Home</a>
-        </Container>
+        </StyledContainer>
       );
     }
 

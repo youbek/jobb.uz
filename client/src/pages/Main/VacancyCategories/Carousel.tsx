@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useMediaQuery } from "react-responsive";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useWindowDimensions } from "hooks";
+import { VacancyCategory } from "types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,10 +20,14 @@ const Wrapper = styled.div`
 const CarouselItem = styled.button`
   display: flex;
   flex-direction: column;
+  background-color: #fff;
+  color: #383c43;
+  text-align: left;
+  font-size: 14px;
   padding: 8px;
   justify-content: space-between;
-  flex-basis: 130px;
-  min-width: 130px;
+  flex-basis: 140px;
+  min-width: 140px;
   border: 1px solid #e3e3e3;
   border-radius: 6px;
   margin-left: 8px;
@@ -37,20 +43,13 @@ const CarouselItem = styled.button`
   }
 `;
 
-type VacancyCategory = {
-  name: string;
-  transliteratedName: string;
-  icon: string;
-};
-
 interface Props {
   vacancyCategories: VacancyCategory[];
   onShowAllClick: () => void;
 }
 
 function Carousel({ vacancyCategories, onShowAllClick }: Props) {
-  const isMobile = useMediaQuery({ query: "(max-device-width: 767px )" });
-  const isTablet = useMediaQuery({ query: "(max-device-width: 1023px )" });
+  const { isMobile, isTablet } = useWindowDimensions();
   return (
     <Wrapper>
       {isMobile && (
@@ -61,7 +60,7 @@ function Carousel({ vacancyCategories, onShowAllClick }: Props) {
       )}
 
       {vacancyCategories.map((category, index) => (
-        <CarouselItem>
+        <CarouselItem key={index}>
           <img src={category.icon} />
           <span>{category.name}</span>
         </CarouselItem>

@@ -1,6 +1,6 @@
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
-import { typeDefs } from "graphql_api";
+import { typeDefs, resolvers } from "graphql_api";
 
 export function start() {
   try {
@@ -10,6 +10,7 @@ export function start() {
 
     const server = new ApolloServer({
       typeDefs,
+      resolvers,
     });
 
     const app = express();

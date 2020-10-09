@@ -59,8 +59,9 @@ function Address({ address }: Props) {
           size="300x120"
           apiKey="AIzaSyATyzWeCcSuG_szpR2IjHm79kq9YcSUQh0"
           zoom={"12"}
-        />
-        <Marker location={`${address.lat} ${address.lng}`} />
+        >
+          <Marker location={`${address.lat} ${address.lng}`} />
+        </StaticGoogleMap>
       </LocationMap>
       <LocationText>
         <label>Местоположение</label>

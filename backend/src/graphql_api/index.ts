@@ -3,9 +3,7 @@ import { merge } from "lodash";
 import { VacancyTypeDefs, VacancyResolvers } from "./vacancy";
 
 export const root = gql`
-  type Query {
-    tentak: String
-  }
+  type Query
 `;
 
 export const typeDefs = [root, VacancyTypeDefs];
