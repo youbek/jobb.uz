@@ -1,9 +1,14 @@
 import React from "react";
 import { Waypoint } from "react-waypoint";
+import styled from "styled-components";
 
 import { Spinner, VacancyCard, Alert } from "components";
 
 import { IVacancy } from "types";
+
+const Wrapper = styled.div`
+  padding-bottom: 50px;
+`;
 
 interface Props {
   vacancies: IVacancy[];
@@ -36,7 +41,7 @@ function VacancyFeed({
   }
 
   return (
-    <React.Fragment>
+    <Wrapper>
       {searchText && (
         <div css="margin-bottom: 0.5rem">
           {`Вакансии по запросу "${searchText}"`}
@@ -47,11 +52,9 @@ function VacancyFeed({
         <VacancyCard key={vacancy._id} vacancy={vacancy} />
       ))}
       {/* SPINNER MOVED BOTTOM BECAUSE ON LOADMORE IT SHOULD BE AT  THE BOTTOM LEAVING ALL FETCHED VACANCIES AT THE TOP */}
-      {isLoading && (
-        <Spinner size="12" color="#f64f64" css="margin-right: 0.5rem" />
-      )}
-      <Waypoint onEnter={onLoadMore}></Waypoint>
-    </React.Fragment>
+      {isLoading && <Spinner />}
+      <Waypoint onEnter={onLoadMore} />
+    </Wrapper>
   );
 }
 

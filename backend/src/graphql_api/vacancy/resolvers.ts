@@ -1,9 +1,5 @@
-import {
-  IVacancyDocument,
-  VacancyModel,  
-} from "db";
+import { IVacancyDocument, VacancyModel } from "db";
 import { IVacancySearchInput } from "./types";
-
 
 export default {
   Query: {
@@ -19,16 +15,15 @@ export default {
       _parent: any,
       args: { options?: IVacancySearchInput }
     ): Promise<IVacancyDocument[]> => {
-      const vacancies = await VacancyModel.get({}, args.options, null, {
-        limit: 20,
-        sort: { _id: -1 },
-      });
+      const vacancies = await VacancyModel.get({}, args.options, null);
 
       return vacancies;
     },
   },
   Vacancy: {
-    similarVacancies: async (vacancy: IVacancyDocument): Promise<IVacancyDocument[]> => {
+    similarVacancies: async (
+      vacancy: IVacancyDocument
+    ): Promise<IVacancyDocument[]> => {
       const vacancies = await vacancy.getSimilarVacancies();
 
       return vacancies;

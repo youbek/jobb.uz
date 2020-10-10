@@ -34,7 +34,7 @@ export default gql`
   }
 
   input VacancySearchInput {
-    cursor: ID
+    after: Float
     title: String
     category: String
     district: String

@@ -34,17 +34,17 @@ function useFilters(onChange?: (newFilters: IFilters) => void) {
     const query = location.search;
 
     try {
-      const parsedQuery = parse(query);
+      const parsedQuery = parse(query, { parseBooleans: true });
 
       // JUST REFERENCING, BECAUSE TO KNOW WHEATHER parsedQuery HAS UPDATES
       let currentFilters = filters;
 
-      if(!Object.keys(parsedQuery).length) {
-        currentFilters = { ...initalFilters }
+      if (!Object.keys(parsedQuery).length) {
+        currentFilters = { ...initalFilters };
       } else {
         // UPDATE EACH FILTER, NOT SET WRONG FIELDS IN STATE
         for (const key in parsedQuery) {
-              if (key in currentFilters) {
+          if (key in currentFilters) {
             currentFilters = {
               ...currentFilters,
               [key]: parsedQuery[key],

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import clamp from "clamp-js"
+import clamp from "clamp-js";
 
 import { Link } from "react-router-dom";
 import Container from "components/Layout/Container";
@@ -19,7 +19,6 @@ const StyledBreadcrumb = styled(Container)`
   padding-top: 8px;
   padding-bottom: 8px;
   margin-top: 0;
-  color: #fff9;
   font-weight: 600;
   list-style: none;
 `;
@@ -28,12 +27,13 @@ const BreadcrumbItem = styled.div`
   display: inline-block;
   position: relative;
   font-size: 14px;
+  color: #e2e2e2;
 
   a {
-    color: #fff9;
+    color: #e2e2e2;
 
     &:hover {
-      color: #fff9;
+      color: #e2e2e2;
       text-decoration: none;
     }
   }
@@ -45,29 +45,29 @@ const BreadcrumbItem = styled.div`
   & + &:before {
     display: inline-block;
     padding-right: 0.5rem;
-    color: #6c757d;
+    color: #e2e2e2;
     content: "/";
   }
 `;
 
 interface IPath {
   text: string;
-  url?: string
+  url?: string;
 }
 
 interface Props {
-  paths: IPath[]
+  paths: IPath[];
 }
 
 function Breadcrumb({ paths }: Props) {
   const container = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    truncate()
+    truncate();
   }, []);
 
   function truncate() {
-    if(!container.current) {
+    if (!container.current) {
       return;
     }
 
@@ -78,16 +78,14 @@ function Breadcrumb({ paths }: Props) {
     <Wrapper>
       <StyledBreadcrumb>
         <div ref={container}>
-        <BreadcrumbItem>
-          <Link to="/">Работа в Ташкенте</Link>
-        </BreadcrumbItem>
-        {
-          paths.map(path => (
-            <BreadcrumbItem>
-              {path.url ? <Link to={ path.url }>{path.text}</Link> : path.text}
+          <BreadcrumbItem>
+            <Link to="/">Работа в Ташкенте</Link>
+          </BreadcrumbItem>
+          {paths.map((path, index) => (
+            <BreadcrumbItem key={index}>
+              {path.url ? <Link to={path.url}>{path.text}</Link> : path.text}
             </BreadcrumbItem>
-          ))
-        }
+          ))}
         </div>
       </StyledBreadcrumb>
     </Wrapper>

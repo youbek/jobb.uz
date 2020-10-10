@@ -44,6 +44,7 @@ button {
   display: inline-block;
   border: none;
   cursor: pointer;
+  background-color: transparent;
 }
 
 button:focus {
@@ -53,6 +54,10 @@ button:focus {
 a {
   text-decoration: none;
   background-color: transparent;
+}
+
+svg {
+  vertical-align: middle;
 }
 
 ol,

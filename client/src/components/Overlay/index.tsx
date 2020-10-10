@@ -28,7 +28,7 @@ const Header = styled.div`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  color: #fff;
+  color: #e2e2e2;
   background-color: #2c3038;
 `;
 
@@ -44,11 +44,13 @@ const BackButton = styled.button`
   background: none;
   border: none;
   padding: 0;
+  color: #e2e2e2;
 `;
 
 const Content = styled.div`
   display: flex;
   flex-grow: 1;
+  width: 100%;
 
   & > div {
     flex-grow: 1;

@@ -92,6 +92,7 @@ function VacancyCard({ vacancy }: Props) {
     noExperience,
     companyName,
     partTime,
+    remote,
     formattedSalary,
   } = vacancy;
   const { isMobile } = useWindowDimensions();
@@ -111,6 +112,7 @@ function VacancyCard({ vacancy }: Props) {
       <VacancyBadges>
         {partTime && <Badge color="green">Неполный день</Badge>}
         {noExperience && <Badge color="blue">Без опыта</Badge>}
+        {remote && <Badge color="blue">Удаленная работа</Badge>}
       </VacancyBadges>
 
       <VacancyCompanyName>{companyName}</VacancyCompanyName>

@@ -14,7 +14,7 @@ const AllCategoryContainer = styled.div`
   padding: 0 !important;
 `;
 
-const CategoryButton = styled(Link)`
+const CategoryButton = styled.button`
   width: 33.33%;
   height: 100px;
   display: flex;
@@ -53,7 +53,6 @@ function JobCategoriesMobile({ isOpen, toggle, vacancyCategories }: Props) {
         {vacancyCategories.map((category, index) => (
           <CategoryButton
             key={index}
-            to={category.name}
             onClick={() => setNewQuery({ category: category.name })}
           >
             <img src={category.icon} />

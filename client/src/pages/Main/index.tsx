@@ -29,10 +29,12 @@ const StyledContainer = styled(Container)`
 `;
 
 function Main() {
-  const { loading, data, fetchMore, refetch } = useQuery<
+  const { loading, data, fetchMore, refetch, variables } = useQuery<
     LATEST_VACANCIES_RESULT,
     LATEST_VACANCIES_VARS
-  >(LATEST_VACANCIES);
+  >(LATEST_VACANCIES, {
+    notifyOnNetworkStatusChange: true,
+  });
   const { isMobile } = useWindowDimensions();
 
   const { filters } = useFilters(handleFiltersChange);
@@ -58,19 +60,26 @@ function Main() {
   }
 
   function handleLoadMore() {
-    if (!data) {
+    if (loading || !data) {
       return;
     }
 
-    const lastVacancy = data.latestVacancies[data.latestVacancies.length - 1];
+    const amount = data.latestVacancies.length;
 
     fetchMore({
-      variables: {
-        options: {
-          cursor: lastVacancy._id,
-        },
-      },
-      updateQuery: (prev, options) => {
+      variables: variables
+        ? {
+            options: {
+              ...variables.options,
+              after: amount,
+            },
+          }
+        : { options: { after: amount } },
+      // TODO: FIX HARD CODED TYPING WHEN IT WILL AUTOMATICLY ATTACH LATEST_VACANCIES_RESULT TO prev, AND options
+      updateQuery: (
+        prev: LATEST_VACANCIES_RESULT,
+        options: { fetchMoreResult?: LATEST_VACANCIES_RESULT }
+      ) => {
         if (
           !options.fetchMoreResult ||
           !options.fetchMoreResult.latestVacancies.length
@@ -90,11 +99,13 @@ function Main() {
     });
   }
 
-  const breadcrumbPaths = filters.category ? [
-    {
-      text: filters.category
-    }
-  ] : []
+  const breadcrumbPaths = filters.category
+    ? [
+        {
+          text: filters.category,
+        },
+      ]
+    : [];
 
   return (
     <div>
@@ -109,8 +120,8 @@ function Main() {
           </Row>
         )}
 
-        <Row css="margin-top: 1.5rem">
-          <Col size="col8">
+        <Row css="margin-top: 2.5rem">
+          <Col size={isMobile ? "col12" : "col8"}>
             <VacancyFeed
               vacancies={data ? data.latestVacancies : []}
               isLoading={loading}

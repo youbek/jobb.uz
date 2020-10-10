@@ -3,14 +3,13 @@ import styled from "styled-components";
 import "styled-components/macro";
 import ReactHtmlParser from "react-html-parser";
 
-import { Col, Badge, Button } from "components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useWindowDimensions } from "hooks";
 
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { Col, Badge, Button } from "components";
+import { ReactComponent as ClockIcon } from "icons/clock.svg";
 
 import { IVacancy } from "types";
 
-// STYLED COMPONENTS
 const Title = styled.h1`
   font-size: 2rem;
   font-weight: 600;
@@ -61,6 +60,7 @@ interface Props {
 }
 
 function Info({ vacancy }: Props) {
+  const { isMobile } = useWindowDimensions();
   const {
     title,
     description,
@@ -74,7 +74,7 @@ function Info({ vacancy }: Props) {
   } = vacancy;
 
   return (
-    <Col size="col8">
+    <Col size="col8" css="margin-bottom: 1.5rem">
       <Title>{title}</Title>
       <Salary>{formattedSalary}</Salary>
       <VacancyBadges>
@@ -84,15 +84,22 @@ function Info({ vacancy }: Props) {
       </VacancyBadges>
       <Description>{ReactHtmlParser(description)}</Description>
       <Source>
-        <FontAwesomeIcon
-          icon={faClock}
+        <ClockIcon
           color="#6c757d"
-          css="margin-right: 0.5rem"
+          css={`
+            margin-right: 0.5rem;
+            color: #6c757d;
+          `}
         />
         {sourceText}
       </Source>
       {!expired ? (
-        <Button as="a" href={link} target="_blank">
+        <Button
+          as="a"
+          href={link}
+          target="_blank"
+          css={isMobile ? "width: 100%" : ""}
+        >
           Откликнуться
         </Button>
       ) : (

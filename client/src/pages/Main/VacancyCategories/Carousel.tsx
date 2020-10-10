@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { useWindowDimensions } from "hooks";
+import { useFilters, useWindowDimensions } from "hooks";
 
 import { ReactComponent as ArrowLeftIcon } from "icons/arrow-left.svg";
 import { ReactComponent as ArrowRightIcon } from "icons/arrow-right.svg";
@@ -60,6 +60,10 @@ const ScrollButton = styled.button<{ right?: boolean; left?: boolean }>`
   z-index: 2;
   right: ${({ right }) => right && "-45px"};
   left: ${({ left }) => left && "-45px"};
+
+  @media (max-width: 992px) {
+    display: none;
+  }
 `;
 
 interface Props {
@@ -68,6 +72,7 @@ interface Props {
 }
 
 function Carousel({ vacancyCategories, onShowAllClick }: Props) {
+  const { setNewQuery } = useFilters();
   const { isMobile } = useWindowDimensions();
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
@@ -100,7 +105,10 @@ function Carousel({ vacancyCategories, onShowAllClick }: Props) {
         )}
 
         {vacancyCategories.map((category, index) => (
-          <CarouselItem key={index}>
+          <CarouselItem
+            key={index}
+            onClick={() => setNewQuery({ category: category.name })}
+          >
             <img src={category.icon} />
             <span>{category.name}</span>
           </CarouselItem>

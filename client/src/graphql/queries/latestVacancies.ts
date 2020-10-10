@@ -3,7 +3,7 @@ import { VACANCY_FRAGMENT } from "graphql/fragments";
 import { IVacancy } from "types";
 
 export interface IVacancySearchInput {
-  cursor?: string;
+  after?: number;
   title?: string;
   category?: string;
   district?: string;

@@ -2,11 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 import { StaticGoogleMap, Marker } from "react-static-google-map";
-import { IVacancyAddress } from "types";
+import { Col } from "components";
 
-const Container = styled.div`
-  margin-left: 0.5rem;
-`;
+import { IVacancyAddress } from "types";
 
 const LocationMap = styled.div`
   box-shadow: inset 0px 0px 0px 1px #eee;
@@ -27,7 +25,7 @@ const LocationText = styled.div`
   p {
     font-weight: 400;
     color: #383c43;
-    margin-bottom: 0;
+    margin: 0;
 
     span {
       display: inline-block;
@@ -35,14 +33,6 @@ const LocationText = styled.div`
       height: 10px;
       border-radius: 100%;
       margin-left: 5px;
-    }
-
-    span[status="false"] {
-      background-color: #dcdde1;
-    }
-
-    span[status="true"] {
-      background-color: #4cd137;
     }
   }
 `;
@@ -53,7 +43,7 @@ interface Props {
 
 function Address({ address }: Props) {
   return (
-    <Container>
+    <Col size="col4">
       <LocationMap>
         <StaticGoogleMap
           size="300x120"
@@ -62,12 +52,12 @@ function Address({ address }: Props) {
         >
           <Marker location={`${address.lat} ${address.lng}`} />
         </StaticGoogleMap>
+        <LocationText>
+          <label>Местоположение</label>
+          <p>{address.name}</p>
+        </LocationText>
       </LocationMap>
-      <LocationText>
-        <label>Местоположение</label>
-        <p>{address.name}</p>
-      </LocationText>
-    </Container>
+    </Col>
   );
 }
 

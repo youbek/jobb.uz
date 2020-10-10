@@ -9,13 +9,20 @@ import Input from "components/Form/Input";
 import Overlay from "components/Overlay";
 import VacancyFilters from "components/VacancyFilters";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { ReactComponent as SearchIcon } from "icons/search.svg";
 
 const Wrapper = styled.div`
   position: relative;
   display: flex;
   flex-wrap: wrap;
+
+  svg {
+    color: #222;
+    position: absolute;
+    z-index: 1000;
+    top: 9.5px;
+    left: 10px;
+  }
 `;
 
 const SearchInput = styled(Input)`
@@ -23,12 +30,8 @@ const SearchInput = styled(Input)`
   padding-left: 2.5rem;
 `;
 
-const SearchIcon = styled(FontAwesomeIcon)`
-  color: #222;
-  position: absolute;
-  z-index: 1000;
-  top: 13.5px;
-  left: 10px;
+const SearchIconButton = styled.button`
+  color: #e2e2e2;
 `;
 
 function Search() {
@@ -66,16 +69,16 @@ function Search() {
     }
 
     return (
-      <button onClick={toggleOverlayForm}>
-        <FontAwesomeIcon icon={faSearch} color="#fff" />
-      </button>
+      <SearchIconButton onClick={toggleOverlayForm}>
+        <SearchIcon />
+      </SearchIconButton>
     );
   }
 
   return (
     <form onSubmit={handleSearch}>
       <Wrapper>
-        <SearchIcon icon={faSearch} />
+        <SearchIcon />
         <SearchInput
           placeholder={placeholder}
           value={searchKeyword}

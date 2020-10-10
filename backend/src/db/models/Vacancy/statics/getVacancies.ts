@@ -3,7 +3,7 @@ import { VacancyModel, IVacancySchema } from "db/models";
 import { IVacancyDocument } from "..";
 
 export interface IVacancySearchInput {
-  cursor?: string;
+  after?: number;
   title?: string;
   category?: string;
   district?: string;
@@ -17,19 +17,15 @@ export async function getVacancies(
   query: MongooseFilterQuery<IVacancySchema> = {},
   args?: IVacancySearchInput,
   projection?: any,
-  options?: QueryFindOptions
+  options: QueryFindOptions = {}
 ): Promise<IVacancyDocument[]> {
   const search = { ...query };
 
   if (args) {
-    const { title, district, category, cursor, noExperience, partTime } = args;
+    const { title, district, category, noExperience, partTime, remote } = args;
 
     if (title) {
       search.title = { $regex: `.*${title}.*`, $options: "i" };
-    }
-
-    if (cursor) {
-      search._id = { $lt: cursor };
     }
 
     if (category) {
@@ -47,9 +43,18 @@ export async function getVacancies(
     if (noExperience) {
       search.noExperience = noExperience;
     }
+
+    if (remote) {
+      search.remote = remote;
+    }
   }
 
-  const vacancies = await this.find(search, projection, options);
+  const vacancies = await this.find(search, projection, {
+    ...options,
+    sort: { date: -1 },
+    skip: args ? args.after : 0,
+    limit: 20,
+  });
 
   return vacancies;
 }

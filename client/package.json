@@ -4,20 +4,16 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.2.2",
-    "@fortawesome/fontawesome-svg-core": "^1.2.25",
-    "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@fortawesome/react-fontawesome": "^0.1.7",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@types/clamp-js": "^0.7.2",
-    "@types/jest": "^24.9.1", 
+    "@types/jest": "^24.9.1",
     "@types/node": "^12.12.62",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/react-helmet": "^6.1.0",
     "@types/react-html-parser": "^2.0.1",
-    "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-select": "^3.0.22",
     "@types/styled-react-modal": "^1.2.0",
@@ -30,7 +26,6 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.1",
     "react-html-parser": "^2.0.2",
-    "react-responsive": "^8.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.3",
     "react-select": "^3.0.8",
@@ -64,7 +59,6 @@
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "babel-plugin-styled-components": "^1.11.1",
-    "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.21.4"
   }
 }

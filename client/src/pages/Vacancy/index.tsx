@@ -4,7 +4,7 @@ import "styled-components/macro";
 import { useQuery } from "@apollo/client";
 
 import { Redirect, useParams } from "react-router-dom";
-import { Breadcrumb, Helmet, Row, Container, Spinner } from "components";
+import { Breadcrumb, Helmet, Row, Container, Spinner, Col } from "components";
 
 import Info from "./Info";
 import Address from "./Address";
@@ -16,10 +16,6 @@ const PageContainer = styled(Container)`
   min-height: calc(100vh - 260px);
   display: block;
 `;
-
-interface Props {
-  hashId: string;
-}
 
 function Vacancy() {
   const { hashId } = useParams<{ hashId: string }>();
@@ -43,14 +39,21 @@ function Vacancy() {
   return (
     <>
       <Helmet vacancy={vacancy} />
-      <Breadcrumb paths={[{ text: vacancy.category, url: `/?category=${vacancy.category}`}, {text: vacancy.title}]} />
+      <Breadcrumb
+        paths={[
+          { text: vacancy.category, url: `/?category=${vacancy.category}` },
+          { text: vacancy.title },
+        ]}
+      />
       <PageContainer>
-        <Row css="margin-bottom: 1.5rem">
+        <Row>
           <Info vacancy={vacancy} />
           <Address address={vacancy.address} />
         </Row>
-        <Row>
-          <VacancyFeed vacancies={vacancy.similarVacancies!} />
+        <Row css="margin-top: 1.5rem">
+          <Col size="col8">
+            <VacancyFeed vacancies={vacancy.similarVacancies!} />
+          </Col>
         </Row>
       </PageContainer>
     </>
