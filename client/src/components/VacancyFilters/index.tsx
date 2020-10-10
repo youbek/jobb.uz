@@ -67,7 +67,7 @@ function VacancyFilters({ loading, onSubmit }: Props) {
           />
         </div>
       )}
-      <div css="margin-bottom: 1.5rem">
+      <div  css="margin-bottom: 1.5rem">
         <Label htmlFor="district">Район поиска</Label>
         <ReactSelect
           id="district"
