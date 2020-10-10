@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import ReactHtmlParser from "react-html-parser";
 
 import { useWindowDimensions } from "hooks";
 
-import { Badge, Button } from "components";
-import { formatCityName } from "helpers";
-
-import { ReactComponent as ChevronDownIcon } from "icons/chevron-down.svg";
+import { Badge } from "components";
 
 import { IVacancy } from "types";
+import Description from "./Description";
 
 const VacancyTitle = styled.div`
   font-size: 20px;
@@ -53,23 +50,6 @@ const VacancySalary = styled.div`
   color: #f64f64;
 `;
 
-const VacancyDescription = styled.div`
-  margin-top: 10px;
-  line-height: 1.5;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-top: 20px;
-    margin-bottom: 2px;
-  }
-`;
-
 const VacancyCompanyName = styled.div`
   font-weight: 700;
   font-size: 14px;
@@ -98,26 +78,6 @@ const VacancyLink = styled(Link)`
   z-index: 1;
 `;
 
-const ShowMoreButton = styled.button`
-  background-color: #fff;
-  color: #f64f64;
-  font-size: 1rem;
-  z-index: 100;
-  font-weight: 400;
-  text-align: left;
-  padding: 0;
-  margin-top: 12px;
-
-  svg {
-    vertical-align: bottom;
-  }
-
-  &:hover {
-    background-color: #fff;
-    color: #f64f64;
-  }
-`;
-
 interface Props {
   vacancy: IVacancy;
 }
@@ -134,33 +94,20 @@ function VacancyCard({ vacancy }: Props) {
     partTime,
     formattedSalary,
   } = vacancy;
-
-  const [expandedDescription, setExpandedDescription] = useState(false);
+  const { isMobile } = useWindowDimensions();
   const vacancyLink = `/vacancy/${hashId}`;
-  const shortDescription =
-    description.length > 101 ? description.slice(0, 300) + "..." : description;
-
-  function handleExpandDescription(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    setExpandedDescription(true);
-  }
 
   return (
-    <Wrapper href={vacancyLink} target="_blank">
+    <Wrapper
+      as={Link}
+      to={vacancyLink}
+      href={vacancyLink}
+      target={!isMobile ? "_blank" : ""}
+    >
       <VacancyDate>{/* {date here} */}</VacancyDate>
       <VacancyTitle>{title}</VacancyTitle>
       <VacancySalary>{formattedSalary}</VacancySalary>
-      <VacancyDescription>
-        {ReactHtmlParser(expandedDescription ? description : shortDescription)}
-      </VacancyDescription>
-
-      {!expandedDescription && (
-        <ShowMoreButton onClick={handleExpandDescription}>
-          Подробнее <ChevronDownIcon />
-        </ShowMoreButton>
-      )}
-
+      <Description description={description} />
       <VacancyBadges>
         {partTime && <Badge color="green">Неполный день</Badge>}
         {noExperience && <Badge color="blue">Без опыта</Badge>}

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useWindowDimensions } from "hooks";
+
+import { ReactComponent as ArrowLeftIcon } from "icons/arrow-left.svg";
+import { ReactComponent as ArrowRightIcon } from "icons/arrow-right.svg";
+
 import { VacancyCategory } from "types";
 
 const Wrapper = styled.div`
@@ -43,29 +44,72 @@ const CarouselItem = styled.button`
   }
 `;
 
+const ScrollButton = styled.button<{ right?: boolean; left?: boolean }>`
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 24px;
+  border: 1px solid #d5d5d5;
+  padding: 0;
+  transform: translateY(-50%);
+  top: 50%;
+  display: block;
+  margin: 0;
+  background-color: #fff;
+  color: #464444;
+  z-index: 2;
+  right: ${({ right }) => right && "-45px"};
+  left: ${({ left }) => left && "-45px"};
+`;
+
 interface Props {
   vacancyCategories: VacancyCategory[];
   onShowAllClick: () => void;
 }
 
 function Carousel({ vacancyCategories, onShowAllClick }: Props) {
-  const { isMobile, isTablet } = useWindowDimensions();
-  return (
-    <Wrapper>
-      {isMobile && (
-        <CarouselItem onClick={onShowAllClick}>
-          <FontAwesomeIcon icon={faArrowRight} size="2x" color="#5B5E64" />
-          <span>Все Категории</span>
-        </CarouselItem>
-      )}
+  const { isMobile } = useWindowDimensions();
+  const carouselRef = useRef<HTMLDivElement | null>(null);
 
-      {vacancyCategories.map((category, index) => (
-        <CarouselItem key={index}>
-          <img src={category.icon} />
-          <span>{category.name}</span>
-        </CarouselItem>
-      ))}
-    </Wrapper>
+  function scroll(direction: number) {
+    if (!carouselRef.current) {
+      return;
+    }
+
+    const offsetWidth = carouselRef.current.offsetWidth;
+    const currentScroll = carouselRef.current.scrollLeft;
+
+    carouselRef.current.scrollTo({
+      top: 0,
+      left: currentScroll + (offsetWidth / 2) * direction,
+      behavior: "smooth",
+    });
+  }
+
+  return (
+    <div>
+      <ScrollButton right onClick={() => scroll(1)}>
+        <ArrowRightIcon />
+      </ScrollButton>
+      <Wrapper ref={carouselRef}>
+        {isMobile && (
+          <CarouselItem onClick={onShowAllClick}>
+            <ArrowRightIcon />
+            <span>Все Категории</span>
+          </CarouselItem>
+        )}
+
+        {vacancyCategories.map((category, index) => (
+          <CarouselItem key={index}>
+            <img src={category.icon} />
+            <span>{category.name}</span>
+          </CarouselItem>
+        ))}
+      </Wrapper>
+      <ScrollButton left onClick={() => scroll(-1)}>
+        <ArrowLeftIcon />
+      </ScrollButton>
+    </div>
   );
 }
 

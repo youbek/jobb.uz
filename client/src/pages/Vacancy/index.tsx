@@ -43,7 +43,7 @@ function Vacancy() {
   return (
     <>
       <Helmet vacancy={vacancy} />
-      <Breadcrumb categoryName={vacancy.category} />
+      <Breadcrumb paths={[{ text: vacancy.category, url: `/?category=${vacancy.category}`}, {text: vacancy.title}]} />
       <PageContainer>
         <Row css="margin-bottom: 1.5rem">
           <Info vacancy={vacancy} />

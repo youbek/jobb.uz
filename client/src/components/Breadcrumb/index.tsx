@@ -1,28 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+import clamp from "clamp-js"
+
+import { Link } from "react-router-dom";
 import Container from "components/Layout/Container";
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
   background-color: #2c3038;
+  border-top: 1px solid #3c3c3c;
   border-bottom: 1px solid #eee;
-  padding-right: 15px;
-  padding-left: 15px;
-  padding-top: 10px;
   margin-bottom: 2rem;
+`;
+
+const StyledBreadcrumb = styled(Container)`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 8px;
+  padding-bottom: 8px;
   margin-top: 0;
   color: #fff9;
   font-weight: 600;
-  border-top: 1px solid #3c3c3c;
   list-style: none;
 `;
 
 const BreadcrumbItem = styled.div`
   display: inline-block;
   position: relative;
-  padding-bottom: 10px;
   font-size: 14px;
 
   a {
@@ -46,19 +50,46 @@ const BreadcrumbItem = styled.div`
   }
 `;
 
-interface Props {
-  categoryName?: string;
+interface IPath {
+  text: string;
+  url?: string
 }
 
-function Breadcrumb({ categoryName }: Props) {
+interface Props {
+  paths: IPath[]
+}
+
+function Breadcrumb({ paths }: Props) {
+  const container = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    truncate()
+  }, []);
+
+  function truncate() {
+    if(!container.current) {
+      return;
+    }
+
+    clamp(container.current, { clamp: 1 });
+  }
+
   return (
     <Wrapper>
-      <BreadcrumbItem>
-        <Link to="/">Работа в Ташкенте</Link>
-      </BreadcrumbItem>
-      <BreadcrumbItem>
-        <Link to="/">{categoryName}</Link>
-      </BreadcrumbItem>
+      <StyledBreadcrumb>
+        <div ref={container}>
+        <BreadcrumbItem>
+          <Link to="/">Работа в Ташкенте</Link>
+        </BreadcrumbItem>
+        {
+          paths.map(path => (
+            <BreadcrumbItem>
+              {path.url ? <Link to={ path.url }>{path.text}</Link> : path.text}
+            </BreadcrumbItem>
+          ))
+        }
+        </div>
+      </StyledBreadcrumb>
     </Wrapper>
   );
 }

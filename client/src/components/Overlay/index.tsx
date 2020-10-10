@@ -1,9 +1,15 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { ReactComponent as ArrowIcon } from "icons/arrow-left.svg";
 
 const root = document.getElementById("overlay");
+
+const StyledBody = createGlobalStyle<{ isOpen: boolean }>`
+  body {
+    overflow: ${({ isOpen }) => isOpen && "hidden"} 
+  }
+`;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -69,15 +75,18 @@ function Overlay({ isOpen, toggle, title, children }: Props) {
   }
 
   return createPortal(
-    <Wrapper>
-      <Header>
-        <BackButton onClick={toggle}>
-          <ArrowIcon />
-        </BackButton>
-        <HeaderTitle>{title}</HeaderTitle>
-      </Header>
-      <Content>{children}</Content>
-    </Wrapper>,
+    <>
+      <StyledBody isOpen={isOpen} />
+      <Wrapper>
+        <Header>
+          <BackButton onClick={toggle}>
+            <ArrowIcon />
+          </BackButton>
+          <HeaderTitle>{title}</HeaderTitle>
+        </Header>
+        <Content>{children}</Content>
+      </Wrapper>
+    </>,
     root
   );
 }

@@ -11,6 +11,7 @@ import {
   Col,
   Helmet,
   Breadcrumb,
+  VacancyFilters,
 } from "components";
 
 import {
@@ -32,7 +33,7 @@ function Main() {
     LATEST_VACANCIES_RESULT,
     LATEST_VACANCIES_VARS
   >(LATEST_VACANCIES);
-  const { isTablet } = useWindowDimensions();
+  const { isMobile } = useWindowDimensions();
 
   const { filters } = useFilters(handleFiltersChange);
 
@@ -89,11 +90,16 @@ function Main() {
     });
   }
 
+  const breadcrumbPaths = filters.category ? [
+    {
+      text: filters.category
+    }
+  ] : []
+
   return (
     <div>
       <Helmet categoryName={filters.category} />
-      <Breadcrumb />
-
+      <Breadcrumb paths={breadcrumbPaths} />
       <StyledContainer>
         {!filters.category && (
           <Row>
@@ -112,9 +118,9 @@ function Main() {
               searchText={filters.title}
             />
           </Col>
-          {!isTablet && (
+          {!isMobile && (
             <Col size="col4">
-              {/* <JobsFilter filters={searchFilters} loading={jobsQuery.loading} /> */}
+              <VacancyFilters loading={loading} />
             </Col>
           )}
         </Row>

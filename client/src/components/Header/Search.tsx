@@ -32,7 +32,7 @@ const SearchIcon = styled(FontAwesomeIcon)`
 `;
 
 function Search() {
-  const { isTablet, isMobile } = useWindowDimensions();
+  const { isMobile } = useWindowDimensions();
   const [isOverlayForm, showOverlayForm] = useState(false);
   const { setNewQuery } = useFilters();
   const [placeholder, setPlaceholder] = useState("Поиск работы");
@@ -52,7 +52,7 @@ function Search() {
     showOverlayForm((state) => !state);
   }
 
-  if (isMobile || isTablet) {
+  if (isMobile) {
     if (isOverlayForm) {
       return (
         <Overlay

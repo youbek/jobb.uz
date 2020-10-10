@@ -2,10 +2,6 @@
   "name": "job-search-app",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@types/react-html-parser": "^2.0.1",
-    "@types/react-select": "^3.0.21"
-  },
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "jest --watch",

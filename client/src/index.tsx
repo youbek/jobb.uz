@@ -11,13 +11,12 @@ import { onError } from "@apollo/client/link/error";
 
 import "moment/locale/ru";
 
-import * as types from "styled-components/cssprop"; // don't remove it or don't change import
+// don't remove it or don't change import
+import * as types from "styled-components/cssprop";
 
 import App from "./App";
 
 import * as serviceWorker from "./serviceWorker";
-
-import "./styles/main.scss";
 
 function Root() {
   const httpLink = new HttpLink({

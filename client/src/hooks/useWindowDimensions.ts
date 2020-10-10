@@ -9,8 +9,7 @@ export default function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const isTablet = windowDimensions < 992;
-  const isMobile = windowDimensions < 767;
+  const isMobile = windowDimensions < 992;
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -21,5 +20,5 @@ export default function useWindowDimensions() {
     setWindowDimensions(getWindowDimensions());
   }
 
-  return { isTablet, isMobile };
+  return { isMobile };
 }

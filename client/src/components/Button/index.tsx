@@ -12,8 +12,7 @@ const outlineStyle = css`
   background-color: #fff;
 
   &:hover {
-    color: #5b5e64;
-    border: 1px solid #acb5ba;
+    background-color: #fff;
   }
 `;
 
