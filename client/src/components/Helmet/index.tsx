@@ -1,10 +1,5 @@
 import React from "react";
 import { Helmet as ReactHelmet } from "react-helmet";
-import {
-  createSEOVacancyScript,
-  createJobPageTitle,
-  createJobsFeedPageTitle,
-} from "helpers";
 import { IVacancy } from "types";
 
 interface Props {
@@ -13,24 +8,21 @@ interface Props {
 }
 
 function Helmet({ vacancy, categoryName }: Props) {
-  const url = window.location.href;
-
-  if (!vacancy) {
-    return (
-      <ReactHelmet>
-        <title>{createJobsFeedPageTitle(categoryName)}</title>
-        <link rel="canonical" href={url} />
-      </ReactHelmet>
-    );
-  }
-
   return (
     <ReactHelmet>
-      <title>{createJobPageTitle(vacancy.title, vacancy.companyName)}</title>
-      <script type="application/ld+json">
-        {createSEOVacancyScript(vacancy)}
-      </script>
-      <link rel="canonical" href={url} />
+      <title>
+        {(() => {
+          if (vacancy) {
+            return `Вакансия ${vacancy.title} - Работа в компании ${vacancy.companyName}`;
+          }
+
+          if (categoryName) {
+            return `Свежие вакансии в сфере ${categoryName} в Ташкенте на сайте jobb.uz`;
+          }
+
+          return `Работа в Ташкенте - поиск работы на сайте jobb.uz`;
+        })()}
+      </title>
     </ReactHelmet>
   );
 }
