@@ -22,7 +22,7 @@ function Root() {
   const httpLink = new HttpLink({
     uri: window.location.origin.includes("localhost")
       ? "http://localhost:8080/graphql"
-      : "http://www.jobb.uz/graphql",
+      : `${window.location.origin}/graphql`,
   });
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
