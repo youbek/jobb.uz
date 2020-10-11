@@ -1,6 +1,10 @@
+import path from "path";
+
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { typeDefs, resolvers } from "graphql_api";
+
+const clientFolder = path.join(__dirname + "../../../../client/build");
 
 export function start() {
   try {
@@ -15,7 +19,13 @@ export function start() {
 
     const app = express();
 
+    app.use(express.static(clientFolder));
+
     server.applyMiddleware({ app });
+
+    app.get("*", (req, res) => {
+      res.sendFile(`${clientFolder}/index.html`);
+    });
 
     app.listen({ port: process.env.PORT }, () =>
       console.log(

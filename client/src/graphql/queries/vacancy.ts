@@ -17,6 +17,7 @@ export const VACANCY = gql`
       expired
       link
       category
+      sourceText
       similarVacancies {
         ...vacancyFragment
       }
