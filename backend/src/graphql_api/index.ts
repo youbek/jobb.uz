@@ -1,13 +1,11 @@
 import { gql } from "apollo-server-express";
 import { merge } from "lodash";
-import { JobTypeDefs, JobResolvers } from "./job";
+import { VacancyTypeDefs, VacancyResolvers } from "./vacancy";
 
 export const root = gql`
-  type Query {
-    tentak: String
-  }
+  type Query
 `;
 
-export const typeDefs = [root, JobTypeDefs];
+export const typeDefs = [root, VacancyTypeDefs];
 
-export const resolvers = merge(JobResolvers);
+export const resolvers = merge(VacancyResolvers);

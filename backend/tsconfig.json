@@ -3,9 +3,11 @@
     "target": "es6",
     "module": "CommonJS",
     "rootDir": "./src",
-    "outDir": "./build",
     "esModuleInterop": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"]
+    },
     "strict": true
   }
 }

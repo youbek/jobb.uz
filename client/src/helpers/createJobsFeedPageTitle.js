@@ -1,7 +1,4 @@
-function createJobsFeedPageTitle(categoryName, subCategoryName) {
-  if (subCategoryName) {
-    return `Вакансии: ${subCategoryName} в Ташкенте на сайте jobb.uz`;
-  }
+function createJobsFeedPageTitle(categoryName) {
   if (categoryName) {
     return `Свежие вакансии в сфере ${categoryName} в Ташкенте на сайте jobb.uz`;
   }
