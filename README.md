@@ -1,17 +1,8 @@
 # jobb.uz
 
-Job search aggregator built with NodeJS, MongoDB, GraphQL and React.
+Job search aggregator built with NodeJS, MongoDB, GraphQL, React and TypeScript. Not for commercial purposes.
 
-# Prerequisites
+[Live preview](https://jobb-uz.herokuapp.com/)
 
-Node - v10.16.3<br />
-NPM - v6.13.4<br />
-ENV File in the root with keys `DB_URL` and `REACT_APP_BACK_END_URI`
-
-# Running Application
-
-To start application in localhost just run following script `npm run dev`, this will run scripts `start:back-end`<br />
-and `start:front-end` in parallel.
-<br />
-<br />
-To build application run `npm run build`
+# How it works?
+jobb.uz scrapes vacancy posts from [tashkent.hh.uz](https://tashkent.hh.uz) and [rabota.uz](https://rabota.uz). This repository doesn't include scraping source code. See [jobb-uz-scrapper](https://github.com/youbek/jobb-uz-scraper) repository.
