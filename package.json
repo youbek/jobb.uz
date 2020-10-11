@@ -6,7 +6,7 @@
     "build-frontend": "cd client && npm install && npm run build",
     "start-backend": "cd backend && npm start",
     "build": "npm-run-all build-frontend",
-    "start": "start-backend"
+    "start": "npm run start-backend"
   },
   "resolutions": {
     "@babel/runtime": "7.0.0-beta.46"
