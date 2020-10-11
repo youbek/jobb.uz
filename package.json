@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build-frontend": "cd client && npm run build",
+    "build-frontend": "cd client && npm install && npm run build",
     "start-backend": "cd backend && npm start",
-    "start": "npm-run-all build-frontend start-backend"
+    "start": "npm-run-all npm install build-frontend start-backend"
   },
   "resolutions": {
     "@babel/runtime": "7.0.0-beta.46"
