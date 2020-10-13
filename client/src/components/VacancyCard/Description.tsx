@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "react-html-parser";
 import clamp from "clamp-js";
@@ -52,7 +52,7 @@ function Description({ description }: Props) {
 
   const shortFormWrapper = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     changeSize();
   }, []);
 
